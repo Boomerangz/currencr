@@ -1,0 +1,5 @@
+yahoo-finance
+django
+bitcoin-price-api
+forex-python
+djangorestframework
