@@ -13,17 +13,34 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
+import os
+import git
+
 from django.conf.urls import url
 from django.contrib import admin
 
+from finsite import settings
 from finsite.views.api_history import get_stock_history
 from finsite.views.api_refresh import get_stock_fresh
 from finsite.views.currency import CurrencyView
 from finsite.views.index import IndexView
 
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+@api_view(['GET'])
+def gitpull(request):
+    dir = settings.BASE_DIR
+    print(dir)
+    g = git.cmd.Git(dir)
+    g.pull()
+    return Response({"status":"success"})
+
+
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view()),
+    url(r'^pull/$', gitpull),
     url(r'^(?P<code>[a-zA-Z\-]+)/$', CurrencyView.as_view()),
     url(r'^(?P<code>[a-zA-Z\-]+)/history/$', get_stock_history),
     url(r'^(?P<code>[a-zA-Z\-]+)/fresh/$', get_stock_fresh),

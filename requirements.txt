@@ -4,3 +4,4 @@ bitcoin-price-api
 forex-python
 djangorestframework
 psycopg2
+GitPython
