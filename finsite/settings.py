@@ -25,7 +25,7 @@ SECRET_KEY = 'px5w1!&4xkm)ua5_+qxuf686=e1#a-8(3ww!(3a*qyqh^jnh)h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -78,8 +78,12 @@ WSGI_APPLICATION = 'finsite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'ooFxfq111',
+        'HOST': 'ssh.dsxmachine.com',
+        'PORT': '5433',
     }
 }
 
