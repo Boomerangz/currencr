@@ -10,4 +10,6 @@ def get_stock_history(request, code):
         yahoo = Share(currency.get_stock_identifier())
         date1 = request.GET.get('from', '2016-04-01')
         date2 = request.GET.get('to', '2016-05-01')
-        return Response(yahoo.get_historical(date1, date2))
+        history = yahoo.get_historical(date1, date2)
+        history = map(lambda x: {'price':x['Close'], 'date':x['Date'], }, history)
+        return Response(history)
