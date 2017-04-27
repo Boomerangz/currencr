@@ -5,6 +5,8 @@
             <li class="list-group-item">
                 <a href="/{{ currency.code }}/">{{ currency.name }}</a>
                 {% if currency.exchange > 0 %}<b style="margin-left:10px;">{{ currency.code }}</b>{% endif %}
+                <span style="margin-left:10px">{{ currency.current_price|floatformat:2 }}</span>
+                <span style="margin-left:10px" class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
             </li>
         {% endfor %}
         </ul>

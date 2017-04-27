@@ -1,3 +1,4 @@
+import decimal
 from django.db import models
 from yahoo_finance import Share
 from exchanges.bitfinex import Bitfinex
@@ -9,12 +10,27 @@ class Currency(models.Model):
     exchange = models.IntegerField(blank=False, null=False)
     description = models.TextField()
 
+    current_price = models.DecimalField(decimal_places=5,max_digits=15, default=0)
+    previous_price = models.DecimalField(decimal_places=5,max_digits=15, default=0)
+
 
     def __unicode__(self):
         return self.code
 
     def __str__(self):
         return self.code
+
+
+    def up(self):
+        return self.current_price > self.previous_price
+
+    def down(self):
+        return self.current_price < self.previous_price
+
+    def percents(self):
+        if self.previous_price != decimal.Decimal(0):
+            return (self.previous_price - self.current_price) / self.previous_price
+        return 0
 
     def data(self):
         if self.exchange == 0:
