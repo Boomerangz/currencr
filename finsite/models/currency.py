@@ -13,6 +13,9 @@ class Currency(models.Model):
     def __unicode__(self):
         return self.code
 
+    def __str__(self):
+        return self.code
+
     def data(self):
         if self.exchange == 0:
             return {'code':self.code, 'price':CurrencyRates().get_rate(*self.code.split('-'))}

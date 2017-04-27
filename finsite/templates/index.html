@@ -4,7 +4,10 @@
         <h1 class="jumbotron-heading">All currencies</h1>
         <ul  class="list-group">
         {% for currency in currency_list %}
-            <li class="list-group-item"><a href="/{{ currency.code }}/">{{ currency.name }}</a></li>
+            <li class="list-group-item">
+                <a href="/{{ currency.code }}/">{{ currency.name }}</a>
+                {% if currency.exchange > 0 %}<b style="margin-left:10px;">{{ currency.code }}</b>{% endif %}
+            </li>
         {% endfor %}
         </ul>
     </div>
