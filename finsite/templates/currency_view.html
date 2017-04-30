@@ -9,8 +9,10 @@
     <h3 >{{ currency.code }}</h3>
     <h4>{{ currency.money_symbol }} {{ currency.current_price }} </h4>
     <span>{{ currency.description }}</span>
-
-
+    
+    <canvas id="chart-canvas">empty</canvas>
+    <script>init({{ currency.code }})</script>
+    
     <div id="disqus_thread"></div>
     <script>
 
