@@ -32,8 +32,6 @@ def get_stock_history_from_db(request, code):
             currency_history_items = currency_history_items.filter(time__lte=date_to)
         except Exception as e:
             print(e)
-
-        print(list(currency_history_items))
         
         if count is not None:
             try:
@@ -44,8 +42,13 @@ def get_stock_history_from_db(request, code):
             currency_history_items = list(currency_history_items)
             if count > 0 and len(currency_history_items) > count:
                 l = len(currency_history_items)
-                c = count
-                removing_coof = int(1 / (1 - (float(c)/float(l))))
+                c = count - 1
+                removing_coof = int(l / c)
                 if removing_coof > 1:
-                    currency_history_items = [currency_history_items[i] for i in range(0, l) if i % removing_coof == 0]
+                    currency_history_items = [currency_history_items[i] for i in range(0, l) if i % removing_coof == 0 or i == l-1]
+                if len(currency_history_items) > count:
+                    from random import shuffle
+                    shuffle(currency_history_items)                    
+                    currency_history_items = sorted(currency_history_items[:count], key=lambda k: k.time)
+                    
         return Response([{'price':h.price, 'date':h.time.strftime('%Y-%m-%d %H:%M')} for h in currency_history_items])
