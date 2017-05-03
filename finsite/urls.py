@@ -21,6 +21,7 @@ from django.contrib import admin
 
 from finsite import settings
 from finsite.views.api_history import get_stock_history
+from finsite.views.api_history_db import get_stock_history_from_db
 from finsite.views.api_refresh import get_stock_fresh
 from finsite.views.currency import CurrencyView
 from finsite.views.index import IndexView
@@ -42,6 +43,7 @@ urlpatterns = [
     url(r'^$', IndexView.as_view()),
     url(r'^pull/$', gitpull),
     url(r'^(?P<code>[a-zA-Z\-]+)/$', CurrencyView.as_view()),
+    url(r'^(?P<code>[a-zA-Z\-]+)/history_db/$', get_stock_history_from_db),
     url(r'^(?P<code>[a-zA-Z\-]+)/history/$', get_stock_history),
     url(r'^(?P<code>[a-zA-Z\-]+)/fresh/$', get_stock_fresh),
 ]
