@@ -8,3 +8,5 @@ GitPython
 django-celery
 celery==4.0.2
 celery[redis]
+feedparser
+newspaper3k

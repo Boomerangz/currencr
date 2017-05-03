@@ -25,6 +25,7 @@ from finsite.views.api_history_db import get_stock_history_from_db
 from finsite.views.api_refresh import get_stock_fresh
 from finsite.views.currency import CurrencyView
 from finsite.views.index import IndexView
+from finsite.views.news import NewsView
 
 
 from rest_framework.decorators import api_view
@@ -41,6 +42,7 @@ def gitpull(request):
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view()),
+    url(r'^news/$', NewsView.as_view()),
     url(r'^pull/$', gitpull),
     url(r'^(?P<code>[a-zA-Z\-]+)/$', CurrencyView.as_view()),
     url(r'^(?P<code>[a-zA-Z\-]+)/history_db/$', get_stock_history_from_db),
