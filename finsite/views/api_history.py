@@ -27,9 +27,9 @@ def get_stock_history(request, code):
             yahoo = Share(currency.get_stock_identifier())
             history = yahoo.get_historical(date1, date2)
             history = map(lambda x: {'price': x['Close'], 'date': x['Date'], }, history)
-            return Response(history)
+            return Response(history, headers={'Access-Control-Allow-Origin':'*'})
         elif currency.code == 'BTC':
-            return Response([])
+            return Response([], headers={'Access-Control-Allow-Origin':'*'})
             # return {'code':self.code, 'price':Bitfinex().get_current_price()}
 
         return Response([])
