@@ -8,8 +8,9 @@ class NewsView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(NewsView, self).get_context_data(*args, **kwargs)
         if not self.request.GET.get('url'):
-            feeds = feedparser.parse('http://www.finanz.ru/rss/novosti')
-            context['news_list'] = [{'title':x['title'], 'link':x['link']} for x in feeds['entries']]
+            feeds_list = ['http://www.finanz.ru/rss/novosti', 'http://www.finanz.ru/rss/novosti/istochnik/bloomberg']
+            feeds = [feedparser.parse(f) for f in feeds_list]
+            context['news_list'] = sum([[{'title':x['title'], 'link':x['link']} for x in f['entries']] for f in feeds], [])
         else:
             url = self.request.GET.get('url')
             article = Article(url, language='ru')
