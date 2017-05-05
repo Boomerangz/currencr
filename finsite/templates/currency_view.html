@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 {% block js %}
+<!-- CreateJS -->
+<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <!-- Chart -->
 <script src="/static/js/chart-lib.js"></script>
+<script src="/static/js/chart-viewer.js"></script>
 {% endblock %}
 {% block content %}
-<div class="container">
+<div id="currency_container" class="container">
     <h1>{{ currency.name }}</h1>
     <h3 >{{ currency.code }}</h3>
     <h4>{{ currency.money_symbol }} {{ currency.current_price }} </h4>
+    <canvas id="chart_canvas_0">empty</canvas>
+    <script>cv.init("{{ currency.code }}", "chart_canvas_0")</script>
     <span>{{ currency.description }}</span>
-    
-    <canvas id="chart-canvas">empty</canvas>
-    <script>init("{{ currency.code }}")</script>
     
     <div id="disqus_thread"></div>
     <script>

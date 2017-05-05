@@ -1,66 +1,105 @@
-var stage;
-var canvas;
-var chart;
+var cv = {};
 
-function init(code) {
-    canvas = document.getElementById("chart-canvas");
-    stage = new createjs.Stage("chart-canvas");
+(function() {
+    
+var canvas;
+var stage;
+var currencyCode;
+
+function init(code, canvasID) {
+    var currencyCode = code;
+    
+    canvas = document.getElementById(canvasID);
+    window.context = canvas.getContext("2d");
+    
+    stage = new createjs.Stage(canvasID);
     createjs.Ticker.on("tick", function() {
         stage.update();
     });
     
-    window.addEventListener("resize", resizeHandler, false);
-    resizeHandler();
-    
-    requestHistory(code);
+    handleResizing();
+    stage.addChild(createChart());
 }
 
-function requestHistory(code) {
-    var req = new XMLHttpRequest();
-    req.open("GET", code + ".json", true);
-    
-    req.addEventListener("load", reqCompleteHandler, false);
-    req.addEventListener("error", reqErrorHandler, false);
-    
-    req.send();
+/**
+ * 
+ * 
+ */
+function handleResizing() {
+    window.addEventListener("resize", resizeCanvas, false);
+    resizeCanvas();
+     
+    function resizeCanvas(e) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
 }
 
-function reqCompleteHandler(e) {
-    var data = JSON.parse(e.currentTarget.responseText);
-    chart = createChart(canvas.width - 100, 400, data.length - 1);
-    chart.x = 50;
-    chart.y = 50;
-    stage.addChild(chart);
-    appendChartData(data);
-}
-
-function appendChartData(data) {
-    data = data.map(function(item, index, array) {
-        return Number(item.price);
-    });
-    chart.append(data);
-}
-
-function reqErrorHandler(e) {
-    alert(e.currentTarget.status + ': ' + e.currentTarget.statusText);
-}
-
-function createChart(width, height, segmentsCount) {
-    var size = {width: width, height: height};
-    var point = {width: width / segmentsCount, height: 0.5};
-    var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 10, bottom: 10}};
+/**
+ * 
+ * 
+ */
+function createChart() {
+    var size = {width: window.innerWidth - 50, height: 200};
+    var point = {width: 1, height: 1};
+    var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 5, bottom: 10}};
     var style = {
-        background: {color: "#00AAFF", alpha: 0.1},
-        grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: Math.max(segmentsCount / 100, 1), height: 0, dash: [1, 0]},
-        zero:  {thickness: 1, color: "#00FFFF", alpha: 0.75},
-        chart: {thickness: 1, radius: 0, color: "#003333", alpha: 0.75, bounds: "full"}
+        background: {color: "#00BB00", alpha: 0.6},
+        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.25, width: 1, height: 0, dash: [1, 0]},
+        zero:  {thickness: 1, color: "#00FF00", alpha: 0.75},
+        chart: {
+            lines: {thickness: 5, color: "#FFFFFF", alpha: 0.75, bounds: true},
+            points:  {thickness: 5, radius: 10, lineColor: "#FFFFFF", fillColor: "#00BB00", alpha: 1, bounds: true}
+        }
     };
     
     var chart = new charts.StreamingChart(size, point, axis, style);
+    chart.y = 425;
+    chart.x = 25;
+    
+    var data;
+    var req = new XMLHttpRequest();
+    requestData();
+    
+    function requestData() {
+        req.open("GET", "test.json", true);
+        
+        req.addEventListener("load", reqCompleteHandler, false);
+        req.addEventListener("error", reqErrorHandler, false);
+        
+        req.send();
+    }
+    
+    function reqCompleteHandler(e) {
+        data = JSON.parse(req.responseText);
+        
+        var pLength = Math.ceil(Math.random() * 10 + 10);
+        chart.setPoint(size.width / (pLength - 1), chart.getPoint().height);
+        chart.append(data.splice(0, pLength));
+        
+        var t = 0;
+        var interval = setInterval(function() {
+            if (t == data.length) {
+                clearInterval(interval);
+                return;
+            }
+            chart.append(data[t]);
+            t ++;
+        }, 1000);
+        
+        req.removeEventListener("load", reqCompleteHandler, false);
+        req.removeEventListener("error", reqErrorHandler, false);
+    }
+    
+    function reqErrorHandler(e) {
+        alert(req.status + ": " + req.statusText);
+        req.removeEventListener("load", reqCompleteHandler, false);
+        req.removeEventListener("error", reqErrorHandler, false);
+    }
+    
     return chart;
 }
 
-function resizeHandler(e) {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
+cv.init = init;
+
+})();
