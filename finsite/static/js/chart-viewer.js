@@ -64,7 +64,7 @@ function createChart() {
     requestData();
     
     function requestData() {
-        var mls = Date.UTC() - 86400000;
+        var mls = (new Date()).getTime() - 86400000;
         req.open("GET", "history/?format=json&from=" + mls, true);
         
         req.addEventListener("load", reqCompleteHandler, false);
