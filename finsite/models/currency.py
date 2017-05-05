@@ -1,7 +1,10 @@
 import decimal
+import json
+
 from django.db import models
 from yahoo_finance import Share
-from exchanges.bitfinex import Bitfinex
+from coinmarketcap import Market
+coinmarketcap = Market()
 from forex_python.converter import CurrencyRates, CurrencyCodes
 
 class Currency(models.Model):
@@ -39,7 +42,8 @@ class Currency(models.Model):
             yahoo_data = Share(self.get_stock_identifier())
             return {'code':self.code, 'price':yahoo_data.get_price()}
         elif self.code == 'BTC':
-            return {'code':self.code, 'price':Bitfinex().get_current_price()}
+            ticker = json.loads(coinmarketcap.ticker('bitcoin'))[0]
+            return {'code':self.code, 'price':ticker['price_usd']}
 
 
 
