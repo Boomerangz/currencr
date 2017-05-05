@@ -62,7 +62,8 @@ function createChart() {
     requestData();
     
     function requestData() {
-        req.open("GET", "test.json", true);
+        var mls = Date.UTC() - 86400000;
+        req.open("GET", "history/?format=json&from=" + mls, true);
         
         req.addEventListener("load", reqCompleteHandler, false);
         req.addEventListener("error", reqErrorHandler, false);
