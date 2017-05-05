@@ -2,13 +2,15 @@ var cv = {};
 
 (function() {
     
+var container;
 var canvas;
 var stage;
 var currencyCode;
 
-function init(code, canvasID) {
+function init(code, canvasID, containerID) {
     var currencyCode = code;
     
+    container= document.getElementById(containerID);
     canvas = document.getElementById(canvasID);
     window.context = canvas.getContext("2d");
     
@@ -30,8 +32,8 @@ function handleResizing() {
     resizeCanvas();
      
     function resizeCanvas(e) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = container.width;
+        canvas.height = 300;
     }
 }
 
@@ -40,7 +42,7 @@ function handleResizing() {
  * 
  */
 function createChart() {
-    var size = {width: window.innerWidth - 50, height: 200};
+    var size = {width: window.innerWidth - 50, height: 300};
     var point = {width: 1, height: 1};
     var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 5, bottom: 10}};
     var style = {
@@ -74,9 +76,7 @@ function createChart() {
     function reqCompleteHandler(e) {
         data = JSON.parse(req.responseText);
         
-        var pLength = Math.ceil(Math.random() * 10 + 10);
-        chart.setPoint(size.width / (pLength - 1), chart.getPoint().height);
-        chart.append(data.splice(0, pLength));
+        chart.setPoint(size.width / (data.length - 1), chart.getPoint().height);
         
         var t = 0;
         var interval = setInterval(function() {
@@ -86,7 +86,7 @@ function createChart() {
             }
             chart.append(data[t]);
             t ++;
-        }, 1000);
+        }, 50);
         
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
