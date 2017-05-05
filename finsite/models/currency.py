@@ -42,7 +42,7 @@ class Currency(models.Model):
             yahoo_data = Share(self.get_stock_identifier())
             return {'code':self.code, 'price':yahoo_data.get_price()}
         elif self.code == 'BTC':
-            ticker = json.loads(coinmarketcap.ticker('bitcoin'))[0]
+            ticker = json.loads(coinmarketcap.ticker('bitcoin').decode('utf-8'))[0]
             return {'code':self.code, 'price':ticker['price_usd']}
 
 
