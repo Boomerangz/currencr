@@ -8,8 +8,7 @@ var stage;
 var currencyCode;
 
 function init(code, canvasID, containerID) {
-    var currencyCode = code;
-    
+    currencyCode = code;
     container= document.getElementById(containerID);
     canvas = document.getElementById(canvasID);
     window.context = canvas.getContext("2d");
