@@ -32,8 +32,8 @@ function handleResizing() {
     resizeCanvas();
      
     function resizeCanvas(e) {
-        canvas.width = container.width;
-        canvas.height = 300;
+        //canvas.width = container.width;
+        //canvas.height = 300;
     }
 }
 
@@ -42,12 +42,12 @@ function handleResizing() {
  * 
  */
 function createChart() {
-    var size = {width: window.innerWidth - 50, height: 300};
+    var size = {width: canvas.width, height: 300};
     var point = {width: 1, height: 1};
     var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 5, bottom: 10}};
     var style = {
         background: {color: "#112E07", alpha: 0.6},
-        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.25, width: 10, height: 10, dash: [1, 0]},
+        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.25, width: canvas.width / 10, height: 10, dash: [1, 0]},
         zero:  {thickness: 1, color: "#000000", alpha: 1},
         chart: {
             lines: {thickness: 1.5, color: "#000000", alpha: 1, bounds: false},
