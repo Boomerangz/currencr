@@ -77,6 +77,7 @@ function createChart() {
     
     function reqCompleteHandler(e) {
         data = JSON.parse(req.responseText);
+        data.reverse();
         data = data.map(function(item, index, array) {
             return Number(item.price);
         });
