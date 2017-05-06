@@ -46,12 +46,12 @@ function createChart() {
     var point = {width: 1, height: 1};
     var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 5, bottom: 10}};
     var style = {
-        background: {color: "#00BB00", alpha: 0.6},
-        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.25, width: 1, height: 0, dash: [1, 0]},
-        zero:  {thickness: 1, color: "#00FF00", alpha: 0.75},
+        background: {color: "#112E07", alpha: 0.6},
+        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.25, width: 10, height: 10, dash: [1, 0]},
+        zero:  {thickness: 1, color: "#000000", alpha: 1},
         chart: {
-            lines: {thickness: 5, color: "#FFFFFF", alpha: 0.75, bounds: true},
-            points:  {thickness: 5, radius: 10, lineColor: "#FFFFFF", fillColor: "#00BB00", alpha: 1, bounds: true}
+            lines: {thickness: 1.5, color: "#000000", alpha: 1, bounds: false},
+            points:  {thickness: 0, radius: 0, lineColor: "#FFFFFF", fillColor: "#00BB00", alpha: 0, bounds: true}
         }
     };
     
@@ -64,8 +64,10 @@ function createChart() {
     requestData();
     
     function requestData() {
-        var mls = (new Date()).getTime() - 86400000;
-        req.open("GET", "history/?format=json&from=" + mls, true);
+        var fromUTC = (new Date()).getTime() - 86400000;
+        var queryString = "?from=" +  fromUTC  + "&count=100&format=json";
+        var reqURL = "http://ssh.dsxmachine.com:8080/" + currencyCode + "/history_db/" + queryString;
+        req.open("GET", "test.json", true);
         
         req.addEventListener("load", reqCompleteHandler, false);
         req.addEventListener("error", reqErrorHandler, false);
@@ -78,15 +80,13 @@ function createChart() {
         
         chart.setPoint(size.width / (data.length - 1), chart.getPoint().height);
         
-        var t = 0;
         var interval = setInterval(function() {
-            if (t == data.length) {
+            if (!data.length) {
                 clearInterval(interval);
                 return;
             }
-            chart.append(data[t]);
-            t ++;
-        }, 500);
+            chart.append(data.splice(0, Math.ceil(data.length / 20)));
+        }, 50);
         
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
