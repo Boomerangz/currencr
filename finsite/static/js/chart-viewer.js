@@ -53,7 +53,7 @@ function createChart() {
         zero:  {thickness: 1, color: "#000000", alpha: 1},
         chart: {
             lines: {thickness: 1.5, color: "#000000", alpha: 1, bounds: false},
-            points:  {thickness: 1.5, radius: 1, lineColor: "#112E07", fillColor: "#000000", alpha: 1, bounds: true}
+            points:  {thickness: 1.5, radius: 1, lineColor: "#FFFFFF", fillColor: "#000000", alpha: 1, bounds: true}
         }
     };
     
