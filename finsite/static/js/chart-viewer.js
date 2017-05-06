@@ -55,8 +55,6 @@ function createChart() {
     };
     
     var chart = new charts.StreamingChart(size, point, axis, style);
-    chart.y = 425;
-    chart.x = 25;
     
     var data;
     var req = new XMLHttpRequest();
