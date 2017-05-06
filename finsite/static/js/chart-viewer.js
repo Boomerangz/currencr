@@ -35,7 +35,7 @@ function handleResizing() {
     function resizeCanvas(e) {
         canvas.width = container.clientWidth;
         canvas.height = CHART_HEIGHT;
-        chart.setSize(container.clientWidth, CHART_HEIGHT);
+        if (chart) chart.setSize(container.clientWidth, CHART_HEIGHT);
     }
 }
 
