@@ -6,5 +6,5 @@ from finsite.models import Currency
 @api_view(['GET'])
 def get_stock_fresh(request, code):
     if request.method == 'GET':
-        currency = Currency.objects.get(code=code)
+        currency = Currency.objects.get(code__iexact=code)
         return Response(currency.data(), headers={'Access-Control-Allow-Origin':'*'})

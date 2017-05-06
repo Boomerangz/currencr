@@ -9,7 +9,8 @@ from forex_python.converter import CurrencyRates
 @api_view(['GET'])
 def get_stock_history(request, code):
     if request.method == 'GET':
-        currency = Currency.objects.get(code=code)
+        # print(Currency.objects.filter(code__iexact=code).query)
+        currency = Currency.objects.get(code__iexact=code)
         date1 = request.GET.get('from', '2016-04-01')
         date2 = request.GET.get('to', '2016-05-01')
         if currency.exchange == 0:

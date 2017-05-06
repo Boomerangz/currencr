@@ -7,6 +7,6 @@ class CurrencyView(TemplateView):
 
     def get_context_data(self, code, **kwargs):
         context = super(CurrencyView, self).get_context_data(**kwargs)
-        context['currency'] = Currency.objects.get(code=code)
+        context['currency'] = Currency.objects.get(code__iexact=code)
 
         return context
