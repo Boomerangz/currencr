@@ -53,7 +53,7 @@ function createChart() {
         zero:  {thickness: 1, color: "#000000", alpha: 1},
         chart: {
             lines: {thickness: 1.5, color: "#000000", alpha: 1, bounds: false},
-            points:  {thickness: 0, radius: 0, lineColor: "#FFFFFF", fillColor: "#00BB00", alpha: 0, bounds: true}
+            points:  {thickness: 1.5, radius: 1, lineColor: "#112E07", fillColor: "#000000", alpha: 1, bounds: true}
         }
     };
     
@@ -77,19 +77,9 @@ function createChart() {
     
     function reqCompleteHandler(e) {
         data = JSON.parse(req.responseText);
-        data.reverse();
-        data = data.map(function(item, index, array) {
-            return Number(item.price);
-        });
+        data = data.map(function(item, index, array) {return Number(item.price);});
         chart.setPoint(size.width / (data.length - 1), chart.getPoint().height);
-        
-        var interval = setInterval(function() {
-            if (!data.length) {
-                clearInterval(interval);
-                return;
-            }
-            chart.append(data.splice(0, Math.ceil(data.length / 100)));
-        }, 20);
+        chart.append(data);
         
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
