@@ -80,7 +80,7 @@ function createChart() {
         data = data.map(function(item, index, array) {
             return Number(item.price);
         });
-        chart.setPoint(size.width / (data.length - 1) * 1.5, chart.getPoint().height);
+        chart.setPoint(size.width / (data.length - 1) * 1.1, chart.getPoint().height);
         
         var interval = setInterval(function() {
             if (!data.length) {
