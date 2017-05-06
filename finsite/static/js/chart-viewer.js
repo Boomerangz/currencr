@@ -44,12 +44,12 @@ function handleResizing() {
  * 
  */
 function createChart() {
-    var size = {width: container.clientWidth, height: CHART_HEIGHT};
+    var size = {width: container.clientWidth, height: 300};
     var point = {width: 1, height: 1};
     var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 5, bottom: 10}};
     var style = {
         background: {color: "#112E07", alpha: 0.6},
-        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.25, width: canvas.width / 10, height: 10, dash: [1, 0]},
+        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.20, width: 0, height: 10, dash: [1, 0]},
         zero:  {thickness: 1, color: "#000000", alpha: 1},
         chart: {
             lines: {thickness: 1.5, color: "#000000", alpha: 1, bounds: false},
@@ -65,7 +65,7 @@ function createChart() {
     
     function requestData() {
         var fromUTC = (new Date()).getTime() - 86400000;
-        var queryString = "?from=" +  fromUTC  + "&count=100&format=json";
+        var queryString = "?from=" +  fromUTC  + "&count=288&format=json";
         var reqURL = "history_db/" + queryString;
         req.open("GET", reqURL, true);
         
@@ -87,8 +87,8 @@ function createChart() {
                 clearInterval(interval);
                 return;
             }
-            chart.append(data.splice(0, Math.ceil(data.length / 20)));
-        }, 50);
+            chart.append(data.splice(0, Math.ceil(data.length / 100)));
+        }, 20);
         
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
