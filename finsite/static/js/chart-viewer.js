@@ -66,7 +66,7 @@ function createChart() {
     function requestData() {
         var fromUTC = (new Date()).getTime() - 86400000;
         var queryString = "?from=" +  fromUTC  + "&count=100&format=json";
-        var reqURL = "http://ssh.dsxmachine.com:8080/" + currencyCode + "/history_db/" + queryString;
+        var reqURL = "history_db/" + queryString;
         req.open("GET", reqURL, true);
         
         req.addEventListener("load", reqCompleteHandler, false);
@@ -80,7 +80,7 @@ function createChart() {
         data = data.map(function(item, index, array) {
             return Number(item.price);
         });
-        chart.setPoint(size.width / (data.length - 1) * 1.1, chart.getPoint().height);
+        chart.setPoint(size.width / (data.length - 1), chart.getPoint().height);
         
         var interval = setInterval(function() {
             if (!data.length) {
