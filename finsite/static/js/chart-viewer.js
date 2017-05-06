@@ -1,11 +1,13 @@
 var cv = {};
 
 (function() {
-    
+
+var CHART_HEIGHT = 300;
 var container;
 var canvas;
 var stage;
 var currencyCode;
+var chart;
 
 function init(code, canvasID, containerID) {
     currencyCode = code;
@@ -19,7 +21,7 @@ function init(code, canvasID, containerID) {
     });
     
     handleResizing();
-    stage.addChild(createChart());
+    chart = stage.addChild(createChart());
 }
 
 /**
@@ -31,8 +33,9 @@ function handleResizing() {
     resizeCanvas();
      
     function resizeCanvas(e) {
-        //canvas.width = container.width;
-        //canvas.height = 300;
+        canvas.width = container.clientWidth;
+        canvas.height = CHART_HEIGHT;
+        chart.setSize(container.clientWidth, CHART_HEIGHT);
     }
 }
 
@@ -41,7 +44,7 @@ function handleResizing() {
  * 
  */
 function createChart() {
-    var size = {width: canvas.width, height: 300};
+    var size = {width: container.clientWidth, height: CHART_HEIGHT};
     var point = {width: 1, height: 1};
     var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 5, bottom: 10}};
     var style = {
