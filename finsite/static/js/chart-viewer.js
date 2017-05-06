@@ -52,8 +52,8 @@ function createChart() {
         grid: {thickness: 1, color: "#FFFFFF", alpha: 0.20, width: 0, height: 10, dash: [1, 0]},
         zero:  {thickness: 1, color: "#000000", alpha: 1},
         chart: {
-            lines: {thickness: 1.5, color: "#000000", alpha: 1, bounds: false},
-            points:  {thickness: 1.5, radius: 1, lineColor: "#FFFFFF", fillColor: "#000000", alpha: 1, bounds: true}
+            lines: {thickness: 1, color: "#000000", alpha: 1, bounds: false},
+            points:  {thickness: 1.5, radius: 1, lineColor: "#000000", fillColor: "#000000", alpha: 1, bounds: true}
         }
     };
     
