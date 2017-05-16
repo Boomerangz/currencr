@@ -2,7 +2,7 @@ var cv = {};
 
 (function() {
 
-var CHART_HEIGHT = 300;
+var CHART_HEIGHT = 400;
 var container;
 var canvas;
 var stage;
@@ -16,6 +16,8 @@ function init(code, canvasID, containerID) {
     window.context = canvas.getContext("2d");
     
     stage = new createjs.Stage(canvasID);
+    stage.enableMouseOver(10);
+    createjs.Touch.enable(stage);
     createjs.Ticker.on("tick", function() {
         stage.update();
     });
@@ -35,7 +37,10 @@ function handleResizing() {
     function resizeCanvas(e) {
         canvas.width = container.clientWidth;
         canvas.height = CHART_HEIGHT;
-        if (chart) chart.setSize(container.clientWidth, CHART_HEIGHT);
+        if (chart) {
+            chart.setComplexSize(container.clientWidth, CHART_HEIGHT);
+            chart.redraw();
+        }
     }
 }
 
@@ -44,20 +49,7 @@ function handleResizing() {
  * 
  */
 function createChart() {
-    var size = {width: container.clientWidth, height: 300};
-    var point = {width: 1, height: 1};
-    var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 5, bottom: 10}};
-    var style = {
-        background: {color: "#112E07", alpha: 0.6},
-        grid: {thickness: 1, color: "#FFFFFF", alpha: 0.20, width: 0, height: 10, dash: [1, 0]},
-        zero:  {thickness: 1, color: "#000000", alpha: 1},
-        chart: {
-            lines: {thickness: 1, color: "#000000", alpha: 1, bounds: false},
-            points:  {thickness: 1.5, radius: 1, lineColor: "#000000", fillColor: "#000000", alpha: 1, bounds: true}
-        }
-    };
-    
-    var chart = new charts.StreamingChart(size, point, axis, style);
+    var chart = new cr.Chart(container.clientWidth, CHART_HEIGHT, 50);
     
     var data;
     var req = new XMLHttpRequest();
@@ -66,7 +58,7 @@ function createChart() {
     function requestData() {
         var fromUTC = (new Date()).getTime() - 86400000;
         var queryString = "?from=" +  fromUTC  + "&count=288&format=json";
-        var reqURL = "history_db/" + queryString;
+        var reqURL = "http://ssh.dsxmachine.com:8080/" + currencyCode + "/history_db/" + queryString;
         req.open("GET", reqURL, true);
         
         req.addEventListener("load", reqCompleteHandler, false);
@@ -78,9 +70,9 @@ function createChart() {
     function reqCompleteHandler(e) {
         data = JSON.parse(req.responseText);
         data = data.map(function(item, index, array) {return Number(item.price);});
-        chart.setPoint(size.width / (data.length - 1), chart.getPoint().height);
+        chart.setPoint(chart.getSize().width / (data.length - 1), chart.getPoint().height);
+        chart.redraw();
         chart.append(data);
-        
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
     }
