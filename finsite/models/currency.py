@@ -1,6 +1,7 @@
 import decimal
 import json
 
+import requests
 from django.db import models
 from yahoo_finance import Share
 from coinmarketcap import Market
@@ -41,9 +42,9 @@ class Currency(models.Model):
         elif self.exchange > 1:
             yahoo_data = Share(self.get_stock_identifier())
             return {'code':self.code, 'price':yahoo_data.get_price()}
-        elif self.code == 'BTC':
-            ticker = json.loads(coinmarketcap.ticker('bitcoin').decode('utf-8'))[0]
-            return {'code':self.code, 'price':ticker['price_usd']}
+        elif self.exchange == 1:
+            price = get_btc_e_ticker(self.code)
+            return {'code':self.code, 'price':price}
 
 
 
@@ -63,3 +64,8 @@ class Currency(models.Model):
     def get_stock_identifier(self):
         postfix = '.L' if self.exchange == 3 else ''
         return self.code + postfix
+
+def get_btc_e_ticker(currency):
+    code = '%s_usd'%(currency.lower())
+    r = requests.get('https://btc-e.nz/api/3/ticker/'+code)
+    return r.json()[code]['avg']
