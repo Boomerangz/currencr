@@ -13,7 +13,7 @@ var cr = {};
         width -= RULER_WIDTH;
         this.StreamingChart_constructor(
           {width: width, height: height},
-          {width: width / (pointsCount - 1), height: 1},
+          {width: width / (pointsCount - 1), height: 0.1},
           {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.05, bottom: height * 0.05}},
           {
               background: {color: "#00AAFF", alpha: 0.1},
