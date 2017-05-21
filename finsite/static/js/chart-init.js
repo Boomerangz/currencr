@@ -1,7 +1,3 @@
-cv.init = init;
-
-})();
-
 var ci = {};
 
 (function() {
