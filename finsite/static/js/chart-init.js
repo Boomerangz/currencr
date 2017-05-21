@@ -1,4 +1,8 @@
-var cv = {};
+cv.init = init;
+
+})();
+
+var ci = {};
 
 (function() {
 
@@ -86,6 +90,6 @@ function createChart() {
     return chart;
 }
 
-cv.init = init;
+ci.init = init;
 
 })();
