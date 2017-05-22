@@ -33,7 +33,7 @@ class Currency(models.Model):
 
     def percents(self):
         if self.previous_price != decimal.Decimal(0):
-            return (self.previous_price - self.current_price) / self.previous_price
+            return ((self.previous_price - self.current_price) / self.previous_price) * -1
         return 0
 
     def data(self):
