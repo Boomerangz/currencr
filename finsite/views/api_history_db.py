@@ -16,7 +16,7 @@ def get_stock_history_from_db(request, code):
         count = request.GET.get('count')
 
         currency_history_items = CurrencyHistoryRecord.objects.\
-            filter(currency=currency).order_by('-time')
+            filter(currency=currency).order_by('time')
 
         try:
             date_from = int(request.GET.get('from'))
@@ -49,6 +49,6 @@ def get_stock_history_from_db(request, code):
                 if len(currency_history_items) > count:
                     from random import shuffle
                     shuffle(currency_history_items)                    
-                    currency_history_items = sorted(currency_history_items[:count], key=lambda k: k.time)
+                    currency_history_items = sorted(currency_history_items[:count], key=lambda k: k.time, reverse=True)
                     
         return Response([{'price':h.price, 'date':h.time.strftime('%Y-%m-%d %H:%M')} for h in reversed(currency_history_items)], headers={'Access-Control-Allow-Origin':'*'})
