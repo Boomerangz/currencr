@@ -69,8 +69,11 @@ function createChart() {
     
     function reqCompleteHandler(e) {
         data = JSON.parse(req.responseText);
+        if (data.length === 0) return;
         data = data.map(function(item, index, array) {return Number(item.price);});
-        chart.setPoint(chart.getSize().width / (data.length - 1), chart.getPoint().height);
+        var count = Math.max(data.length - 1, 1);
+        count = Math.min(count, chart.getSize().width);
+        chart.setPoint(chart.getSize().width / count, chart.getPoint().height);
         chart.redraw();
         chart.append(data);
         req.removeEventListener("load", reqCompleteHandler, false);
