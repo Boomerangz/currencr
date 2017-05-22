@@ -68,8 +68,8 @@ var cr = {};
         if (!gridHeight) return;
         this.setGrid(10, gridHeight);
         
-        this._highItems[0].setText(chartBounds[1].toFixed(2));
-        this._highItems[2].setText(chartBounds[0].toFixed(2));
+        this._highItems[0].setText(chartBounds[1].toFixed(3));
+        this._highItems[2].setText(chartBounds[0].toFixed(3));
         
         var gridHeightPixels = gridHeight * this.getPoint().height;
         var gridValue = Math.ceil(chartBounds[0] / gridHeight) * gridHeight;
@@ -80,7 +80,7 @@ var cr = {};
             if (y > 0) {
                 this._rulerItems[i] = this._rulerItems[i] || new cr.TextItem(" ", "#FFFFFF", "#002D40", RULER_WIDTH);
                 item = this._rulerItems[i];
-                item.setText(gridValue.toFixed(2));
+                item.setText(gridValue.toFixed(3));
                 item.y = this.getLocalYByValue(gridValue) - item.getBounds().height / 2;
                 this._rulerItemsContainer.addChild(item);
                 ++i;
@@ -184,7 +184,7 @@ var cr = {};
         var value = this.getInterpolatedValueByLocalX(localX) || 0;
         var xLineY = this.getLocalYByValue(value);
         
-        this._highItems[1].setText(value.toFixed(2));
+        this._highItems[1].setText(value.toFixed(3));
         this._highItems[1].y = xLineY - this._highItems[1].getBounds().height / 2;
         this._yLine.x = localX;
         this._xLine.y = xLineY;
@@ -202,7 +202,7 @@ var cr = {};
     function TextItem(text, fontColor, bgColor, width) {
         this.Container_constructor();
         
-        this.textField = new createjs.Text(text || (0).toFixed(2), (HEIGHT - 4) + "px Courier", fontColor);
+        this.textField = new createjs.Text(text || (0).toFixed(3), (HEIGHT - 4) + "px Courier", fontColor);
         this.textField.x = 4;
         
         this.background = new createjs.Shape();
