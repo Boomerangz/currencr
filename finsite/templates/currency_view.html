@@ -14,7 +14,7 @@
     <h4>{{ currency.money_symbol }} {{ currency.current_price }} </h4>
     <canvas id="chart_canvas_0" style="display: block; padding-top: 20px; padding-bottom: 20px;">empty</canvas>
     <script>
-        cv.init("{{ currency.code }}", "chart_canvas_0", "currency_container")</script>
+        ci.init("BTC", "chart_canvas_0", "currency_container")
     </script>
     <span>{{ currency.description }}</span>
     

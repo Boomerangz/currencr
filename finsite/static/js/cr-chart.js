@@ -94,7 +94,10 @@ var cr = {};
     
     p.setSize = function(width, height) {
         width -= RULER_WIDTH;
+        var ratio = width / this.getSize().width;
         this._rulerContainer.x = width;
+        this._xLine.scaleX *= ratio;
+        this._yLine.scaleX *= ratio;
         this.StreamingChart_setSize(width, height);
     };
     
@@ -131,6 +134,7 @@ var cr = {};
         }
         items[1].alpha = 0;
         items[2].y = height - items[2].getBounds().height;
+        container.swapChildren(items[2], items[1]);
         return items;
     };
     
