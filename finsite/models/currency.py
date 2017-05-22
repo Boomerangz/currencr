@@ -68,4 +68,4 @@ class Currency(models.Model):
 def get_btc_e_ticker(currency):
     code = '%s_usd'%(currency.lower())
     r = requests.get('https://btc-e.nz/api/3/ticker/'+code)
-    return r.json()[code]['avg']
+    return (r.json()[code]['buy'] + r.json()[code]['sell']) / 2

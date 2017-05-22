@@ -6,7 +6,7 @@ import decimal
 from finsite.models import Currency, CurrencyHistoryRecord
 
 
-@periodic_task(run_every=timedelta(minutes=5))
+@periodic_task(run_every=timedelta(minutes=1))
 def update_prices():
     for c in Currency.objects.all():
         try:
