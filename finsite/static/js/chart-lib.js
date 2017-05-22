@@ -317,6 +317,7 @@ var charts = {};
     p._calculateDynamic = function() {
         var workHeight = this._size.height - this._axis.dynamicSpace.top - this._axis.dynamicSpace.bottom;
         var workDelta = this._extremeMax.value - this._extremeMin.value  - this._axis.offset;
+        if (workDelta === 0) workDelta = 2;
         var tempPointHeight = workHeight / workDelta;
         
         var tempAxisOffset = this._extremeMin.value - this._axis.dynamicSpace.bottom / tempPointHeight;
