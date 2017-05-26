@@ -10,4 +10,15 @@
             </li>
         {% endfor %}
         </ul>
+
+        {% if news_list %}
+                    <h4>News</h4>
+                    <ul  class="list-group">
+                    {% for new in news_list %}
+                        <li class="list-group-item">
+                            <a href="/news/?url={{ new.link |escape}}">{{ new.title }}</a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+        {% endif %}
 {% endblock %}
