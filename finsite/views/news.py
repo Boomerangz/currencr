@@ -10,7 +10,7 @@ class NewsView(TemplateView):
         if not self.request.GET.get('url'):
             feeds_list = ['http://www.finanz.ru/rss/novosti']
             feeds = [feedparser.parse(f) for f in feeds_list]
-            context['news_list'] = sum([[{'title':x['title'], 'link':x['link'], 'date':x['']} \
+            context['news_list'] = sum([[{'title':x['title'], 'link':x['link'], 'date':x['published']} \
                 for x in f['entries']] for f in feeds], [])
         else:
             url = self.request.GET.get('url')
