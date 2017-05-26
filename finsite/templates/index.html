@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
+        {% with search=request.GET.search %}
+        <form action="" method="get">
+            <input name="search" type="text" value="{{ search }}">
+            <input type="submit">
+        </form>
+        {% if search %}
+            Результаты поиска для {{ search }}
+        {% endif %}
+        {% endwith %}
         <ul  class="list-group">
         {% for currency in currency_list %}
             <li class="list-group-item">
