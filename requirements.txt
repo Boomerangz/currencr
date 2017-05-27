@@ -11,3 +11,5 @@ celery[redis]
 feedparser
 newspaper3k
 coinmarketcap
+numpy
+scipy
