@@ -5,12 +5,17 @@
  
 var cr = {};
 
+/**
+ * 
+ */
 (function() {
     
-    var RULER_WIDTH = 80;
+    ComplexChart.RULER_WIDTH = 80;
+    ComplexChart.TIMELINE_HEIGHT = 16;
     
-    function Chart(width, height, pointsCount) {
-        width -= RULER_WIDTH;
+    function ComplexChart(width, height, pointsCount) {
+        width -= ComplexChart.RULER_WIDTH;
+        height -= ComplexChart.TIMELINE_HEIGHT;
         this.StreamingChart_constructor(
           {width: width, height: height},
           {width: width / (pointsCount - 1), height: height * 0.1},
@@ -20,102 +25,103 @@ var cr = {};
               grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 12, height: 0, dash: [1, 0]},
               axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
               chart: {
-                  lines: {thickness: 1, color: "#003333", alpha: 0.75, bounds: true},
+                  lines: {thickness: 1.2, color: "#003333", alpha: 1, bounds: true},
                   points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", alpha: 0, bounds: true}
               }
           }
         );
         
-        this._rulerContainer = this._createRulerContainer(RULER_WIDTH, height);
-        this._rulerItemsContainer = new createjs.Container();
-        this._rulerContainer.addChild(this._rulerItemsContainer);
-        this._rulerContainer.x = width;
-        this.addChild(this._rulerContainer);
+        this._complexData = [];
+        this._chartRange = {top: Number.MAX_VALUE, bottom: -Number.MAX_VALUE};
+        this._isInteractiveState = false;
         
-        this._highItems = this._createHightTextItems(this._rulerContainer, height);
-        this._rulerItems = [];
+        this._timeline = this.addChild(new cr.Timeline(width, ComplexChart.TIMELINE_HEIGHT));
+        this._timeline.y = height;
         
-        this._xLine = this.addChild(new createjs.Shape());
-        this._yLine = this.addChild(new createjs.Shape());
-        this._drowMouseLines();
+        this._ruler = this.addChild(new cr.Ruler(ComplexChart.RULER_WIDTH, height));
+        this._ruler.x = width;
         
-        this._lastChartBounds = {
-            min: {value: -Number.MAX_VALUE, age: Number.MAX_VALUE},
-            max: {value: Number.MAX_VALUE, age: Number.MAX_VALUE}
-        };
+        this._guide = this.addChild(new cr.Guide(width, height));
+        this._guide.visible = false;
         
-        this._processOver();
+        this._handleMouseOver();
     }
     
-    var p = createjs.extend(Chart, charts.StreamingChart);
+    var p = createjs.extend(ComplexChart, charts.StreamingChart);
     
     //
     //  Public
     //
     
-    p.append = function(data) {
+    p.complexAppend = function(data) {
         if (data.length === 0) return;
-        
-        this.StreamingChart_append(data);
-        this._tickHandler();
-        
-        var chartHeight = this.getSize().height;
-        var chartBounds = [this.getValueByLocalY(chartHeight), this.getValueByLocalY(0)];
-        if (this._lastChartBounds[0] == chartBounds[0] && this._lastChartBounds[1] == chartBounds[1]) return;
-        this._lastChartBounds = chartBounds;
-        
-        var gridHeight = this._calculateGridHeight(chartBounds);
-        if (!gridHeight) return;
-        this.setGrid(10, gridHeight);
-        
-        this._highItems[0].setText(chartBounds[1].toFixed(3));
-        this._highItems[2].setText(chartBounds[0].toFixed(3));
-        
-        var gridHeightPixels = gridHeight * this.getPoint().height;
-        var gridValue = Math.ceil(chartBounds[0] / gridHeight) * gridHeight;
-        var item = {y: 1};
-        var i = 0;
-        var y = chartHeight;
-        while (item.y > 0 || i < this._rulerItems.length) {
-            if (y > 0) {
-                this._rulerItems[i] = this._rulerItems[i] || new cr.TextItem(" ", "#FFFFFF", "#002D40", RULER_WIDTH);
-                item = this._rulerItems[i];
-                item.setText(gridValue.toFixed(3));
-                item.y = this.getLocalYByValue(gridValue) - item.getBounds().height / 2;
-                this._rulerItemsContainer.addChild(item);
-                ++i;
-                gridValue += gridHeight;
-            } else {
-                item = this._rulerItems.splice(i, 1)[0];
-                this._rulerItemsContainer.removeChild(item);
-            }
-        }
+        this._complexData = this._complexData.concat(data);
+        data = data.map(function(item) {return Number(item.price);});
+        this.append(data);
+        this._updateGuidesAndRulers();
     };
     
     p.setSize = function(width, height) {
-        width -= RULER_WIDTH;
+        width -= ComplexChart.RULER_WIDTH;
         var ratio = width / this.getSize().width;
-        this._rulerContainer.x = width;
-        this._xLine.scaleX *= ratio;
-        this._yLine.scaleX *= ratio;
+        this._timeline.setWidth(width);
+        this._guide.setSize(width, height);
+        this._ruler.x = width;
         this.StreamingChart_setSize(width, height);
     };
+    
     
     //
     //  Private
     //
     
-    p._calculateGridHeight = function(array) {
-        var delta = Math.abs(array[0] - array[1]);
+    p._updateGuidesAndRulers = function() {
+        var currentCapacity = Math.min(this.getData().length, this.getCapacity());
+        var left = this._complexData[this._complexData.length - currentCapacity];
+        var right = this._complexData[this._complexData.length - 1];
+        this._timeline.setRange(left.date, right.date);
+        if (this._isInteractiveState) this._processInteractive();
+        var isRangeUpdated = this._processChartRange();
+        if (!isRangeUpdated) return;
+        this._ruler.setRange(this._chartRange.top, this._chartRange.bottom);
+        var gridHeight = this._calculateGridHeight();
+        if (gridHeight === 0) return;
+        this.setGrid(this.getCapacity() / 10, gridHeight);
+        this._setRuler(gridHeight);
+    };
+    
+    p._setRuler = function(gridHeight) {
+        var currentY = Math.ceil(this._chartRange.top / gridHeight) * gridHeight;
+        this._ruler.clear();
+        while (currentY > this._chartRange.bottom) {
+            this._ruler.addField(this.getLocalYByValue(currentY), currentY);
+            currentY -= gridHeight;
+        }
+    };
+    
+    p._processChartRange = function() {
+        var range = {
+            top: this.getValueByLocalY(0),
+            bottom: this.getValueByLocalY(this.getSize().height)
+        };
+        var a = range.top != this._chartRange.top;
+        var b = range.bottom != this._chartRange.bottom;
+        this._chartRange = range;
+        return a || b;
+    };
+    
+    p._calculateGridHeight = function() {
+        var delta = this._chartRange.top - this._chartRange.bottom;
+        var ratio = delta / Math.abs(delta);
+        delta = Math.abs(delta);
         if (delta === 0) return 0;
         var heights = [];
         heights.push(this._calculateGridHeightByLogBase(5, delta, 0, 0.15));
-        heights.push(this._calculateGridHeightByLogBase(10, delta, 0, 0.3));
-        heights.push(this._calculateGridHeightByLogBase(20, delta, 0, 0.6));
+        heights.push(this._calculateGridHeightByLogBase(10, delta, 0, 0.25));
+        heights.push(this._calculateGridHeightByLogBase(10, delta, 0, 0.45));
+        heights.push(this._calculateGridHeightByLogBase(20, delta, 0, 0.65));
         
-        var ph = this.getPoint().height;
-        
-        return Math.min.apply(Math, heights);
+        return ratio * Math.min.apply(Math, heights);
     };
     
     p._calculateGridHeightByLogBase = function(base, delta, ratio0, ratio1) {
@@ -124,115 +130,287 @@ var cr = {};
         return Math.pow(base, pow);
     };
     
-    p._createHightTextItems = function(container, height) {
-        var items = [];
-        var item;
-        for (var i = 0; i < 3; i++) {
-            item = new cr.TextItem("0", "#FFFFFF", "#00446E", RULER_WIDTH);
-            container.addChild(item);
-            items[i] = item;
-        }
-        items[1].alpha = 0;
-        items[2].y = height - items[2].getBounds().height;
-        container.swapChildren(items[2], items[1]);
-        return items;
-    };
-    
-    p._drowMouseLines = function() {
-        var graphics = this._xLine.graphics.clear();
-        graphics.setStrokeStyle(0.5).beginStroke("#FF0000");
-        graphics.moveTo(0, 0).lineTo(this.getSize().width, 0).endStroke();
-        this._xLine.alpha = 0;
-        
-        graphics = this._yLine.graphics.clear();
-        graphics.setStrokeStyle(0.5).beginStroke("#000000");
-        graphics.moveTo(0, 0).lineTo(0, this.getSize().height).endStroke();
-        this._yLine.alpha = 0;
-    };
-    
-    p._createRulerContainer = function(width, height) {
-        var container = new createjs.Container();
-        var background = new createjs.Shape();
-        background.graphics.beginFill("#002D40");
-        background.graphics.drawRect(0, 0, width, height).endFill();
-        container.addChild(background);
-        return container;
-    };
-    
-    p._processOver = function() {
-        var handler = this._tickHandler.bind(this);
+    p._handleMouseOver = function() {
+        var handler = this._processInteractive.bind(this);
+        var interval = 0;
         
         this.on("mouseover", function(event) {
-            this._xLine.alpha = 1;
-            this._yLine.alpha = 1;
-            this._highItems[1].alpha = 1;
-            createjs.Ticker.addEventListener("tick", handler);
+            if (this.getData().length === 0) return;
+            this._isInteractiveState = true;
+            this._timeline.showCurrent();
+            this._ruler.showCurrent();
+            this._guide.visible = true;
+            this.stage.addEventListener("stagemousemove", handler);
+            clearInterval(interval);
         });
         
         this.on("mouseout", function(event) {
-            this._xLine.alpha = 0;
-            this._yLine.alpha = 0;
-            this._highItems[1].alpha = 0;
-            createjs.Ticker.removeEventListener("tick", handler);
+            interval = setInterval((function() {
+                this._isInteractiveState = false;
+                this._timeline.hideCurrent();
+                this._ruler.hideCurrent();
+                this._guide.visible = false;
+            }).bind(this), 1200);
+            handler();
+            this.stage.removeEventListener("stagemousemove", handler);
         });
     };
     
-    p._tickHandler = function(e) {
-        var localX = this.globalToLocal(this.stage.mouseX, 0).x;
-        localX = Math.min(this.getSize().width, localX);
-        var localY = this.globalToLocal(0, this.stage.mouseY).y;
-        var value = this.getInterpolatedValueByLocalX(localX) || 0;
-        var xLineY = this.getLocalYByValue(value);
-        
-        this._highItems[1].setText(value.toFixed(3));
-        this._highItems[1].y = xLineY - this._highItems[1].getBounds().height / 2;
-        this._yLine.x = localX;
-        this._xLine.y = xLineY;
+    p._processInteractive = function(e) {
+        var mouse = this.globalToLocal(this.stage.mouseX, this.stage.mouseY);
+        var mouseX = Math.max(0, Math.min(this.getSize().width, mouse.x));
+        var currentCapacity = Math.min(this.getData().length, this.getCapacity());
+        var timelineIndex = this._complexData.length - currentCapacity + this.getIndexByLocalX(mouseX);
+        if (timelineIndex === -1) return;
+        mouseX = Math.min(mouseX, this.getLocalXByIndex(timelineIndex));
+        var item = this._complexData[timelineIndex];
+        var rulerValue = this.getInterpolatedValueByLocalX(mouseX) || 0;
+        var levelY = this.getLocalYByValue(rulerValue);
+        this._timeline.setCurrent(mouseX, item.date);
+        this._ruler.setCurrent(levelY, rulerValue);
+        this._guide.guideX.x = mouseX;
+        this._guide.guideY.y = levelY;
     };
     
-    cr.Chart = createjs.promote(Chart, "StreamingChart");
+    cr.ComplexChart = createjs.promote(ComplexChart, "StreamingChart");
+    
+})();
+
+(function() {
+    
+})();
+
+/**
+ * 
+ */ 
+(function() {
+    
+    function Guide(width, height) {
+        this.Container_constructor();
+        this._width = 0;
+        this._height = 0;
+        this.guideX = this.addChild(new createjs.Shape());
+        this.guideY = this.addChild(new createjs.Shape());
+        this.setSize(width, height);
+        this.mouseEnabled = false;
+        this.mouseChildren = false;
+    }
+    
+    var p = createjs.extend(Guide, createjs.Container);
+    
+    p.setSize = function(width, height) {
+        if (this._width != width) {
+            this._drawGuideY(width);
+            this._width = width;
+        }
+        if (this._height != height) {
+            this._drawGuideX(height);
+            this._height = height;
+        }
+    };
+    
+    p._drawGuideX = function(height) {
+        var graphics = this.guideX.graphics.clear();
+        graphics.setStrokeStyle(1).beginStroke("rgba(0, 0, 0, 0.6)");
+        graphics.moveTo(0, 0).lineTo(0, height).endStroke();
+    };
+    
+    p._drawGuideY = function(width) {
+        var graphics = this.guideY.graphics.clear();
+        graphics.setStrokeStyle(1).beginStroke("rgba(255, 0, 0, 0.6)");
+        graphics.moveTo(0, 0).lineTo(width, 0).endStroke();
+    };
+    
+    cr.Guide = createjs.promote(Guide, "Container");
+    
+})();
+
+/**
+ * 
+ */ 
+(function() {
+  
+    Ruler.FIELD_HEIGHT = 16;
+    Ruler.FONT = "12px Courier";
+    Ruler.FONT_COLOR = "#FFFFFF";
+    
+    function Ruler(width, height) {
+        this.Container_constructor();
+        this._width = width;
+        this._height = height;
+        
+        this._backgroundShape = this.addChild(new createjs.Shape());
+        var graphics = this._backgroundShape.graphics.clear();
+        graphics.beginFill("#002D40").drawRect(0, 0, 1, 1).endFill();
+        this._backgroundShape.scaleX = width;
+        this._backgroundShape.scaleY = height;
+        
+        this._fieldsContainer = this.addChild(new createjs.Container());
+        this._fieldsContainer.mask = new createjs.Shape();
+        graphics = this._fieldsContainer.mask.graphics;
+        graphics.beginFill("#002D40").drawRect(0, 0, width, height).endFill();
+        
+        this._topField = this.addChild(this._makeField("", "#00446E"));
+        this._bottomField = this.addChild(this._makeField("", "#00446E"));
+        this._currentField = this.addChild(this._makeField("", "#7C050B"));
+        this._fields = [];
+        this._usedCount = 0;
+        
+        this._bottomField.y = height - this._bottomField.getBounds().height;
+        this._currentField.visible = false;
+    }
+    
+    var p = createjs.extend(Ruler, createjs.Container);
+    
+    p.setCurrent = function(localY, value) {
+        this._currentField.setText(value.toFixed(3));
+        this._currentField.y = localY - this._bottomField.getBounds().height / 2;
+    };
+    
+    p.hideCurrent = function() {
+        this._currentField.visible = false;
+    };
+    
+    p.showCurrent = function() {
+        this._currentField.visible = true;
+    };
+    
+    p.setRange = function(top, bottom) {
+        this._topField.setText(top.toFixed(3));
+        this._bottomField.setText(bottom.toFixed(3));
+        this._bottomField.y = this._height - this._bottomField.getBounds().height;
+    };
+    
+    p.clear = function() {
+        for (var i = 0; i < this._fields.length; i++) {
+            this._fields[i].visible = false;
+            this._fields[i].y = 0;
+        }
+        this._usedCount = 0;
+    };
+    
+    p.addField = function(localY, value) {
+        var field = this._fields[this._usedCount];
+        if (!field) {
+            field = this._fields[this._usedCount] = this._makeField("", "#002D40");
+            this._fieldsContainer.addChild(field);
+        }
+        field.y = localY - cr.Ruler.FIELD_HEIGHT / 2;
+        field.setText(value.toFixed(3));
+        field.visible = true;
+        this._usedCount ++;
+    };
+    
+    p._makeField = function(value, background) {
+        return new cr.TextItem(value, Ruler.FONT, Ruler.FONT_COLOR, background, this._width, Ruler.FIELD_HEIGHT);
+    };
+    
+    cr.Ruler = createjs.promote(Ruler, "Container");
+    
+})();
+
+/**
+ * 
+ */
+(function() {
+  
+    Timeline.FONT = "12px Courier";
+    Timeline.FONT_COLOR = "#FFFFFF";
+  
+    function Timeline(width, height) {
+        this.Container_constructor();
+        this._width = width;
+        this._height = height;
+        
+        this._backgroundShape = this.addChild(new createjs.Shape());
+        var graphics = this._backgroundShape.graphics.clear();
+        graphics.beginFill("#002D40").drawRect(0, 0, 1, 1).endFill();
+        
+        this._leftField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
+        this._rightField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
+        this._currentField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#7C050B", 0, height));
+        this._currentField.visible = false;
+        
+        this.setWidth(width);
+        this._backgroundShape.scaleY = height;
+    }
+    
+    var p = createjs.extend(Timeline, createjs.Container);
+    
+    p.setCurrent = function(localX, value) {
+        this._currentField.setText(value);
+        var fieldWidth = this._currentField.getBounds().width;
+        localX = localX - fieldWidth / 2;
+        localX = Math.max(localX, 0);
+        localX = Math.min(localX, this._width - fieldWidth);
+        this._currentField.x = localX;
+    };
+    
+    p.hideCurrent = function() {
+        this._currentField.visible = false;
+    };
+    
+    p.showCurrent = function() {
+        this._currentField.visible = true;
+    };
+    
+    p.setRange = function(left, right) {
+        this._leftField.setText(left);
+        this._rightField.setText(right);
+        this._rightField.x = this._width - this._rightField.getBounds().width;
+    };
+    
+    p.setWidth = function(width) {
+        var minWidth = this._leftField.getBounds().width + this._rightField.getBounds().width;
+        this._backgroundShape.scaleX = Math.max(width, minWidth);
+        this._rightField.x = width - this._rightField.getBounds().width;
+    };
+    
+    cr.Timeline = createjs.promote(Timeline, "Container");
     
 })();
 
 
 (function() {
-    
-    var HEIGHT = 16;
   
-    function TextItem(text, fontColor, bgColor, width) {
+    function TextItem(text, font, color, background, width, height) {
         this.Container_constructor();
         
-        this.textField = new createjs.Text(text || (0).toFixed(3), (HEIGHT - 4) + "px Courier", fontColor);
-        this.textField.x = 4;
+        this._width = width;
+        this._height = height;
         
-        this.background = new createjs.Shape();
-        this.bgColor = bgColor;
-        this.width = width;
-        this._drawBG(this.bgColor, this.width, HEIGHT);
+        this._textField = new createjs.Text(text || "#", font, color);
+        this._textField.x = 4;
         
-        this.addChild(this.background);
-        this.addChild(this.textField);
+        this._backgroundShape = new createjs.Shape();
+        var graphics = this._backgroundShape.graphics.clear();
+        graphics.beginFill(background).drawRect(0, 0, 1, 1).endFill();
+        this._updateBackground();
         
-        var rect = this.textField.getBounds();
-        this.setBounds(0, 0, this.textField.x + this.width || rect.width, HEIGHT || rect.height);
+        this.addChild(this._backgroundShape);
+        this.addChild(this._textField);
     }
     
     var p = createjs.extend(TextItem, createjs.Container);
     
     p.setText = function(text) {
-        this.textField.text = text;
-        this._drawBG(this.bgColor, this.width, HEIGHT);
-        var rect = this.textField.getBounds();
-        this.setBounds(0, 0, this.width || rect.x + rect.width, HEIGHT || rect.height);
+        this._textField.text = text;
+        this._updateBackground();
     };
     
-    p._drawBG = function(color, width, height) {
-        var rect = this.textField.getBounds();
-        this.background.graphics.clear();
-        this.background.graphics.beginFill(color);
-        this.background.graphics.drawRect(0, 0, width || rect.x + rect.width, height || rect.height);
-        this.background.graphics.endFill();
+    p.getText = function() {
+        return this._textField.text;
+    };
+    
+    p._updateBackground = function() {
+        var rect = this._textField.getBounds();
+        var workWidth = this._width || rect.width + this._textField.x * 2;
+        var workHeight = this._height || rect.height;
+        this._backgroundShape.scaleX = workWidth;
+        this._backgroundShape.scaleY = workHeight;
+        this.setBounds(0, 0, workWidth, workHeight);
     };
     
     cr.TextItem = createjs.promote(TextItem, "Container");
+    
 })();
