@@ -140,6 +140,7 @@ var cr = {};
             this._timeline.showCurrent();
             this._ruler.showCurrent();
             this._guide.visible = true;
+            handler();
             this.stage.addEventListener("stagemousemove", handler);
             clearInterval(interval);
         });
