@@ -16,7 +16,7 @@ body,
 
 .page-header {
     align-items: flex-start;
-    background: url(/CurrencerChart/static/img/header-blue.png);
+    background: url(/static/img/header-blue.png);
     display: flex;
     flex: 0 0 auto;
     flex-direction: column;
