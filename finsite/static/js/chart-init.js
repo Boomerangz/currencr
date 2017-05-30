@@ -70,22 +70,12 @@ function createChart() {
     }
     
     function reqCompleteHandler(e) {
+        data = JSON.parse(req.responseText);
+        chart.setPoint(chart.getSize().width / (data.length - 1), chart.getPoint().height);
+        chart.redraw();
+        chart.complexAppend(data);
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
-        
-        var ch = chart;
-        var t = 0;
-        setInterval(function() {
-            var data = [];
-            data.push(
-                {
-                    date: t.toFixed(3),
-                    price: Math.sin(t) * Math.abs(Math.sin(t)) * 1.5
-                }
-            );
-            chart.complexAppend(data);
-            t += 0.050;
-        }, 50);
     }
     
     function reqErrorHandler(e) {
