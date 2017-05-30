@@ -28,15 +28,14 @@
         <script>
             ci.init("{{ currency.code }}", "chart-canvas", "currency-container")</script>
         </script>
-            {% if news_list %}
-            <h4>News</h4>
-                <ul  class="list-group">
-                    {% for new in news_list %}
-                    <li class="list-group-item">
-                        <a href="/news/?url={{ new.link |escape}}">{{ new.title }}</a>
-                    </li>
-                    {% endfor %}
-                </ul>
+        {% if news_list %}
+        <ul  class="list-group" style="margin-bottom: 10px; margin-top: 10px;">
+            {% for new in news_list %}
+            <li class="list-group-item">
+                  <a href="/news/?url={{ new.link |escape}}">{{ new.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
         {% endif %}
         <div id="disqus_thread"></div>
         <script>
