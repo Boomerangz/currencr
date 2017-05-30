@@ -168,7 +168,7 @@ var cr = {};
         var levelY = this.getLocalYByValue(rulerValue);
         this._timeline.setCurrent(mouseX, item.date);
         this._ruler.setCurrent(levelY, rulerValue);
-        this._guide.guideX.x = mouseX;
+        this._guide.guideX.x = Math.round(mouseX);
         this._guide.guideY.y = levelY;
     };
     
