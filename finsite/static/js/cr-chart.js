@@ -135,7 +135,7 @@ var cr = {};
         var interval = 0;
         
         this.on("mouseover", function(event) {
-            if (this.getData().length === 0) return;
+            if (this.getData().length < 2) return;
             this._isInteractiveState = true;
             this._timeline.showCurrent();
             this._ruler.showCurrent();
