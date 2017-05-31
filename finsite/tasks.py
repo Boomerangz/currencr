@@ -15,7 +15,9 @@ def update_prices():
                 c.previous_price = c.current_price
                 c.current_price = c.data()['price']
                 c.save()
-                CurrencyHistoryRecord.objects.create(currency=c, price=c.current_price).save()
+                volume = c.data().get('volume')
+                CurrencyHistoryRecord.objects.create(currency=c, price=c.current_price,\
+                                                     volume=volume).save()
                 print(c.code, c.current_price, 'updated')
             else:
                 print('NOT CHANGED', c.code, c.current_price, decimal.Decimal(price))

@@ -14,6 +14,7 @@ class Currency(models.Model):
     exchange = models.IntegerField(blank=False, null=False)
     description = models.TextField()
 
+
     current_price = models.DecimalField(decimal_places=5,max_digits=15, default=0)
     previous_price = models.DecimalField(decimal_places=5,max_digits=15, default=0)
 
@@ -43,8 +44,8 @@ class Currency(models.Model):
             yahoo_data = Share(self.get_stock_identifier())
             return {'code':self.code, 'price':yahoo_data.get_price()}
         elif self.exchange == 1:
-            price = get_btc_e_ticker(self.code)
-            return {'code':self.code, 'price':price}
+            price, volume = get_btc_e_ticker(self.code)
+            return {'code':self.code, 'price':price, 'volume':volume}
 
 
 
@@ -68,4 +69,5 @@ class Currency(models.Model):
 def get_btc_e_ticker(currency):
     code = '%s_usd'%(currency.lower())
     r = requests.get('https://btc-e.nz/api/3/ticker/'+code)
-    return (r.json()[code]['buy'] + r.json()[code]['sell']) / 2
+    parsed = r.json()[code]
+    return (parsed['buy'] + parsed['sell']) / 2, parsed['vol_cur']
