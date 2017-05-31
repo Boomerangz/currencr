@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.views.generic import TemplateView
 
 from finsite.models import Currency
+from finsite.views.news import get_news
 
 
 class IndexView(TemplateView):
@@ -15,11 +16,5 @@ class IndexView(TemplateView):
         if search:
             context['currency_list'] = context['currency_list']\
                 .filter(Q(name__icontains=search)|Q(code__icontains=search))
-        context['news_list'] = self.get_news()
+        context['news_list'] = get_news(search=search)
         return context
-
-    def get_news(self):
-        feeds_list = ['http://www.finanz.ru/rss/novosti']
-        feeds = [feedparser.parse(f) for f in feeds_list]
-        return sum([[{'title': x['title'], 'link': x['link'], 'date': x['published']} \
-                                     for x in f['entries']] for f in feeds], [])

@@ -1,9 +1,12 @@
+import feedparser
 from celery import shared_task
 from celery.task import periodic_task
 from datetime import timedelta
 import decimal
 
-from finsite.models import Currency, CurrencyHistoryRecord
+from newspaper import Article
+
+from finsite.models import Currency, CurrencyHistoryRecord, NewsItem
 
 
 @periodic_task(run_every=timedelta(minutes=1))
@@ -23,3 +26,26 @@ def update_prices():
                 print('NOT CHANGED', c.code, c.current_price, decimal.Decimal(price))
         except Exception as e:
             print(c.code, e)
+
+
+@periodic_task(run_every=timedelta(minutes=1))
+def update_news():
+    feeds_list = ['https://bitnovosti.com/feed/', 'http://www.finanz.ru/rss/novosti']
+    print(feeds_list)
+    feeds = [feedparser.parse(f) for f in feeds_list]
+    news_list =  sum([[{'title': x['title'], 'link': x['link'], 'date': x['published']} \
+                 for x in f['entries']] for f in feeds], [])
+    for news in news_list:
+        try:
+            if NewsItem.objects.filter(link=news['link']).count() == 0:
+                article = Article(news['link'], language='ru')
+                article.download()
+                article.parse()
+                article.nlp()
+                text = article.text
+                title = article.title
+                top_image = article.top_image
+                keywords = article.keywords
+                NewsItem.objects.create(link=news['link'], title=title, text=text, image=top_image, keywords=keywords)
+        except Exception as e:
+            print(e)

@@ -2,20 +2,24 @@ import feedparser
 from newspaper import Article
 
 from django.views.generic import TemplateView
+
+from finsite.models import NewsItem
+
+
 class NewsView(TemplateView):
     template_name = 'news.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(NewsView, self).get_context_data(*args, **kwargs)
-        if not self.request.GET.get('url'):
-            feeds_list = ['http://www.finanz.ru/rss/novosti']
-            feeds = [feedparser.parse(f) for f in feeds_list]
-            context['news_list'] = sum([[{'title':x['title'], 'link':x['link'], 'date':x['published']} \
-                for x in f['entries']] for f in feeds], [])
+        if not self.request.GET.get('id'):
+            context['news_list'] = get_news()
         else:
-            url = self.request.GET.get('url')
-            article = Article(url, language='ru')
-            article.download()
-            article.parse()
+            news_id = self.request.GET.get('id')
+            article = NewsItem.objects.get(pk=news_id)
             context['article'] = article
         return context
+
+
+
+def get_news(search=None):
+    return NewsItem.objects.all().order_by('-id')[:10]
