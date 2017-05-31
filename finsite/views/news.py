@@ -22,4 +22,4 @@ class NewsView(TemplateView):
 
 
 def get_news(search=None):
-    return NewsItem.objects.all().order_by('-id')[:10]
+    return NewsItem.objects.all().order_by('-id')[:40]
