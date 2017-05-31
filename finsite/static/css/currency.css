@@ -1,0 +1,99 @@
+body {
+    margin: 0;
+    overflow: hidden
+}
+
+html,
+body,
+.page {
+    height: 100%
+}
+
+.page {
+    display: flex;
+    flex-direction: column
+}
+
+.page-header {
+    align-items: flex-start;
+    background: url(/static/img/header-blue.png);
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    height: 111px;
+    justify-content: center;
+    align-items: center
+}
+
+.header-top {
+    align-items: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    height: 70px;
+    justify-content: flex-start;
+    max-width: 1024px;
+    min-width: 480px;
+    width: 100vw
+}
+
+.header-top img {
+    margin-left: 3px;
+    margin-top: 8px
+}
+
+.header-top input {
+    background-color: #F7F7F7;
+    border: none;
+    border-radius: 2px;
+    color: #333;
+    font-size: 14px;
+    height: 24px;
+    line-height: inherit;
+    margin-left: 30px;
+    margin-top: 21px;
+    min-width: 310px;
+    padding: 0 30px 0 10px;
+    width: calc(100% - 262px)
+}
+
+.header-bottom {
+    align-items: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    height: 70px;
+    justify-content: flex-start;
+    max-width: 1024px;
+    min-width: 480px;
+    width: 100vw
+}
+
+.header-bottom h5 {
+    margin-top: 10px
+}
+
+.header-bottom h6 {
+    margin-top: -8px
+}
+
+.page-content {
+    align-items: flex-start;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    overflow-y: auto
+}
+
+.content-item {
+    border-bottom: solid 50px #002D40;
+    flex: 1;
+    height: auto;
+    margin-left: calc(100vw - 100%);
+    max-width: 1024px;
+    min-height: 200px;
+    min-width: 480px;
+    padding-top: 2vh;
+    width: 100vw
+}

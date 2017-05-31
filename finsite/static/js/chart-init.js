@@ -16,8 +16,10 @@ function init(code, canvasID, containerID) {
     window.context = canvas.getContext("2d");
     
     stage = new createjs.Stage(canvasID);
+    stage.mouseMoveOutside = true;
     stage.enableMouseOver(10);
     createjs.Touch.enable(stage);
+    createjs.Ticker.setFPS(60);
     createjs.Ticker.on("tick", function() {
         stage.update();
     });
@@ -49,7 +51,7 @@ function handleResizing() {
  * 
  */
 function createChart() {
-    var chart = new cr.Chart(container.clientWidth, CHART_HEIGHT, 50);
+    var chart = new cr.ComplexChart(container.clientWidth, CHART_HEIGHT, 50);
     
     var data;
     var req = new XMLHttpRequest();
@@ -69,13 +71,9 @@ function createChart() {
     
     function reqCompleteHandler(e) {
         data = JSON.parse(req.responseText);
-        if (data.length === 0) return;
-        data = data.map(function(item, index, array) {return Number(item.price);});
-        var count = Math.max(data.length - 1, 1);
-        count = Math.min(count, chart.getSize().width);
-        chart.setPoint(chart.getSize().width / count, chart.getPoint().height);
+        chart.setPoint(chart.getSize().width / (data.length - 1), chart.getPoint().height);
         chart.redraw();
-        chart.append(data);
+        chart.complexAppend(data);
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
     }
@@ -90,5 +88,4 @@ function createChart() {
 }
 
 ci.init = init;
-
 })();

@@ -63,7 +63,7 @@ var charts = {};
     p.append = function(data) {
         if (data.length === 0) return;
         var totalData = this._data.concat(data);
-        this._data = totalData.slice(-this._widthCapacity);
+        this._data = totalData.splice(-this._widthCapacity);
         
         this._searchExtreme(data);
         this._processExtreme();
@@ -80,11 +80,6 @@ var charts = {};
         this._moveAxisX(this._style.axisX.offset);
     };
     
-    p.setStyle = function(style) {
-        this._style = style;
-        this.redraw();
-    };
-    
     p.redraw = function() {
         this.append(this._data.splice(0, this._data.length));
         this._drawBackgroundShape(this._size, this._style.background);
@@ -93,11 +88,26 @@ var charts = {};
         this._updateMask(this._style.chart.lines.bounds, this._size.width, this._size.height);
     };
     
+    p.setStyle = function(style) {
+        this._style = style;
+        this.redraw();
+    };
+    
+    p.setGrid = function(width, height) {
+        this._style.grid.width = width;
+        this._style.grid.height = height;
+        this._updateGrid(this._style.grid);
+    };
+    
+    p.getGrid = function() {
+        return {width: this._style.grid.width, height: this._style.grid.height};
+    };
+    
     p.setComplexSize = function(width, height) {
         var widthSegments = this._size.width /  this._dynamicPoint.width;
-        widthSegments = Math.ceil(widthSegments * 1000) / 1000; //TODO: Убрать этот костыль и найти красивое решение
+        widthSegments = Math.ceil(widthSegments * 1000) / 1000;
         var heightSegments = this._size.height / this._dynamicPoint.height;
-        heightSegments = Math.ceil(heightSegments * 1000) / 1000; //TODO: ...
+        heightSegments = Math.ceil(heightSegments * 1000) / 1000;
         this.setSize(width, height);
         this.setPoint(this._size.width / widthSegments, this._size.height / heightSegments);
     };
@@ -133,15 +143,6 @@ var charts = {};
         return this._dynamicOffset;
     };
     
-    p.setGrid = function(width, height) {
-        this._style.grid.width = width;
-        this._style.grid.height = height;
-        this._updateGrid(this._style.grid);
-    };
-    
-    p.getGrid = function() {
-        return {width: this._style.grid.width, height: this._style.grid.height};
-    };
     
     p.getData = function() {
         return this._data.slice();
@@ -149,22 +150,6 @@ var charts = {};
     
     p.getCapacity = function() {
         return this._widthCapacity;
-    };
-    
-    p.getInterpolatedValue = function(index) {
-        if (this._data.length === 0) return 0;
-        index = Math.round(index * 100) / 100;
-        index = Math.min(index, this._data.length - 1);
-        index = Math.max(index, 0);
-        var intIndex = Math.floor(index);
-        if (intIndex === index) return this._data[index];
-        var delta = this._data[intIndex + 1] - this._data[intIndex];
-        return this._data[intIndex] + delta * (index - intIndex);
-    };
-    
-    p.getInterpolatedValueByLocalX = function(localX) {
-        var index = this.getIndexByLocalX(localX);
-        return this.getInterpolatedValue(index);
     };
     
     p.getExtreme = function() {
@@ -180,8 +165,25 @@ var charts = {};
         return {min: min, max: max};
     };
     
+    p.getInterpolatedValue = function(index) {
+        if (this._data.length === 0) return 0;
+        index = Math.round(index * 100) / 100;
+        index = Math.min(index, this._data.length - 1);
+        index = Math.max(index, 0);
+        var intIndex = Math.floor(index);
+        if (intIndex === index) return this._data[index];
+        var delta = this._data[intIndex + 1] - this._data[intIndex];
+        return this._data[intIndex] + delta * (index - intIndex);
+    };
+    
+    p.getInterpolatedValueByLocalX = function(localX) {
+        var index = localX / this._dynamicPoint.width;
+        return this.getInterpolatedValue(index);
+    };
+    
     p.getIndexByLocalX = function(localX) {
-        return localX / this._dynamicPoint.width;
+        var index = Math.round(localX / this._dynamicPoint.width);
+        return Math.min(index, this._data.length - 1);
     };
     
     p.getLocalXByIndex = function(index) {

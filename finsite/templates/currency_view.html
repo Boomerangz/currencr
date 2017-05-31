@@ -1,4 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'currency_base.html' %}
+{% block css %}
+<!-- CSS -->
+<link rel="stylesheet" href="/static/css/currency.css">
+{% endblock %}
 {% block js %}
 <!-- CreateJS -->
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
@@ -8,46 +12,51 @@
 <script src="/static/js/chart-init.js"></script>
 {% endblock %}
 {% block content %}
-<div id="currency_container" class="container">
-    <h1>{{ currency.name }}</h1>
-    <h3 >{{ currency.code }}</h3>
-    <h4>{{ currency.money_symbol }} {{ currency.current_price }} </h4>
-    <canvas id="chart_canvas_0" style="display: block; padding-top: 20px; padding-bottom: 20px;">empty</canvas>
-    <script>
-        ci.init("BTC", "chart_canvas_0", "currency_container")
-    </script>
-    <span>{{ currency.description }}</span>
-
-    {% if news_list %}
-                    <h4>News</h4>
-                    <ul  class="list-group">
-                    {% for new in news_list %}
-                        <li class="list-group-item">
-                            <a href="/news/?url={{ new.link |escape}}">{{ new.title }}</a>
-                        </li>
-                    {% endfor %}
-                    </ul>
-    {% endif %}
-
-    <div id="disqus_thread"></div>
-    <script>
-
-    /**
-    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
-    /*
-    var disqus_config = function () {
-    this.page.url = https://currencr.me/{{ currency.code }}/;  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = {{ currency.code }}; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-    };
-    */
-    (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = 'https://surrencr.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-    })();
-    </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<div class="page-header">
+      <div class="header-top">
+          <a href="/"><img src="/static/img/logo.png"></img></a>
+          <input type="text" autocomplete="off" value="BTC или USD/RUB" default="BTC или USD/RUB">
+      </div>
+      <div class="header-bottom">
+          <h5>{{ currency.code }} {{ currency.name }}</h5>
+          <h6>{{ currency.money_symbol }} {{ currency.current_price }}</h6>
+      </div>
+</div>
+<div class="page-content">
+    <div id="currency-container" class="content-item">
+        <canvas id="chart-canvas" style="display: block; padding-top: 20px; padding-bottom: 20px;">empty</canvas>
+        <script>
+            ci.init("{{ currency.code }}", "chart-canvas", "currency-container")</script>
+        </script>
+        {% if news_list %}
+        <ul  class="list-group" style="margin-bottom: 10px; margin-top: 10px;">
+            {% for new in news_list %}
+            <li class="list-group-item">
+                  <a href="/news/?url={{ new.link |escape}}">{{ new.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        <div id="disqus_thread"></div>
+        <script>
+      
+        /**
+        *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+        *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+        /*
+        var disqus_config = function () {
+        this.page.url = https://currencr.me/{{ currency.code }}/;  // Replace PAGE_URL with your page's canonical URL variable
+        this.page.identifier = {{ currency.code }}; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        */
+        (function() { // DON'T EDIT BELOW THIS LINE
+        var d = document, s = d.createElement('script');
+        s.src = 'https://surrencr.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
 </div>
 {% endblock %}
