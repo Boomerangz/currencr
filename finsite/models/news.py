@@ -9,3 +9,9 @@ class NewsItem(models.Model):
     image = models.CharField(max_length=500, blank=True, default=None, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+
+class KeywordSynonims(models.Model):
+    name = models.CharField(max_length=255)
+    synonyms = ArrayField(models.CharField(max_length=200), blank=True)
