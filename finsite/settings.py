@@ -89,11 +89,11 @@ WSGI_APPLICATION = 'finsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'ooFxfq111',
-        'HOST': 'ssh.dsxmachine.com',
-        'PORT': '5433',
+        'NAME': 'currencr',
+        'USER': 'currencr',
+        'PASSWORD': '7FA59miHCuHtqdAq',
+        'HOST': '95.213.236.30',
+        'PORT': '5432',
     }
 }
 
