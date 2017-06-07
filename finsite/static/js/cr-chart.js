@@ -111,17 +111,36 @@ var cr = {};
     };
     
     p._calculateGridHeight = function() {
-        var delta = this._chartRange.top - this._chartRange.bottom;
-        var ratio = delta / Math.abs(delta);
-        delta = Math.abs(delta);
-        if (delta === 0) return 0;
+        console.log("");
+        var delta = Math.abs(this._chartRange.top - this._chartRange.bottom);
+        var logRatio = 0.200;
         var heights = [];
-        heights.push(this._calculateGridHeightByLogBase(5, delta, 0, 0.15));
-        heights.push(this._calculateGridHeightByLogBase(10, delta, 0, 0.25));
-        heights.push(this._calculateGridHeightByLogBase(10, delta, 0, 0.45));
-        heights.push(this._calculateGridHeightByLogBase(20, delta, 0, 0.65));
-        
-        return ratio * Math.min.apply(Math, heights);
+        var reserve = 0;
+        var count = 0;
+        console.log("delta=" + delta);
+        do {
+            heights[0] = this._calculateGridHeightByLogBase(0.2, delta, 0, logRatio);
+            heights[1] = this._calculateGridHeightByLogBase(0.5, delta, 0, logRatio);
+            heights[1] = this._calculateGridHeightByLogBase(5, delta, 0, logRatio);
+            heights[2] = this._calculateGridHeightByLogBase(10, delta, 0, logRatio);
+            heights[3] = this._calculateGridHeightByLogBase(20, delta, 0, logRatio);
+            heights[4] = this._calculateGridHeightByLogBase(50, delta, 0, logRatio);
+            heights[5] = this._calculateGridHeightByLogBase(200, delta, 0, logRatio);
+            heights[6] = this._calculateGridHeightByLogBase(2, delta, 0, logRatio);
+            console.log("heights=" + heights.toString());
+            for (var i = 0; i < heights.length; i++) {
+                reserve = Math.max(reserve, heights[i]);
+                console.log("reserve=" + reserve);
+                count = Math.ceil(delta / heights[i]);
+                if (count > 16 || count < 8) continue;
+                console.log("return normal=" + heights[i] + " (" + count + ")");
+                return heights[i];
+            }
+            logRatio -= 0.040;
+        } while(logRatio > 0.080);
+        count = Math.ceil(delta / reserve);
+        console.log("return reserve=" + reserve + " (" + count + ")");
+        return reserve;
     };
     
     p._calculateGridHeightByLogBase = function(base, delta, ratio0, ratio1) {
