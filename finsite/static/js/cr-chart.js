@@ -182,7 +182,6 @@ var cr = {};
         var currentCapacity = Math.min(this.getData().length, this.getCapacity());
         var timelineIndex = this._complexData.length - currentCapacity + this.getIndexByLocalX(mouseX);
         if (timelineIndex === -1) return;
-        mouseX = Math.min(mouseX, this.getLocalXByIndex(timelineIndex));
         var item = this._complexData[timelineIndex];
         var rulerValue = this.getInterpolatedValueByLocalX(mouseX) || 0;
         var levelY = this.getLocalYByValue(rulerValue);
