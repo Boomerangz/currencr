@@ -14,7 +14,7 @@ def update_prices():
     for c in Currency.objects.all():
         try:
             price = c.data()['price']
-            if abs(c.current_price - decimal.Decimal(price)) > 0.0001:
+            if c.exchange == 0 or abs(c.current_price - decimal.Decimal(price)) > 0.0001:
                 c.previous_price = c.current_price
                 c.current_price = c.data()['price']
                 c.save()
