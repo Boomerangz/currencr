@@ -76,8 +76,11 @@ function createChart() {
         chart.setPoint(chart.getSize().width / (data.length - 1), chart.getPoint().height);
         chart.redraw();
         chart.complexAppend(data);
+
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
+
+        requestPrediction();
     }
     
     function reqErrorHandler(e) {
