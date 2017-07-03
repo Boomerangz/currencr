@@ -79,7 +79,7 @@ function createChart() {
 
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
-
+        
         requestPrediction();
     }
     

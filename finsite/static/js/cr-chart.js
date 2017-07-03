@@ -45,9 +45,6 @@ var cr = {};
         this._guide.visible = false;
 
         this._predictionLimit = this.addChild(new createjs.Shape());
-        var graphics = this._predictionLimit.graphics;
-        graphics.setStrokeStyle(2).beginStroke("#000000");
-        graphics.moveTo(0, 0).lineTo(0, height);
         
         this._handleMouseOver();
     }
@@ -76,7 +73,10 @@ var cr = {};
     };
 
     p.setPredictionRatio = function(value) {
-        this._predictionLimit.x = this.getSize().width * value;
+        var size = this.getSize();
+        var graphics = this._predictionLimit.graphics;
+        graphics.setStrokeStyle(3).beginStroke("#FF0000");
+        graphics.moveTo(size.width, 0).lineTo(size.width, size.height);
     }
     
     
