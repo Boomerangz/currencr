@@ -43,6 +43,11 @@ var cr = {};
         
         this._guide = this.addChild(new cr.Guide(width, height));
         this._guide.visible = false;
+
+        this._predictionLimit = this.addChild(new createjs.Shape());
+        var graphics = this._predictionLimit.graphics;
+        graphics.setStrokeStyle(2).beginStroke("#000000");
+        graphics.moveTo(0, 0).lineTo(0, height);
         
         this._handleMouseOver();
     }
@@ -69,6 +74,10 @@ var cr = {};
         this._ruler.x = width;
         this.StreamingChart_setSize(width, height);
     };
+
+    p.setPredictionRatio = function(value) {
+        this._predictionLimit.x = this.getSize().width * value;
+    }
     
     
     //

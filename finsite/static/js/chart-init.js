@@ -54,12 +54,14 @@ function createChart() {
     var chart = new cr.ComplexChart(container.clientWidth, CHART_HEIGHT, 50);
     
     var data;
+    var pre;
     var req = new XMLHttpRequest();
     requestData();
     
     function requestData() {
-        var fromUTC = (new Date()).getTime() - 86400000;
-        var queryString = "?from=" +  fromUTC  + "&count=288&format=json";
+        var count = 360;
+        var fromUTC = (new Date()).getTime() - 21600000;
+        var queryString = "?from=" +  fromUTC  + "&" + count + "=300&format=json";
         var reqURL = "./history_db/" + queryString;
         req.open("GET", reqURL, true);
         
@@ -79,6 +81,36 @@ function createChart() {
     }
     
     function reqErrorHandler(e) {
+        alert(req.status + ": " + req.statusText);
+        req.removeEventListener("load", reqCompleteHandler, false);
+        req.removeEventListener("error", reqErrorHandler, false);
+    }
+
+    function requestPrediction() {
+        var reqURL = "./prediction/";
+        req.open("GET", reqURL, true);
+        
+        req.addEventListener("load", reqPredictionCompleteHandler, false);
+        req.addEventListener("error", reqPredictionErrorHandler, false);
+        
+        req.send();
+    }
+
+    function reqPredictionCompleteHandler(e) {
+        var prc = JSON.parse(req.responseText);
+        for (var i = 0; i < pre.length; i++) {
+            pre.push({
+                date: "after " + i + " min.",
+                price: prc[i]
+            });
+        }
+        chart.complexAppend(pre);
+        chart.setPredictionLimit(pre.length / data.length);
+        req.removeEventListener("load", reqPredictionCompleteHandler, false);
+        req.removeEventListener("error", reqPredictionErrorHandler, false);
+    }
+
+    function reqPredictionErrorHandler(e) {
         alert(req.status + ": " + req.statusText);
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
