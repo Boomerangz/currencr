@@ -75,8 +75,9 @@ var cr = {};
     p.setPredictionRatio = function(value) {
         var size = this.getSize();
         var graphics = this._predictionLimit.graphics.clear();
-        graphics.beginStroke(rgba(255,0,0,.1));
+        graphics.beginFill(rgba(255,0,0,0.1));
         graphics.drawRect(size.width * value, 0, size.width, size.height);
+        graphics.endFill();
     }
     
     
