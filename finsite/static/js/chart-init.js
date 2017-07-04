@@ -104,8 +104,8 @@ function createChart() {
         pre = [];
         for (var i = 0; i < prc.length; i++) {
             pre.push({
-                date: "after " + i.price + " min.",
-                price: prc[i]
+                date: "after " + (i + 1) + " min.",
+                price: prc[i].price
             });
         }
         chart.complexAppend(pre);
