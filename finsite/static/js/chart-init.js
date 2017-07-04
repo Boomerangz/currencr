@@ -109,7 +109,7 @@ function createChart() {
             });
         }
         chart.complexAppend(pre);
-        chart.setPredictionLimit(pre.length / data.length);
+        chart.setPredictionRatio(pre.length / data.length);
         req.removeEventListener("load", reqPredictionCompleteHandler, false);
         req.removeEventListener("error", reqPredictionErrorHandler, false);
     }
