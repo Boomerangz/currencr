@@ -101,6 +101,7 @@ function createChart() {
 
     function reqPredictionCompleteHandler(e) {
         var prc = JSON.parse(req.responseText);
+        pre = [];
         for (var i = 0; i < prc.length; i++) {
             pre.push({
                 date: "after " + i + " min.",
