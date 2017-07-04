@@ -104,7 +104,7 @@ function createChart() {
         pre = [];
         for (var i = 0; i < prc.length; i++) {
             pre.push({
-                date: "after " + i + " min.",
+                date: "after " + i.price + " min.",
                 price: prc[i]
             });
         }
