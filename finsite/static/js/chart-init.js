@@ -61,7 +61,7 @@ function createChart() {
     function requestData() {
         var count = 360;
         var fromUTC = (new Date()).getTime() - 21600000;
-        var queryString = "?from=" +  fromUTC  + "&" + count + "=300&format=json";
+        var queryString = "?from=" +  fromUTC  + "&count=" + count + "&format=json";
         var reqURL = "./history_db/" + queryString;
         req.open("GET", reqURL, true);
         
