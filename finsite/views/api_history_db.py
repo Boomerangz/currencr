@@ -51,4 +51,4 @@ def get_stock_history_from_db(request, code):
                     shuffle(currency_history_items)                    
                     currency_history_items = sorted(currency_history_items[:count], key=lambda k: k.time, reverse=False)
                     
-        return Response([{'price':h.price, 'date':h.time.strftime('%Y-%m-%d %H:%M')} for h in reversed(currency_history_items)], headers={'Access-Control-Allow-Origin':'*'})
+        return Response([{'price':h.price, 'date':h.time.strftime('%Y-%m-%d %H:%M')} for h in currency_history_items], headers={'Access-Control-Allow-Origin':'*'})
