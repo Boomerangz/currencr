@@ -5,6 +5,13 @@ from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, APIException
 from finsite.models import Currency, CurrencyHistoryRecord
 
+
+
+filter_params = {
+    'hour' : {'time__minute':0},
+    'day' : {'time__hour':0, 'time__minute':0},
+}
+
 @api_view(['GET'])
 def get_stock_history_from_db(request, code):
     if request.method == 'GET':
@@ -13,7 +20,7 @@ def get_stock_history_from_db(request, code):
         except:
             raise NotFound() 
 # date =        
-        count = request.GET.get('count')
+        period = request.GET.get('period', 'minute')
 
         currency_history_items = CurrencyHistoryRecord.objects.\
             filter(currency=currency).order_by('time')
@@ -32,23 +39,8 @@ def get_stock_history_from_db(request, code):
             currency_history_items = currency_history_items.filter(time__lte=date_to)
         except Exception as e:
             print(e)
-        
-        if count is not None:
-            try:
-                count = int(count)
-            except:
-                raise APIException(detail="Count must be integer")
 
-            currency_history_items = list(currency_history_items)
-            if count > 0 and len(currency_history_items) > count:
-                l = len(currency_history_items)
-                c = count - 1
-                removing_coof = int(l / c)
-                if removing_coof > 1:
-                    currency_history_items = [currency_history_items[i] for i in range(0, l) if i % removing_coof == 0 or i == l-1]
-                if len(currency_history_items) > count:
-                    from random import shuffle
-                    shuffle(currency_history_items)                    
-                    currency_history_items = sorted(currency_history_items[:count], key=lambda k: k.time, reverse=False)
-                    
+        if period in filter_params.keys():
+            currency_history_items = currency_history_items.filter(**filter_params[period])#   filter(check_func[period], currency_history_items)
+
         return Response([{'price':h.price, 'date':h.time.strftime('%Y-%m-%d %H:%M')} for h in currency_history_items], headers={'Access-Control-Allow-Origin':'*'})
