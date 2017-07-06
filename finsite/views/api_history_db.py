@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 
+from django.db.models import Sum, Avg
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, APIException
@@ -8,8 +9,9 @@ from finsite.models import Currency, CurrencyHistoryRecord
 
 
 filter_params = {
-    'hour' : {'time__minute':0},
-    'day' : {'time__hour':0, 'time__minute':0},
+    'minute' :  {'select': {'time':"date_trunc('minute', time)"}},
+    'hour' :  {'select': {'time':"date_trunc('hour', time)"}},
+    'day' : {'select': {'time':"date_trunc('day', time)"}},
 }
 
 @api_view(['GET'])
@@ -41,6 +43,6 @@ def get_stock_history_from_db(request, code):
             print(e)
 
         if period in filter_params.keys():
-            currency_history_items = currency_history_items.filter(**filter_params[period])#   filter(check_func[period], currency_history_items)
+            currency_history_items = currency_history_items.extra(**filter_params[period]).values("time").annotate(price=Avg('price'), volume=Sum('volume')) #   filter(check_func[period], currency_history_items)
 
-        return Response([{'price':h.price, 'date':h.time.strftime('%Y-%m-%d %H:%M')} for h in currency_history_items], headers={'Access-Control-Allow-Origin':'*'})
+        return Response([{'price':h['price'], 'date':h['time'].strftime('%Y-%m-%d %H:%M')} for h in currency_history_items], headers={'Access-Control-Allow-Origin':'*'})
