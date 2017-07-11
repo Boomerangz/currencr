@@ -90,7 +90,8 @@ function createChart() {
     }
 
     function requestPrediction() {
-        var reqURL = "./prediction/";
+        //var reqURL = "./prediction/";
+        var reqURL = "http://smartprediction-heterotroph.codeanyapp.com:8080/";
         req.open("GET", reqURL, true);
         
         req.addEventListener("load", reqPredictionCompleteHandler, false);
@@ -102,10 +103,10 @@ function createChart() {
     function reqPredictionCompleteHandler(e) {
         var prc = JSON.parse(req.responseText);
         pre = [];
-        for (var i = 0; i < prc.length; i++) {
+        for (var i = 0; i < prc[0].length; i++) {
             pre.push({
                 date: "after " + (i + 1) + " min.",
-                price: prc[i].price
+                price: prc[0][i]
             });
         }
         chart.complexAppend(pre);
