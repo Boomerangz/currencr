@@ -90,8 +90,7 @@ function createChart() {
     }
 
     function requestPrediction() {
-        //var reqURL = "./prediction/";
-        var reqURL = "http://smartprediction-heterotroph.codeanyapp.com:8080/";
+        var reqURL = "https://prdc.currencr.me/" + currencyCode;
         req.open("GET", reqURL, true);
         
         req.addEventListener("load", reqPredictionCompleteHandler, false);
