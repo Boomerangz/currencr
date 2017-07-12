@@ -13,17 +13,13 @@ from finsite.models import Currency, CurrencyHistoryRecord, NewsItem
 def update_prices():
     for c in Currency.objects.all():
         try:
-            price = c.data()['price']
-            if c.exchange == 0 or abs(c.current_price - decimal.Decimal(price)) > 0.0001:
-                c.previous_price = c.current_price
-                c.current_price = c.data()['price']
-                c.save()
-                volume = c.data().get('volume')
-                CurrencyHistoryRecord.objects.create(currency=c, price=c.current_price,\
-                                                     volume=volume).save()
-                print(c.code, c.current_price, 'updated')
-            else:
-                print('NOT CHANGED', c.code, c.current_price, decimal.Decimal(price))
+            c.previous_price = c.current_price
+            c.current_price = c.data()['price']
+            c.save()
+            volume = c.data().get('volume')
+            CurrencyHistoryRecord.objects.create(currency=c, price=c.current_price,\
+                                                 volume=volume).save()
+            print(c.code, c.current_price, 'updated')
         except Exception as e:
             print(c.code, e)
 
