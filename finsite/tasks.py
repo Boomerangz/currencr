@@ -1,7 +1,7 @@
 import feedparser
 from celery import shared_task
 from celery.task import periodic_task
-from datetime import timedelta
+from datetime import timedelta, datetime
 import decimal
 
 from newspaper import Article
@@ -13,7 +13,8 @@ from finsite.models import Currency, CurrencyHistoryRecord, NewsItem
 def update_prices():
     for c in Currency.objects.all():
         try:
-            c.previous_price = c.current_price
+            days_ago_price = CurrencyHistoryRecord.objects.filter(time__lte=datetime.now()-timedelta(days=1), currency=c).order_by('-id').first()
+            c.previous_price = days_ago_price.price
             c.current_price = c.data()['price']
             c.save()
             volume = c.data().get('volume')
