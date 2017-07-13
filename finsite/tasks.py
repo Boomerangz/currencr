@@ -39,6 +39,8 @@ def update_news():
             article.nlp()
             text = article.text.replace('\n', '<br/>')
             title = article.title
+            if 'ТАСС:' in title:
+                continue
             top_image = article.top_image
             keywords = article.keywords
             if NewsItem.objects.filter(title__iexact=title).count() == 0:
