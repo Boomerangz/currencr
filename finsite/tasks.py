@@ -37,11 +37,11 @@ def update_news():
             article.download()
             article.parse()
             article.nlp()
-            text = article.text
+            text = article.text.replace('\n', '<br/>')
             title = article.title
             top_image = article.top_image
             keywords = article.keywords
-            if NewsItem.objects.filter(link=news['link'], title__iexact=title).count() == 0:
+            if NewsItem.objects.filter(title__iexact=title).count() == 0:
                 NewsItem.objects.create(link=news['link'], title=title, text=text, image=top_image, keywords=keywords)
         except Exception as e:
             print(e)

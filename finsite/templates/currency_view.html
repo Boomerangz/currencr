@@ -32,7 +32,7 @@
         <ul  class="list-group" style="margin-bottom: 10px; margin-top: 10px;">
             {% for new in news_list %}
             <li class="list-group-item">
-                  <a href="/news/?id={{ new.id |escape}}">{{ new.title }}</a>
+                  <a href="/news/{{ new.id |escape}}/">{{ new.title }}</a>
             </li>
             {% endfor %}
         </ul>

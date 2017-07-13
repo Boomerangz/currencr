@@ -43,7 +43,7 @@ def gitpull(request):
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', IndexView.as_view()),
-    url(r'^news/$', NewsView.as_view()),
+    url(r'^news/(?P<pk>[0-9]+)/$', NewsView.as_view()),
     url(r'^pull/$', gitpull),
     url(r'^(?P<code>[a-zA-Z\-]+)/$', CurrencyView.as_view()),
     url(r'^(?P<code>[a-zA-Z\-]+)/history_db/$', get_stock_history_from_db),

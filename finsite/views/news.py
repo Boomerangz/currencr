@@ -10,14 +10,10 @@ from finsite.models import NewsItem, KeywordSynonims, Currency
 class NewsView(TemplateView):
     template_name = 'news.html'
 
-    def get_context_data(self, *args, **kwargs):
+    def get_context_data(self, pk, *args, **kwargs):
         context = super(NewsView, self).get_context_data(*args, **kwargs)
-        if not self.request.GET.get('id'):
-            context['news_list'] = get_news()
-        else:
-            news_id = self.request.GET.get('id')
-            article = NewsItem.objects.get(pk=news_id)
-            context['article'] = article
+        article = NewsItem.objects.get(pk=pk)
+        context['article'] = article
         return context
 
 
