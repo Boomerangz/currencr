@@ -27,18 +27,13 @@ def update_prices():
 
 @periodic_task(run_every=timedelta(minutes=1))
 def update_news():
-    from mercury_parser import ParserAPI
-    mercury = ParserAPI(api_key='UwOoijndtk8fHH7sUzbHmqhnodvKU8ijVgdfnpTM')
-
-
-    feeds_list = ['https://bitnovosti.com/feed/', 'http://www.finanz.ru/rss/novosti']
+    feeds_list = ['https://bitnovosti.com/feed/']
     print(feeds_list)
     feeds = [feedparser.parse(f) for f in feeds_list]
     news_list =  sum([[{'title': x['title'], 'link': x['link'], 'date': x['published']} \
                  for x in f['entries']] for f in feeds], [])
     for news in news_list:
         try:
-            p = mercury.parse(news['link'])
             article = Article(news['link'], language='ru')
             article.download()
             article.parse()
@@ -46,18 +41,18 @@ def update_news():
             title = article.title
             if 'ТАСС:' in title:
                 continue
-            text = '\n'.join([s for s in p.content.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
-            top_image = p.lead_image_url
+            text = '<br/>'.join([s for s in article.text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
+            summary = article.summary
+            top_image = summary.top_image
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
             keywords = article.keywords
-            summary = p.excerpt
             if NewsItem.objects.filter(title__iexact=title).count() == 0:
                 NewsItem.objects.create(link=news['link'],
                                         title=title,
                                         text=text,
-                                        image=top_image,
                                         summary=summary,
+                                        image=top_image,
                                         keywords=keywords)
         except Exception as e:
             print(e)
