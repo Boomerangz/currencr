@@ -27,6 +27,11 @@ h6 {
 a {
   color: #333333;
 }
+
+.size-full {
+        width: 100%;
+}
+
 a:hover,
 a:focus {
   color: #0085A1;

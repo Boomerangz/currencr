@@ -27,6 +27,10 @@ def update_prices():
 
 @periodic_task(run_every=timedelta(minutes=1))
 def update_news():
+    from mercury_parser import ParserAPI
+    mercury = ParserAPI(api_key='UwOoijndtk8fHH7sUzbHmqhnodvKU8ijVgdfnpTM')
+
+
     feeds_list = ['https://bitnovosti.com/feed/', 'http://www.finanz.ru/rss/novosti']
     print(feeds_list)
     feeds = [feedparser.parse(f) for f in feeds_list]
@@ -34,17 +38,16 @@ def update_news():
                  for x in f['entries']] for f in feeds], [])
     for news in news_list:
         try:
-            article = Article(news['link'], language='ru')
-            article.download()
-            article.parse()
-            article.nlp()
-            text = article.text.replace('\n', '<br/>')
-            title = article.title
+            p = mercury.parse(news['link'])
+            title = p.title.split('|')[0].strip()
             if 'ТАСС:' in title:
                 continue
-            top_image = article.top_image
+            text = '\n'.join([s for s in p.content.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
+            top_image = p.lead_image_url
+            article = Article(news['link'], language='ru')
             keywords = article.keywords
+            summary = p.excerpt
             if NewsItem.objects.filter(title__iexact=title).count() == 0:
-                NewsItem.objects.create(link=news['link'], title=title, text=text, image=top_image, keywords=keywords)
+                NewsItem.objects.create(link=news['link'], title=title, text=text, image=top_image, keywords=keywords, summary=summary)
         except Exception as e:
             print(e)
