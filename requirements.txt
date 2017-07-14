@@ -13,3 +13,4 @@ newspaper3k
 coinmarketcap
 numpy
 scipy
+django-cacheops

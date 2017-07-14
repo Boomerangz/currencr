@@ -15,11 +15,13 @@ Including another URLconf
 """
 import os
 import git
+from cacheops import cached_view_as
 
 from django.conf.urls import url
 from django.contrib import admin
 
 from finsite import settings
+from finsite.models import Currency, NewsItem
 from finsite.views.api_history import get_stock_history
 from finsite.views.api_history_db import get_stock_history_from_db
 from finsite.views.api_prediction import get_prediction
@@ -42,10 +44,10 @@ def gitpull(request):
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', IndexView.as_view()),
+    url(r'^$', cached_view_as(NewsItem, timeout=60)(IndexView.as_view())),
     url(r'^news/(?P<pk>[0-9]+)/$', NewsView.as_view()),
     url(r'^pull/$', gitpull),
-    url(r'^(?P<code>[a-zA-Z\-]+)/$', CurrencyView.as_view()),
+    url(r'^(?P<code>[a-zA-Z\-]+)/$', cached_view_as(NewsItem, timeout=60)(CurrencyView.as_view())),
     url(r'^(?P<code>[a-zA-Z\-]+)/history_db/$', get_stock_history_from_db),
     url(r'^(?P<code>[a-zA-Z\-]+)/history/$', get_stock_history),
     url(r'^(?P<code>[a-zA-Z\-]+)/fresh/$', get_stock_fresh),
