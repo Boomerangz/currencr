@@ -13,6 +13,7 @@ class Currency(models.Model):
     name = models.CharField(max_length=50)
     exchange = models.IntegerField(blank=False, null=False)
     description = models.TextField()
+    ordering = models.IntegerField(default=0)
 
 
     current_price = models.DecimalField(decimal_places=5,max_digits=15, default=0)
