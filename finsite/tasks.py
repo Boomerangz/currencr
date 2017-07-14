@@ -39,15 +39,25 @@ def update_news():
     for news in news_list:
         try:
             p = mercury.parse(news['link'])
-            title = p.title.split('|')[0].strip()
+            article = Article(news['link'], language='ru')
+            article.download()
+            article.parse()
+            article.nlp()
+            title = article.title
             if 'ТАСС:' in title:
                 continue
             text = '\n'.join([s for s in p.content.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
             top_image = p.lead_image_url
-            article = Article(news['link'], language='ru')
+            if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg'
+                top_image = None
             keywords = article.keywords
             summary = p.excerpt
             if NewsItem.objects.filter(title__iexact=title).count() == 0:
-                NewsItem.objects.create(link=news['link'], title=title, text=text, image=top_image, keywords=keywords, summary=summary)
+                NewsItem.objects.create(link=news['link'],
+                                        title=title,
+                                        text=text,
+                                        image=top_image,
+                                        summary=summary,
+                                        keywords=keywords)
         except Exception as e:
             print(e)
