@@ -75,7 +75,7 @@ function createChart() {
         data = JSON.parse(req.responseText);
         chart.setPoint(chart.getSize().width / (data.length - 1), chart.getPoint().height);
         chart.redraw();
-        chart.complexAppend(data);
+        chart.complexAppend(linearize(data));
 
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
@@ -119,6 +119,23 @@ function createChart() {
         alert(req.status + ": " + req.statusText);
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
+    }
+    
+    function linearize(array) {
+        var targetDelta = 60 * 1000;
+        for (var i = 0; i < array.length - 1; i++) {
+            var date0 = new Date(array[i].date);
+            var date1 = new Date(array[i + 1].date);
+            var delta = date1.getTime() - date0.getTime();
+            for (var ms = date0.getTime() + targetDelta; ms < date1.getTime(); ms += targetDelta) {
+                var item = {
+                    date: new Date(ms).toISOString(),
+                    price: array[i].price
+                }
+                array.splice(++i, 0, item);
+            }
+        }
+        return array;
     }
     
     return chart;
