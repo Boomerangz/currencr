@@ -14,3 +14,4 @@ coinmarketcap
 numpy
 scipy
 django-cacheops
+mercury-parser
