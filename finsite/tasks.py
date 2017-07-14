@@ -43,7 +43,7 @@ def update_news():
                 continue
             text = '<br/>'.join([s for s in article.text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
             summary = article.summary
-            top_image = summary.top_image
+            top_image = article.top_image
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
             keywords = article.keywords
