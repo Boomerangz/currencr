@@ -48,7 +48,7 @@ def update_news():
                 continue
             text = '\n'.join([s for s in p.content.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
             top_image = p.lead_image_url
-            if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg'
+            if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
             keywords = article.keywords
             summary = p.excerpt
