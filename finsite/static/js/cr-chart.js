@@ -35,6 +35,9 @@ var cr = {};
         this._chartRange = {top: Number.MAX_VALUE, bottom: -Number.MAX_VALUE};
         this._isInteractiveState = false;
         
+        this._predictionBoundShape = this.addChild(new createjs.Shape());
+        this._predictionBoundX = 0;
+
         this._timeline = this.addChild(new cr.Timeline(width, ComplexChart.TIMELINE_HEIGHT));
         this._timeline.y = height;
         
@@ -43,9 +46,6 @@ var cr = {};
         
         this._guide = this.addChild(new cr.Guide(width, height));
         this._guide.visible = false;
-
-        this._predictionBoundShape = this.addChild(new createjs.Shape());
-        this._predictionBoundX = 0;
         
         this._handleMouseOver();
     }
@@ -71,6 +71,7 @@ var cr = {};
         this._guide.setSize(width, height);
         this._ruler.x = width;
         this.StreamingChart_setSize(width, height);
+        this._predictionBoundX *= ratio;
         this._updatePredictionBound();
     };
 
@@ -95,7 +96,7 @@ var cr = {};
         )
         graphics.drawRect(0, 0, size.width - this._predictionBoundX, size.height);
         graphics.endFill();
-        graphics.beginStroke("#002D40").setStrokeStyle(2);
+        graphics.beginStroke("#002D40").setStrokeStyle(1);
         graphics.moveTo(0,0);
         graphics.lineTo(0, size.height);
         this._predictionBoundShape.x = this._predictionBoundX;
@@ -426,6 +427,7 @@ var cr = {};
         var minWidth = this._leftField.getBounds().width + this._rightField.getBounds().width;
         this._backgroundShape.scaleX = Math.max(width, minWidth);
         this._rightField.x = width - this._rightField.getBounds().width;
+        this._width = width;
     };
     
     cr.Timeline = createjs.promote(Timeline, "Container");
@@ -443,6 +445,7 @@ var cr = {};
         
         this._textField = new createjs.Text(text || "#", font, color);
         this._textField.x = 4;
+        this._textField.y = 2;
         
         this._backgroundShape = new createjs.Shape();
         var graphics = this._backgroundShape.graphics.clear();

@@ -13,10 +13,18 @@
 </head>
 
 <body>
-    <div class="container" style="min-width: 320px;">
-        <a href="/">
+    <div class="container" style="min-width: 480px;">
+        <div class="page-header" style="margin-bottom: 20px; margin-top: 10px;">
+            <a href="/">
+                <div style="background-color: #002D40; border-radius: .25rem; display:table-cell; vertical-align:middle; text-align:center; padding: 5px 3px 7px 5px;">
+                    <img src="/static/img/logo.png" style="width: 80%; height: 80%"></img>
+                </div>
+            </a>
+            {% block header %}{% endblock %}
+        </div>
+        <!--<a href="/">
             <h1 class="jumbotron-heading" style="color:#000">Currencr</h1>
-        </a>
+        </a>-->
         {% block content %}{% endblock %}
     </div>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->

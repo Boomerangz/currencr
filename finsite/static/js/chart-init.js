@@ -59,7 +59,7 @@ function createChart() {
     requestData();
     
     function requestData() {
-        var count = 360;
+        var count = 300;
         var fromUTC = (new Date()).getTime() - 21600000;
         var queryString = "?from=" +  fromUTC  + "&count=" + count + "&format=json";
         var reqURL = "./history_db/" + queryString;
@@ -108,7 +108,7 @@ function createChart() {
         pre = [];
         for (var i = 0; i < prc[0].length; i++) {
             pre.push({
-                date: new Date(lastDate.getTime() + (i * 60000)),
+                date: new Date(lastDate.getTime() + ((i + 1) * 60000)),
                 price: prc[0][i]
             });
         }
