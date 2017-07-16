@@ -71,11 +71,15 @@ function createChart() {
         req.send();
     }
     
+    var lastDate;
+
     function reqCompleteHandler(e) {
         data = JSON.parse(req.responseText);
         chart.setPoint(chart.getSize().width / (data.length - 1), chart.getPoint().height);
         chart.redraw();
-        chart.complexAppend(linearize(data));
+        data = linearize(data);
+        lastDate = data[data.length - 1].date;
+        chart.complexAppend(data);
 
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
@@ -104,13 +108,13 @@ function createChart() {
         pre = [];
         for (var i = 0; i < prc[0].length; i++) {
             pre.push({
-                date: "after " + (i + 1) + " min.",
+                date: new Date(lastDate.getTime() + (i * 60000)),
                 price: prc[0][i]
             });
         }
         chart.complexAppend(pre);
-        var capacity = chart.getCapacity();
-        chart.setPredictionRatio((capacity - pre.length) / capacity);
+        var x = chart.getCapacity() - pre.length;
+        chart.setPredictionBound(chart.getLocalXByIndex(x));
         req.removeEventListener("load", reqPredictionCompleteHandler, false);
         req.removeEventListener("error", reqPredictionErrorHandler, false);
     }
@@ -124,17 +128,18 @@ function createChart() {
     function linearize(array) {
         var targetDelta = 60 * 1000;
         for (var i = 0; i < array.length - 1; i++) {
-            var date0 = new Date(array[i].date);
+            var date0 = array[i].date = new Date(array[i].date);
             var date1 = new Date(array[i + 1].date);
             var delta = date1.getTime() - date0.getTime();
             for (var ms = date0.getTime() + targetDelta; ms < date1.getTime(); ms += targetDelta) {
                 var item = {
-                    date: new Date(ms).toISOString(),
+                    date: new Date(ms),
                     price: array[i].price
                 }
                 array.splice(++i, 0, item);
             }
         }
+        array[i].date = new Date(array[i].date);
         return array;
     }
     

@@ -1,14 +1,5 @@
 {% extends 'base.html' %}
 {% block content %}
-        {% with search=request.GET.search %}
-        <form action="" method="get">
-            <input name="search" type="text" value="{{ search }}">
-            <input type="submit">
-        </form>
-        {% if search %}
-            Результаты поиска для {{ search }}
-        {% endif %}
-        {% endwith %}
         <ul  class="list-group">
         {% for currency in currency_list %}
             <li class="list-group-item">
@@ -21,13 +12,12 @@
         </ul>
 
         {% if news_list %}
-                    <h4>News</h4>
-                    <ul  class="list-group">
-                    {% for new in news_list %}
-                        <li class="list-group-item">
-                            <a href="/news/{{ new.id }}/">{{ new.title }}</a>
-                        </li>
-                    {% endfor %}
-                    </ul>
+        <ul  class="list-group" style="margin-bottom: 10px; margin-top: 10px;">
+            {% for new in news_list %}
+            <li class="list-group-item">
+                <a href="/news/{{ new.id }}/">{{ new.title }}</a>
+             </li>
+            {% endfor %}
+        </ul>
         {% endif %}
 {% endblock %}

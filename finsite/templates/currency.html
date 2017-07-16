@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block css %}
+{% endblock %}
+{% block js %}
+<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+{% endblock %}
+{% block content %}
+<div class="page-content">
+
+    <div id="chart-container" class="content-item">
+        <canvas id="chart-canvas" style="display: block; padding-top: 20px; padding-bottom: 20px;">empty</canvas>
+        <script src="/static/js/chart-lib.js"></script>
+        <script src="/static/js/cr-chart.js"></script>
+        <script src="/static/js/chart-init.js"></script>
+        <script>ci.init("{{ currency.code }}", "chart-canvas", "chart-container")</script>
+    </div>
+
+    {% if news_list %}
+    <ul class="list-group" style="margin-bottom: 10px; margin-top: 10px;">
+        {% for new in news_list %}
+        <li class="list-group-item">
+            <a href="/news/{{ new.id |escape}}/">{{ new.title }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div id="disqus_thread"></div>
+
+    <script>
+        (function () {
+            var d = document, s = d.createElement('script');
+            s.src = 'https://surrencr.disqus.com/embed.js';
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+    </script>
+</div>
+{% endblock %}

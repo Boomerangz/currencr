@@ -6,7 +6,7 @@ from finsite.views.news import get_news
 
 
 class CurrencyView(TemplateView):
-    template_name = 'currency_view.html'
+    template_name = 'currency.html'
 
     def get_context_data(self, code, **kwargs):
         context = super(CurrencyView, self).get_context_data(**kwargs)
