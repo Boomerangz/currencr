@@ -36,6 +36,7 @@ var cr = {};
         this._isInteractiveState = false;
         
         this._predictionBoundShape = this.addChild(new createjs.Shape());
+        this._predictionBoundShape.mouseEnabled = false;        
         this._predictionBoundX = 0;
 
         this._timeline = this.addChild(new cr.Timeline(width, ComplexChart.TIMELINE_HEIGHT));
