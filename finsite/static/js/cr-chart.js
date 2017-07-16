@@ -446,7 +446,7 @@ var cr = {};
         
         this._textField = new createjs.Text(text || "#", font, color);
         this._textField.x = 4;
-        this._textField.y = 2;
+        this._textField.y = 1;
         
         this._backgroundShape = new createjs.Shape();
         var graphics = this._backgroundShape.graphics.clear();
