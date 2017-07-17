@@ -32,6 +32,7 @@ def update_news():
     feeds = [feedparser.parse(f) for f in feeds_list]
     news_list =  sum([[{'title': x['title'], 'link': x['link'], 'date': x['published']} \
                  for x in f['entries']] for f in feeds], [])
+    news_list.extend(map(lambda x: {'link':x}, get_news_from_bitmedia()[:20]))
     for news in news_list:
         try:
             article = Article(news['link'], language='ru')
@@ -56,3 +57,17 @@ def update_news():
                                         keywords=keywords)
         except Exception as e:
             print(e)
+
+
+def get_news_from_bitmedia():
+    import requests
+    import re
+    link = 'https://bits.media/news/'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'
+    }
+    r = requests.get(link, headers = headers)
+    text = r.text
+    regex = '<a href="\/news\/[a-zA-z0-9\-]+\/">'
+    for m in re.finditer(regex, text):
+        yield "https://bits.media%s" % m.group(0).replace('<a href="', '').replace('">', '')
