@@ -25,7 +25,7 @@ def update_prices():
             print(c.code, e)
 
 
-@periodic_task(run_every=timedelta(minutes=1))
+@periodic_task(run_every=timedelta(minutes=5))
 def update_news():
     feeds_list = ['https://bitnovosti.com/feed/']
     print(feeds_list)
