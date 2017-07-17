@@ -18,7 +18,8 @@ function init(code, canvasID, containerID) {
     stage = new createjs.Stage(canvasID);
     stage.mouseMoveOutside = true;
     stage.enableMouseOver(10);
-    createjs.Touch.enable(stage, true, true);
+    stage.preventSelection = false;
+    createjs.Touch.enable(stage, false, true);
     createjs.Ticker.setFPS(60);
     createjs.Ticker.on("tick", function() {
         stage.update();
