@@ -32,7 +32,7 @@ def update_news():
     feeds = [feedparser.parse(f) for f in feeds_list]
     news_list =  sum([[{'title': x['title'], 'link': x['link'], 'date': x['published']} \
                  for x in f['entries']] for f in feeds], [])
-    news_list.extend(map(lambda x: {'link':x}, get_news_from_bitmedia()[:20]))
+    news_list.extend(map(lambda x: {'link':x}, get_news_from_bitmedia()))
     for news in news_list:
         try:
             article = Article(news['link'], language='ru')
@@ -69,5 +69,9 @@ def get_news_from_bitmedia():
     r = requests.get(link, headers = headers)
     text = r.text
     regex = '<a href="\/news\/[a-zA-z0-9\-]+\/">'
+    i = 0
     for m in re.finditer(regex, text):
+        i += 1
+        if i>=20:
+            break
         yield "https://bits.media%s" % m.group(0).replace('<a href="', '').replace('">', '')
