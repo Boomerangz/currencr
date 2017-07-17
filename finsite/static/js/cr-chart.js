@@ -35,6 +35,10 @@ var cr = {};
         this._chartRange = {top: Number.MAX_VALUE, bottom: -Number.MAX_VALUE};
         this._isInteractiveState = false;
         
+        this._predictionBoundShape = this.addChild(new createjs.Shape());
+        this._predictionBoundShape.mouseEnabled = false;        
+        this._predictionBoundX = 0;
+
         this._timeline = this.addChild(new cr.Timeline(width, ComplexChart.TIMELINE_HEIGHT));
         this._timeline.y = height;
         
@@ -43,8 +47,6 @@ var cr = {};
         
         this._guide = this.addChild(new cr.Guide(width, height));
         this._guide.visible = false;
-
-        this._predictionLimit = this.addChild(new createjs.Shape());
         
         this._handleMouseOver();
     }
@@ -70,14 +72,13 @@ var cr = {};
         this._guide.setSize(width, height);
         this._ruler.x = width;
         this.StreamingChart_setSize(width, height);
+        this._predictionBoundX *= ratio;
+        this._updatePredictionBound();
     };
 
-    p.setPredictionRatio = function(value) {
-        var size = this.getSize();
-        var graphics = this._predictionLimit.graphics.clear();
-        graphics.beginFill("rgba(255,0,0,0.1)");
-        graphics.drawRect(size.width * value, 0, size.width, size.height);
-        graphics.endFill();
+    p.setPredictionBound = function(x) {
+        this._predictionBoundX = x;
+        this._updatePredictionBound();
     }
     
     
@@ -85,11 +86,28 @@ var cr = {};
     //  Private
     //
     
+    p._updatePredictionBound = function() {
+        var graphics = this._predictionBoundShape.graphics.clear();
+        if (this._predictionBoundX === 0) return;
+        var size = this.getSize();
+        graphics.beginLinearGradientFill(
+            ["rgba(0,170,255,0.2)","rgba(0,170,255,0.0)"],
+            [0, 1],
+            0, 0, (size.width - this._predictionBoundX) * 0.60, 0
+        )
+        graphics.drawRect(0, 0, size.width - this._predictionBoundX, size.height);
+        graphics.endFill();
+        graphics.beginStroke("#002D40").setStrokeStyle(1);
+        graphics.moveTo(0,0);
+        graphics.lineTo(0, size.height);
+        this._predictionBoundShape.x = this._predictionBoundX;
+    }
+
     p._updateGuidesAndRulers = function() {
         var currentCapacity = Math.min(this.getData().length, this.getCapacity());
         var left = this._complexData[this._complexData.length - currentCapacity];
         var right = this._complexData[this._complexData.length - 1];
-        this._timeline.setRange(left.date, right.date);
+        this._timeline.setRange(this._formatDate(left.date, 1), this._formatDate(right.date, 1));
         if (this._isInteractiveState) this._processInteractive();
         var isRangeUpdated = this._processChartRange();
         if (!isRangeUpdated) return;
@@ -121,13 +139,13 @@ var cr = {};
     };
     
     p._calculateGridHeight = function() {
-        console.log("");
+        //console.log("");
         var delta = Math.abs(this._chartRange.top - this._chartRange.bottom);
         var logRatio = 0.200;
         var heights = [];
         var reserve = 0;
         var count = 0;
-        console.log("delta=" + delta);
+        //console.log("delta=" + delta);
         do {
             heights[0] = this._calculateGridHeightByLogBase(0.2, delta, 0, logRatio);
             heights[1] = this._calculateGridHeightByLogBase(0.5, delta, 0, logRatio);
@@ -137,19 +155,19 @@ var cr = {};
             heights[4] = this._calculateGridHeightByLogBase(50, delta, 0, logRatio);
             heights[5] = this._calculateGridHeightByLogBase(200, delta, 0, logRatio);
             heights[6] = this._calculateGridHeightByLogBase(2, delta, 0, logRatio);
-            console.log("heights=" + heights.toString());
+            //console.log("heights=" + heights.toString());
             for (var i = 0; i < heights.length; i++) {
                 reserve = Math.max(reserve, heights[i]);
-                console.log("reserve=" + reserve);
+                //console.log("reserve=" + reserve);
                 count = Math.ceil(delta / heights[i]);
                 if (count > 16 || count < 8) continue;
-                console.log("return normal=" + heights[i] + " (" + count + ")");
+                //console.log("return normal=" + heights[i] + " (" + count + ")");
                 return heights[i];
             }
             logRatio -= 0.040;
         } while(logRatio > 0.080);
         count = Math.ceil(delta / reserve);
-        console.log("return reserve=" + reserve + " (" + count + ")");
+        //console.log("return reserve=" + reserve + " (" + count + ")");
         return reserve;
     };
     
@@ -195,11 +213,28 @@ var cr = {};
         var item = this._complexData[timelineIndex];
         var rulerValue = this.getInterpolatedValueByLocalX(mouseX) || 0;
         var levelY = this.getLocalYByValue(rulerValue);
-        this._timeline.setCurrent(mouseX, item.date);
+        this._timeline.setCurrent(mouseX, this._formatDate(item.date));
         this._ruler.setCurrent(levelY, rulerValue);
         this._guide.guideX.x = Math.round(mouseX);
         this._guide.guideY.y = levelY;
     };
+
+    p._formatDate = function(date, isFull){
+        var result = "";
+        if (isFull) {
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
+            day = day < 10 ? "0" + day : day;
+            month = month < 10 ? "0" + month : month;
+            result += day + "." + month + "." + date.getFullYear() + " ";
+        }
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        result += hours + ":" + minutes;
+        return result;
+    }
     
     cr.ComplexChart = createjs.promote(ComplexChart, "StreamingChart");
     
@@ -393,6 +428,7 @@ var cr = {};
         var minWidth = this._leftField.getBounds().width + this._rightField.getBounds().width;
         this._backgroundShape.scaleX = Math.max(width, minWidth);
         this._rightField.x = width - this._rightField.getBounds().width;
+        this._width = width;
     };
     
     cr.Timeline = createjs.promote(Timeline, "Container");
@@ -410,6 +446,7 @@ var cr = {};
         
         this._textField = new createjs.Text(text || "#", font, color);
         this._textField.x = 4;
+        this._textField.y = 1;
         
         this._backgroundShape = new createjs.Shape();
         var graphics = this._backgroundShape.graphics.clear();
