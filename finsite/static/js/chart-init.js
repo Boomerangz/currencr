@@ -34,6 +34,7 @@ function init(code, canvasID, containerID) {
  */
 function handleResizing() {
     window.addEventListener("resize", resizeCanvas, false);
+    setTimeout(resizeCanvas, 2000);
     resizeCanvas();
      
     function resizeCanvas(e) {
