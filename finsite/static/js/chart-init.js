@@ -113,7 +113,7 @@ function createChart() {
             });
         }
         chart.complexAppend(pre);
-        var x = chart.getCapacity() - pre.length;
+        var x = chart.getCapacity() - pre.length - 1;
         chart.setPredictionBound(chart.getLocalXByIndex(x));
         req.removeEventListener("load", reqPredictionCompleteHandler, false);
         req.removeEventListener("error", reqPredictionErrorHandler, false);
