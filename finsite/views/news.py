@@ -18,7 +18,7 @@ class NewsView(TemplateView):
 
 
 
-def get_news(search=None):
+def get_news(search=None, limit=10):
     if not search:
         return NewsItem.objects.all().order_by('-id')[:40]
     else:
@@ -29,4 +29,4 @@ def get_news(search=None):
         filters = Q(keywords__overlap=keywords_with_synonims)
         for k in keywords_with_synonims:
             filters = filters | Q(title__icontains=k)
-        return NewsItem.objects.filter(filters).order_by('-id')[:10]
+        return NewsItem.objects.filter(filters).order_by('-id')[:limit]

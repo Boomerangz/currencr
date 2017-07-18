@@ -16,5 +16,5 @@ class IndexView(TemplateView):
         if search:
             context['currency_list'] = context['currency_list']\
                 .filter(Q(name__icontains=search)|Q(code__icontains=search))
-        context['news_list'] = get_news(search=search)
+        context['news_list'] = get_news(search=search, limit=len(context['currency_list']))
         return context
