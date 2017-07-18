@@ -12,12 +12,12 @@
     <title>{% block title %}{% endblock %}</title>
 </head>
 
-<body>
+<body style="overflow-y: scroll;">
     <div class="container" style="min-width: 200px; width: 100%; max-width: 1100px;">
         <div class="page-header" style="margin-bottom: 20px; margin-top: 10px;">
             <a href="/">
-                <div style="background-color: #002D40; border-radius: .25rem; display:table-cell; vertical-align:middle; text-align:center; padding: 5px 3px 7px 5px;">
-                    <img src="/static/img/logo.png" style="width: 80%; height: 80%"></img>
+                <div style="background-color: #002D40; border-radius: .25rem; display:table-cell; vertical-align:middle; text-align:center; padding: 5px 14px 7px 18px;">
+                    <img src="/static/img/logo.png" style="width: 120px; height: 36px"></img>
                 </div>
             </a>
             {% block header %}{% endblock %}
