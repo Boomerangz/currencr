@@ -1,20 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
-        <ul  class="list-group">
-            <li class="list-group-item" style="background-color: #002D40; color: #FFF;">История и прогнозы</li>
-            {% for currency in currency_list %}
-            <li class="list-group-item list-group-item-action">
-                <a href="/{{ currency.code }}/">{{ currency.name }}</a>
-                {% if currency.exchange > 0 %}<b style="margin-left:10px;">{{ currency.code }}</b>{% endif %}
-                <span style="margin-left:10px">{{ currency.current_price|floatformat:3 }}</span>
-                <span style="margin-left:10px" class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
-            </li>
-            {% endfor %}
-        </ul>
-
+        <div style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;">
+            <ul  class="list-group" style="min-width: 320px;">
+                <li class="list-group-item" style="background-color: #002D40; color: #EEE;"><h6 class="mb-0">Графики</h6></li>
+                {% for currency in currency_list %}
+                <li class="list-group-item list-group-item-action">
+                    <a href="/{{ currency.code }}/">{{ currency.name }}</a>
+                    {% if currency.exchange > 0 %}<b style="margin-left:10px;">{{ currency.code }}</b>{% endif %}
+                    <span style="margin-left:10px">{{ currency.current_price|floatformat:3 }}</span>
+                    <span style="margin-left:10px" class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                </li>
+                {% endfor %}
+            </ul>
+            <blockquote class="blockquote" style="margin-left: 25px; padding-top: 15px; padding-bottom: 15px; border-color: #002D40;">
+                <p class="h2">Прогнозы для популярных криптовалют</p>
+                <p>Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+                <hr class="my-4">
+                <p class="lead">
+                    Присоединяйтесь к 
+                    <button type="button" class="btn btn-primary btn-sm" style="background-color: #002D40; border-color: #002D40;">
+                        нашему каналу
+                    </button> 
+                    в Telegram
+                </p>
+            </blockquote>
+        </div>
         {% if news_list %}
-        <ul  class="list-group" style="margin-bottom: 10px; margin-top: 20px;">
-            <li class="list-group-item" style="background-color: #002D40; color: #FFF;">Новости</li>
+        <ul  class="list-group" style="margin-bottom: 30px; margin-top: 20px;">
+            <li class="list-group-item" style="background-color: #002D40; color: #EEE;"><h6 class="mb-0">Новости</h6></li>
             {% for new in news_list %}
             <li class="list-group-item list-group-item-action">
                 <a href="/news/{{ new.id }}/">{{ new.title }}</a>
