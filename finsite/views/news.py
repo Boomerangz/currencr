@@ -20,7 +20,7 @@ class NewsView(TemplateView):
 
 def get_news(search=None, limit=10):
     if not search:
-        return NewsItem.objects.all().order_by('-id')[:40]
+        return NewsItem.objects.all().order_by('-id')[:limit]
     else:
         search_keywords = [search] + [c['name'] for c in Currency.objects.filter(code__iexact=search).values('name')]
         search_keywords = [s.lower() for s in search_keywords]
