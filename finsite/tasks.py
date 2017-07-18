@@ -9,7 +9,7 @@ from newspaper import Article
 from finsite.models import Currency, CurrencyHistoryRecord, NewsItem
 
 
-@periodic_task(run_every=timedelta(minutes=1))
+@periodic_task(run_every=timedelta(seconds=30))
 def update_prices():
     for c in Currency.objects.all():
         try:
