@@ -9,6 +9,7 @@
                 <span style="margin-left:10px">{{ currency.current_price|floatformat:3 }}</span>
                 <span style="margin-left:10px" class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
             </li>
+            {% comment %} {{ currency.day_history }} {% endcomment %}
             {% endfor %}
         </ul>
 
