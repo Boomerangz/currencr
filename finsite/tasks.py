@@ -68,7 +68,7 @@ def update_news_en():
                  for x in f['entries']] for f in feeds], [])
     for news in news_list:
         try:
-            article = Article(news['link'], language='ru')
+            article = Article(news['link'], language='en')
             article.download()
             article.parse()
             article.nlp()
