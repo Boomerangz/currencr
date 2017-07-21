@@ -1,6 +1,6 @@
-import feedparser
+
 from django.db.models import Q
-from newspaper import Article
+from django.utils.translation import get_language
 
 from django.views.generic import TemplateView
 
@@ -18,9 +18,11 @@ class NewsView(TemplateView):
 
 
 
-def get_news(search=None):
+def get_news(search=None, limit=10, language=get_language()):
+    language = language.split('-')[0]
+    print(language)
     if not search:
-        return NewsItem.objects.all().order_by('-id')[:40]
+        return NewsItem.objects.filter(language=language).order_by('-id')[:limit]
     else:
         search_keywords = [search] + [c['name'] for c in Currency.objects.filter(code__iexact=search).values('name')]
         search_keywords = [s.lower() for s in search_keywords]
@@ -29,4 +31,4 @@ def get_news(search=None):
         filters = Q(keywords__overlap=keywords_with_synonims)
         for k in keywords_with_synonims:
             filters = filters | Q(title__icontains=k)
-        return NewsItem.objects.filter(filters).order_by('-id')[:10]
+        return NewsItem.objects.filter(filters, language__iexact=language).order_by('-id')[:limit]

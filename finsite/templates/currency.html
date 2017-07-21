@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% block css %} {% endblock %} {% block js %}
+{% extends 'base.html' %}
+{% load i18n %}
+{% block title %}Currencr.me - {{ currency.name }}{% endblock %}
+{% block css %} {% endblock %} {% block js %}
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 {% endblock %} {% block content %}
 <div class="page-content">
@@ -43,12 +46,13 @@
     </div>
 
     <div class="alert alert-warning" role="alert" style="margin-bottom: 10px; margin-top: 20px;">
-        <strong>Обратите внимание, </strong>что вы самостоятельно выбираете свою торговую стратегию и мы не несём ответственности за ущерб связанный с использованием информации размещенной на данной странице.
+        <strong>{% trans "Warning!" %}</strong><br />
+        {% trans "Denial of responsibility" %}
     </div>
 
     {% if news_list %}
-    <ul class="list-group" style="margin-bottom: 30px; margin-top: 20px;">
-        <li class="list-group-item" style="background-color: #002D40; color: #FFF;">Новости</li>
+    <ul class="list-group" style="margin-bottom: 10px; margin-top: 20px;">
+        <li class="list-group-item" style="background-color: #002D40; color: #FFF;">{% trans "News" %}</li>
         {% for new in news_list %}
         <li class="list-group-item list-group-item-action">
             <a href="/news/{{ new.id |escape}}/">{{ new.title }}</a>
