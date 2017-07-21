@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
+{% load i18n %}
 {% block content %}
         <ul  class="list-group">
-            <li class="list-group-item" style="background-color: #002D40; color: #FFF;">История и прогнозы</li>
+            <li class="list-group-item" style="background-color: #002D40; color: #FFF;">{% trans "History and forecasts" %}</li>
             {% for currency in currency_list %}
             <li class="list-group-item list-group-item-action">
                 <a href="/{{ currency.code }}/">{{ currency.name }}</a>
@@ -15,7 +16,7 @@
 
         {% if news_list %}
         <ul  class="list-group" style="margin-bottom: 10px; margin-top: 20px;">
-            <li class="list-group-item" style="background-color: #002D40; color: #FFF;">Новости</li>
+            <li class="list-group-item" style="background-color: #002D40; color: #FFF;">{% trans "News" %}</li>
             {% for new in news_list %}
             <li class="list-group-item list-group-item-action">
                 <a href="/news/{{ new.id }}/">{{ new.title }}</a>

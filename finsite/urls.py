@@ -44,7 +44,7 @@ def gitpull(request):
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', cached_view_as(NewsItem, timeout=60)(IndexView.as_view())),
+    url(r'^$', IndexView.as_view()),
     url(r'^news/(?P<pk>[0-9]+)/$', NewsView.as_view()),
     url(r'^pull/$', gitpull),
     url(r'^(?P<code>[a-zA-Z\-]+)/$', cached_view_as(NewsItem, timeout=60)(CurrencyView.as_view())),
