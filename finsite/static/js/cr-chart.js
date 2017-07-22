@@ -3,7 +3,7 @@
  * Currencr Chart
  */
  
-var cr = {};
+window.cr = {};
 
 /**
  * 
@@ -39,14 +39,14 @@ var cr = {};
         this._predictionBoundShape.mouseEnabled = false;        
         this._predictionBoundX = 0;
 
+        this._guide = this.addChild(new cr.Guide(width, height));
+        this._guide.visible = false;
+
         this._timeline = this.addChild(new cr.Timeline(width, ComplexChart.TIMELINE_HEIGHT));
         this._timeline.y = height;
         
         this._ruler = this.addChild(new cr.Ruler(ComplexChart.RULER_WIDTH, height));
         this._ruler.x = width;
-        
-        this._guide = this.addChild(new cr.Guide(width, height));
-        this._guide.visible = false;
         
         this._handleMouseOver();
     }

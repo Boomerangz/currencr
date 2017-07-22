@@ -2,7 +2,7 @@ var ci = {};
 
 (function() {
 
-var CHART_HEIGHT = 400;
+var CHART_HEIGHT = 350;
 var container;
 var canvas;
 var stage;
