@@ -3,7 +3,7 @@
  * Currencr Chart
  */
  
-var cr = {};
+window.cr = {};
 
 /**
  * 

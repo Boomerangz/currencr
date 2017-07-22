@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block title %}Currencr.me - {{ currency.name }}{% endblock %}
-{% block css %} {% endblock %} {% block js %}
+{% block css %}
+{% endblock %}
+{% block js %}
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
-{% endblock %} {% block content %}
+{% endblock %}
+{% block content %}
 <div class="page-content">
 
     <div class="card" style="border-color: #FFF;">
@@ -23,15 +26,6 @@
                         <a class="nav-link disabled">1D</a>
                     </li>
                 </ul>
-                <!--<div class="dropdown" style="margin-left: 200px">
-                    <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                        aria-expanded="false" style="background-color: #e8f8ff;">Прогноз A (60 min.)</button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background-color: #e8f8ff;">
-                        <a class="dropdown-item" href="#">Прогноз A (60 min.)</a>
-                        <a class="dropdown-item disabled" href="#">Прогноз B (60 min.)</a>
-                        <a class="dropdown-item disabled" href="#">Прогноз C (60 min.)</a>
-                    </div>
-                </div>-->
             </div>
         </div>
         <div id="chart-container" class="content-item">
@@ -51,7 +45,7 @@
     </div>
 
     {% if news_list %}
-    <ul class="list-group" style="margin-bottom: 10px; margin-top: 20px;">
+    <ul class="list-group" style="margin-bottom: 30px; margin-top: 30px;">
         <li class="list-group-item" style="background-color: #002D40; color: #FFF;">{% trans "News" %}</li>
         {% for new in news_list %}
         <li class="list-group-item list-group-item-action">
@@ -61,7 +55,7 @@
     </ul>
     {% endif %}
 
-    <div id="disqus_thread" style="margin-bottom: 10px; margin-top: 20px;"></div>
+    <div id="disqus_thread" style="margin-bottom: 30px; margin-top: 20px;"></div>
     <script>
             (function () {
                 var d = document, s = d.createElement('script');
