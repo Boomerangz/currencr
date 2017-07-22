@@ -12,7 +12,7 @@
             console.log(canvasID, data.length)
             var canvas = document.getElementById(canvasID);
             canvas.width = 280;
-            canvas.height = 100;
+            canvas.height = 80;
             console.log(canvas)
 
             stage = new createjs.Stage(canvasID);
@@ -33,8 +33,8 @@
         <li class="list-group-item list-group-item-action">
             <a href="/{{ currency.code }}/">{{ currency.name }}</a> {% if currency.exchange > 0 %}<b style="margin-left:10px;">{{ currency.code }}</b>{% endif %}
             <span style="margin-left:10px">{{ currency.current_price|floatformat:3 }}</span>
-            <span style="margin-left:10px" class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
-            <canvas id="preview-canvas-{{ currency.name }}" style="display: block;"></canvas>
+            <span style="margin-left:10px; margin-right: 10px;" class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+            <canvas id="preview-canvas-{{ currency.name }}" style="display: block; float: right;"></canvas>
             <script>
                 var data = {{ currency.day_history }};
                 var canvasID = "preview-canvas-{{ currency.name }}";
@@ -46,6 +46,8 @@
     <blockquote class="blockquote" style="margin-left: 25px; padding-top: 15px; padding-bottom: 15px; border-color: #002D40;">
         <p class="h2">Прогнозы для популярных криптовалют</p>
         <p>Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+        <p>Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищете для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
+        <p class="lead">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только лучшие подходы.</p>
         <hr class="my-4">
         <p class="lead">
             Присоединяйтесь к
