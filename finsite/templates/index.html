@@ -6,13 +6,15 @@
 <script src="/static/js/preview-chart.js"></script>
 {% endblock %}
 {% block content %}
-<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start;">
+<div style="background-color: #666666; width: auto; height: 100px;"></div>
+
+<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; margin-top: 30px;">
     <script>
         function addChart(canvasID, data) {
             console.log(canvasID, data.length)
             var canvas = document.getElementById(canvasID);
             canvas.width = 280;
-            canvas.height = 80;
+            canvas.height = 70;
             console.log(canvas)
 
             stage = new createjs.Stage(canvasID);
@@ -43,20 +45,26 @@
         </li>
         {% endfor %}
     </ul>
-    <blockquote class="blockquote" style="margin-left: 25px; padding-top: 15px; padding-bottom: 15px; border-color: #002D40;">
-        <p class="h2">Прогнозы для популярных криптовалют</p>
-        <p>Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
-        <p>Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищете для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
-        <p class="lead">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только лучшие подходы.</p>
-        <hr class="my-4">
-        <p class="lead">
-            Присоединяйтесь к
-            <button type="button" class="btn btn-primary btn-sm" style="background-color: #002D40; border-color: #002D40;">
-                нашему каналу
-            </button> в Telegram
-        </p>
-    </blockquote>
+    <div style="margin-left: 25px; padding-bottom: 15px;">
+        <blockquote class="blockquote" style="border-color: #002D40; margin-bottom: 30px; ">
+            <p class="h2">Прогнозы для популярных криптовалют</p>
+            <p>Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+            <p>Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищете для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
+            <p class="lead">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только лучшие подходы.</p>
+            <hr class="my-4">
+            <p class="lead">
+                Присоединяйтесь к
+                <button type="button" class="btn btn-primary btn-sm" style="background-color: #002D40; border-color: #002D40;">
+                    нашему каналу
+                </button> в Telegram
+            </p>
+        </blockquote>
+        <div style="background-color: #999999; width: auto; height: 200px;">
+        </div>
+    </div>
 </div>
+
+<div style="background-color: #666666; width: auto; height: 100px;"></div>
 
 {% if news_list %}
 <ul class="list-group" style="margin-bottom: 30px; margin-top: 30px;">
@@ -69,5 +77,7 @@
     </li>
     {% endfor %}
 </ul>
+
+<div style="background-color: #002D40; width: auto; height: 100px;"></div>
 {% endif %}
 {% endblock %}
