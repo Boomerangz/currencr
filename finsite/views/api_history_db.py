@@ -10,6 +10,7 @@ from finsite.models import Currency, CurrencyHistoryRecord
 
 filter_params = {
     'minute' :  {'select': {'time':"date_trunc('minute', time)"}},
+    'fiveminute' :  {'select': {'time':"date_trunc('hour', time) + date_part('minute', time)::int / 5 * interval '5 min'"}},
     'hour' :  {'select': {'time':"date_trunc('hour', time)"}},
     'day' : {'select': {'time':"date_trunc('day', time)"}},
 }
@@ -44,5 +45,4 @@ def get_stock_history_from_db(request, code):
 
         if period in filter_params.keys():
             currency_history_items = currency_history_items.extra(**filter_params[period]).values("time").annotate(price=Avg('price'), volume=Sum('volume')) #   filter(check_func[period], currency_history_items)
-
         return Response([{'price':h['price'], 'volume':h['volume'], 'date':h['time'].strftime('%Y-%m-%dT%H:%M:%SZ')} for h in currency_history_items], headers={'Access-Control-Allow-Origin':'*'})
