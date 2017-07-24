@@ -1,0 +1,35 @@
+#card-content {
+    border-color: #FFF;
+}
+
+#chart-header {
+    display: block;
+    padding-bottom: 10px;
+    background-color: #002D40;
+    color: #FFF;
+}
+
+div.header-ui {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+h6.header-symbol-currency {
+    margin-top: 12px;
+    margin-bottom: 0px;
+    color: #EEE;
+}
+
+#header-chart-timeframe {
+    margin-left: 20px;
+}
+
+#chart-canvas {
+    display: block;
+}
+
+#news-list-header {
+    background-color: #002D40;
+    color: #FFF;
+}

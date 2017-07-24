@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% block css %}
+<link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
 {% block js %}
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script src="/static/js/chart-lib.js"></script>
 <script src="/static/js/preview-chart.js"></script>
 {% endblock %}
 {% block content %}
-<div style="background-color: #666666; width: auto; height: 100px;"></div>
 
-<div style="display: flex; flex-direction: row; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; margin-top: 30px;">
+<div class="adv-placeholder"></div>
+<div class="separator-medium"></div>
+
+<div class="content">
     <script>
-        function addChart(canvasID, data) {
+        function addPreviewChart(canvasID, data) {
             console.log(canvasID, data.length)
             var canvas = document.getElementById(canvasID);
             canvas.width = 280;
@@ -27,48 +32,48 @@
             stage.update();
         }
     </script>
-    <ul class="list-group" style="min-width: 320px;">
-        <li class="list-group-item" style="background-color: #002D40; color: #EEE;">
+    <ul id="currency-list" class="list-group">
+        <li id="currency-list-header" class="list-group-item">
             <h6 class="mb-0">{% trans "History and forecasts" %}</h6>
         </li>
         {% for currency in currency_list %}
-        <li class="list-group-item list-group-item-action">
-            <a href="/{{ currency.code }}/">{{ currency.name }}</a> {% if currency.exchange > 0 %}<b style="margin-left:10px;">{{ currency.code }}</b>{% endif %}
-            <span style="margin-left:10px">{{ currency.current_price|floatformat:3 }}</span>
-            <span style="margin-left:10px; margin-right: 10px;" class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
-            <canvas id="preview-canvas-{{ currency.name }}" style="display: block; float: right;"></canvas>
+        <li id="currency-list-item" class="list-group-item list-group-item-action">
+            <div id="currency-symbol-price" class="mr-2">
+                <div class="mr-1">
+                    <a href="/{{ currency.code }}/">{{ currency.name }}</a>
+                    &nbsp;{% if currency.exchange > 0 %}{{ currency.code }}{% endif %}
+                </div>
+                <div class="mr-1">
+                    <span>{{ currency.current_price|floatformat:3 }}</span>
+                    <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                </div>
+            </div>
+            <canvas class="preview" id="preview-canvas-{{ currency.name }}"></canvas>
             <script>
                 var data = {{ currency.day_history }};
                 var canvasID = "preview-canvas-{{ currency.name }}";
-                addChart(canvasID, data);
+                addPreviewChart(canvasID, data);
             </script>
         </li>
         {% endfor %}
     </ul>
-    <div style="margin-left: 25px; padding-bottom: 15px;">
-        <blockquote class="blockquote" style="border-color: #002D40; margin-bottom: 30px; ">
-            <p class="h2">Прогнозы для популярных криптовалют</p>
-            <p>Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
-            <p>Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищете для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
-            <p class="lead">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только лучшие подходы.</p>
-            <hr class="my-4">
-            <p class="lead">
-                Присоединяйтесь к
-                <button type="button" class="btn btn-primary btn-sm" style="background-color: #002D40; border-color: #002D40;">
-                    нашему каналу
-                </button> в Telegram
-            </p>
-        </blockquote>
-        <div style="background-color: #999999; width: auto; height: 200px;">
-        </div>
+    <div id="lead-content-large" class="lead-content-large">
+        <h2 class="mt-1">Прогнозы для популярных криптовалют</h2>
+        <p class="lead">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+        <img id="lead-img" class="mb-3" src="/static/img/screen.jpg"/>
+        <p class="lead">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
+        <hr class="my-4">
+        <p class="lead">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
     </div>
 </div>
 
-<div style="background-color: #666666; width: auto; height: 100px;"></div>
+<div class="separator-medium"></div>
+<div class="adv-placeholder"></div>
 
 {% if news_list %}
-<ul class="list-group" style="margin-bottom: 30px; margin-top: 30px;">
-    <li class="list-group-item" style="background-color: #002D40; color: #FFF;">
+<div class="separator-medium"></div>
+<ul id="news-list" class="list-group">
+    <li id="news-list-header" class="list-group-item">
         <h6 class="mb-0">{% trans "News" %}</h6>
     </li>
     {% for new in news_list %}
@@ -77,7 +82,6 @@
     </li>
     {% endfor %}
 </ul>
-
-<div style="background-color: #002D40; width: auto; height: 100px;"></div>
 {% endif %}
+
 {% endblock %}

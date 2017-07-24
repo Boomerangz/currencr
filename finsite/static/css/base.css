@@ -1,0 +1,41 @@
+body {
+    overflow-y: scroll;
+}
+
+div.separator-large {
+    margin: 2.2rem;
+}
+
+div.separator-medium {
+    margin: 1.2rem;
+}
+
+div.separator-small {
+    margin: .7rem;
+}
+
+div.container {
+    max-width: 1100px;
+    min-width: 360px;
+    width: 100%;
+}
+
+div.logo {
+    background-color: #002D40;
+    border-radius: .25rem;
+    display:table-cell; 
+    vertical-align:middle;
+    text-align:center;
+    padding: 5px 14px 7px 18px;
+}
+
+img.logo {
+    width: 120px;
+    height: 36px
+}
+
+div.footer {
+    background-color: #002D40;
+    width: auto;
+    height: 100px;
+}

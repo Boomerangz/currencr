@@ -13,7 +13,7 @@ window.cr = {};
     function PreviewChart(width, height) {
         var size = {width: width, height: height};
         var point = {width: 1, height: 1};
-        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 20, bottom: 10}};
+        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 10, bottom: 10}};
         var style = {
             background: {color: "#000000", alpha: 0},
             grid: {thickness: 1, color: "#000000", alpha: 0, width: 0, height: 0, dash: [1, 0]},

@@ -3,13 +3,17 @@
 <html lang="en">
 
 <head>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous"> {% block css %} {% endblock %} {% block js %} {% endblock %}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="/static/css/base.css">
 
+    {% block css %}
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
+    
     <title>{% block title %}Currencr.me{% endblock %}</title>
     
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -19,28 +23,6 @@
         enable_page_level_ads: true
       });
     </script>
-</head>
-
-<body style="overflow-y: scroll;">
-    <div class="container" style="min-width: 360px; width: 100%; max-width: 1100px;">
-        <div class="page-header" style="margin-bottom: 30px; margin-top: 10px;">
-            <a href="/">
-                <div style="background-color: #002D40; border-radius: .25rem; display:table-cell; vertical-align:middle; text-align:center; padding: 5px 14px 7px 18px;">
-                    <img src="/static/img/logo.png" style="width: 120px; height: 36px"></img>
-                </div>
-            </a>
-            {% block header %}{% endblock %}
-        </div>
-        <!--<a href="/">
-            <h1 class="jumbotron-heading" style="color:#000">Currencr</h1>
-        </a>-->
-        {% block content %}{% endblock %}
-    </div>
-    <!-- jQuery first, then Tether, then Bootstrap JS. -->
-    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-
     <script>
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
@@ -53,10 +35,33 @@
             a.src = g;
             m.parentNode.insertBefore(a, m)
         })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
         ga('create', 'UA-102498894-1', 'auto');
         ga('send', 'pageview');
     </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="separator-medium"></div>
+        <div class="page-header">
+            <a href="/">
+                <div class="logo">
+                    <img src="/static/img/logo.png" class="logo" />
+                </div>
+            </a>
+            {% block header %}
+            {% endblock %}
+        </div>
+        <div class="separator-large"></div>
+        {% block content %}
+        {% endblock %}
+        <div class="separator-large"></div>
+        <div class="footer"></div>
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 </body>
 
 </html>

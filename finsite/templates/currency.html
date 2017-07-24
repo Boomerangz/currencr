@@ -2,6 +2,7 @@
 {% load i18n %}
 {% block title %}Currencr.me - {{ currency.name }}{% endblock %}
 {% block css %}
+<link rel="stylesheet" href="/static/css/currency.css">
 {% endblock %}
 {% block js %}
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
@@ -9,13 +10,13 @@
 {% block content %}
 <div class="page-content">
 
-    <div class="card" style="border-color: #FFF;">
-        <div class="card-header" style="background-color: #002D40; color: #FFF; display: block; padding-bottom: 10px;">
-            <div style="display: flex; flex-direction: row; justify-content: flex-start;">
-                <h6 style="margin-top: 12px; margin-bottom: 0px; color: #EEE;">
+    <div id="card-content" class="card">
+        <div id="chart-header" class="card-header">
+            <div class="header-ui">
+                <h6 class="header-symbol-currency">
                     {{ currency.code }} {{ currency.money_symbol }}{{ currency.current_price|floatformat:3 }}
                 </h6>
-                <ul class="nav nav-tabs card-header-tabs" style="margin-left: 20px;">
+                <ul id="header-chart-timeframe" class="nav nav-tabs card-header-tabs">
                     <li class="nav-item">
                         <a class="nav-link active" href="./" style="background-color: #e8f8ff;">1M</a>
                     </li>
@@ -29,7 +30,7 @@
             </div>
         </div>
         <div id="chart-container" class="content-item">
-            <canvas id="chart-canvas" style="display: block;">empty</canvas>
+            <canvas id="chart-canvas">empty</canvas>
             <script src="/static/js/chart-lib.js"></script>
             <script src="/static/js/cr-chart.js"></script>
             <script src="/static/js/chart-init.js"></script>
@@ -39,14 +40,16 @@
         </div>
     </div>
 
-    <div class="alert alert-warning" role="alert" style="margin-bottom: 10px; margin-top: 20px;">
+    <div class="separator-medium"></div>
+    <div class="alert alert-warning" role="alert">
         <strong>{% trans "Warning!" %}</strong><br />
         {% trans "Denial of responsibility" %}
     </div>
 
     {% if news_list %}
-    <ul class="list-group" style="margin-bottom: 30px; margin-top: 30px;">
-        <li class="list-group-item" style="background-color: #002D40; color: #FFF;">{% trans "News" %}</li>
+    <div class="separator-medium"></div>
+    <ul class="list-group">
+        <li id="news-list-header" class="list-group-item">{% trans "News" %}</li>
         {% for new in news_list %}
         <li class="list-group-item list-group-item-action">
             <a href="/news/{{ new.id |escape}}/">{{ new.title }}</a>
@@ -55,7 +58,8 @@
     </ul>
     {% endif %}
 
-    <div id="disqus_thread" style="margin-bottom: 30px; margin-top: 20px;"></div>
+    <div class="separator-large"></div>
+    <div id="disqus_thread"></div>
     <script>
             (function () {
                 var d = document, s = d.createElement('script');
