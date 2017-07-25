@@ -12,12 +12,24 @@ div.content {
 }
 
 div.lead-content-large {
+    display: none;
     margin-left: 1.5rem;
+}
+
+#lead-content-small {
+    border-color: #002D40;
+    display: none;
 }
 
 canvas.preview {
     display: block;
     float: right;
+}
+
+div.center {
+    display: inline-block;
+    margin: 0 auto;
+    width: 1px;
 }
 
 #lead-img {
@@ -27,7 +39,11 @@ canvas.preview {
 #currency-list {
     width: auto;
     max-width: 700px;
-    min-width: 320px;
+    min-width: 340px;
+}
+
+div.currency-list-item {
+    text-align: center;
 }
 
 #currency-list-header {
@@ -35,8 +51,10 @@ canvas.preview {
     color: #EEE;
 }
 
-#currency-symbol-price {
-    width: 160px;
+div.currency-symbol-price {
+    text-align: left;
+    float: left;
+    width: 165px;
 }
 
 #news-list-header {

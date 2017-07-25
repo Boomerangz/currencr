@@ -7,38 +7,88 @@
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script src="/static/js/chart-lib.js"></script>
 <script src="/static/js/preview-chart.js"></script>
-{% endblock %}
-{% block content %}
+<script>
+    function handleResizing() {
+        var WIDTH = 700;
+        var largeContent = document.getElementById("lead-content-large");
+        var smallContent = document.getElementById("lead-content-small");
+        var currencyList = document.getElementById("currency-list");
+        var container = document.getElementById("page-content");
+        window.addEventListener("resize", resizeHandler, false);
+        resizeHandler();
+            
+        function resizeHandler(e) {
+            if (container.clientWidth <= WIDTH) {
+                largeContent.style.display = "none";
+                smallContent.style.display = "block";
+                currencyList.style.width = "100%";
+            } else {
+                largeContent.style.display = "block";
+                smallContent.style.display = "none";
+                 currencyList.style.width = "auto";
+            }
+        }
+    };
 
+    var stages = {};
+    function addPreviewChart(currency, data) {
+        var canvas = document.getElementById("preview-canvas-" + currency);
+        canvas.width = 300;
+        canvas.height = 80;
+
+        stages[currency] = new createjs.Stage("preview-canvas-" + currency);
+        createjs.Ticker.setFPS(1);
+
+        var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - 6, canvas.height));
+        chart.x = 3;
+        chart.set(data.slice(-24));
+        stages[currency].update();
+
+        var WIDTH = 450;
+        var SPACE = 20;
+        var li = document.getElementById("currency-list-item-" + currency);
+        var price = document.getElementById("currency-symbol-price-" + currency);
+
+        document.addEventListener("DOMContentLoaded", resizeHandlerChart, false);
+        window.addEventListener("resize", resizeHandlerChart, false);
+        function resizeHandlerChart(e) {
+            setTimeout(function() {
+                var style = window.getComputedStyle(li, null);
+                var innerWidth = parseInt(style.getPropertyValue("width"));
+                innerWidth -= parseInt(style.getPropertyValue("padding-left"));
+                innerWidth -= parseInt(style.getPropertyValue("padding-right"));
+                innerWidth -= parseInt(style.getPropertyValue("border-width")) * 2;
+                if (innerWidth > WIDTH) {
+                    canvas.width = innerWidth - price.clientWidth - SPACE;
+                } else {
+                    canvas.width = innerWidth;
+                }
+                chart.setComplexSize(canvas.width, canvas.height);
+                chart.redraw();
+                stages[currency].update();
+            }, 1);
+        }
+    }
+</script>
+{% endblock %}
+
+{% block content %}
 <div class="adv-placeholder"></div>
 <div class="separator-medium"></div>
 
-<div class="content">
-    <script>
-        function addPreviewChart(canvasID, data) {
-            console.log(canvasID, data.length)
-            var canvas = document.getElementById(canvasID);
-            canvas.width = 280;
-            canvas.height = 70;
-            console.log(canvas)
+<blockquote id="lead-content-small" class="blockquote">
+    <h3 class="mt-0">Прогнозы для BTC, ETH, LTC и других криптовалют</h3>
+    <p class="lead mb-0">Графики с детальными прогнозами на 60 минут, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+</blockquote>
 
-            stage = new createjs.Stage(canvasID);
-            createjs.Ticker.setFPS(1);
-            console.log(stage);
-
-            var chart = stage.addChild(new cr.PreviewChart(canvas.width - 10, canvas.height));
-            chart.x = 5;
-            chart.set(data.slice(-24));
-            stage.update();
-        }
-    </script>
+<div id="page-content" class="content">
     <ul id="currency-list" class="list-group">
         <li id="currency-list-header" class="list-group-item">
             <h6 class="mb-0">{% trans "History and forecasts" %}</h6>
         </li>
         {% for currency in currency_list %}
-        <li id="currency-list-item" class="list-group-item list-group-item-action">
-            <div id="currency-symbol-price" class="mr-2">
+        <li id="currency-list-item-{{ currency.name }}" class="list-group-item list-group-item-action currency-list-item">
+            <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
                 <div class="mr-1">
                     <a href="/{{ currency.code }}/">{{ currency.name }}</a>
                     &nbsp;{% if currency.exchange > 0 %}{{ currency.code }}{% endif %}
@@ -48,11 +98,12 @@
                     <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
                 </div>
             </div>
+            <div class="center"></div>
             <canvas class="preview" id="preview-canvas-{{ currency.name }}"></canvas>
             <script>
                 var data = {{ currency.day_history }};
                 var canvasID = "preview-canvas-{{ currency.name }}";
-                addPreviewChart(canvasID, data);
+                addPreviewChart("{{ currency.name }}", data);
             </script>
         </li>
         {% endfor %}
@@ -65,6 +116,9 @@
         <hr class="my-4">
         <p class="lead">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
     </div>
+    <script>
+        handleResizing();
+    </script>
 </div>
 
 <div class="separator-medium"></div>
