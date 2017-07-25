@@ -38,9 +38,10 @@
 
         stages[currency] = new createjs.Stage("preview-canvas-" + currency);
         createjs.Ticker.setFPS(1);
-
-        var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - 6, canvas.height));
-        chart.x = 3;
+        
+        var PADDING = 6;
+        var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - PADDING, canvas.height));
+        chart.x = PADDING / 2;
         chart.set(data.slice(-24));
         stages[currency].update();
 
@@ -63,7 +64,7 @@
                 } else {
                     canvas.width = innerWidth;
                 }
-                chart.setComplexSize(canvas.width, canvas.height);
+                chart.setComplexSize(canvas.width - PADDING, canvas.height);
                 chart.redraw();
                 stages[currency].update();
             }, 1);
