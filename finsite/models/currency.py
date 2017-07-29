@@ -45,7 +45,7 @@ class Currency(models.Model):
             yahoo_data = Share(self.get_stock_identifier())
             return {'code':self.code, 'price':yahoo_data.get_price()}
         elif self.exchange == 1:
-            price, volume = get_btc_e_ticker(self.code)
+            price, volume = get_kraken_ticker(self.code)
             return {'code':self.code, 'price':price, 'volume':volume}
 
 
@@ -67,8 +67,8 @@ class Currency(models.Model):
         postfix = '.L' if self.exchange == 3 else ''
         return self.code + postfix
 
-def get_btc_e_ticker(currency):
-    code = '%s_usd'%(currency.lower())
-    r = requests.get('https://btc-e.nz/api/3/ticker/'+code)
-    parsed = r.json()[code]
-    return (parsed['buy'] + parsed['sell']) / 2, parsed['vol_cur']
+def get_kraken_ticker(currency):
+    url = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=%s&tsyms=USD&e=Kraken" % currency.upper()
+    r = requests.get(url)
+    parsed = r.json()["RAW"][currency.upper()]["USD"]
+    return parsed["PRICE"], parsed["LASTVOLUMETO"]
