@@ -4,6 +4,7 @@ from celery.task import periodic_task
 from datetime import timedelta, datetime
 import decimal
 import requests
+import pytz
 
 from newspaper import Article
 
@@ -12,11 +13,18 @@ from finsite.models import Currency, CurrencyHistoryRecord, NewsItem
 
 @periodic_task(run_every=timedelta(seconds=30))
 def update_prices():
-    url_template = "https://min-api.cryptocompare.com/data/histominute?fsym=%s&tsym=USD&limit=10&aggregate=1&e=Kraken"
+    url_template = "https://min-api.cryptocompare.com/data/histominute?fsym=%s&tsym=USD&limit=%d&aggregate=1&e=Kraken"
 
 
     for curr in Currency.objects.all():
-        url = url_template % curr.code
+        last_time = CurrencyHistoryRecord.objects.filter(currency=curr).order_by('-time').first().time
+        now = datetime.now()
+        now = pytz.utc.localize(now)
+        print(now, last_time)
+        delta = (now - last_time).seconds
+        count = int(delta / 60) or 5
+
+        url = url_template % (curr.code, count)
         r = requests.get(url)
         parsed_data = r.json()
         for d in parsed_data["Data"]:
