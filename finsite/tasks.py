@@ -28,10 +28,10 @@ def update_prices():
         last_history = CurrencyHistoryRecord.objects.filter(currency=curr).order_by('-time').first()
         days_ago = CurrencyHistoryRecord.objects.filter(time__lte=datetime.now()-timedelta(days=1), currency=curr).order_by('-id').first()
         if days_ago is not None:
-            curr.price = last_history.price
+            curr.current_price = last_history.price
             curr.previous_price = days_ago.price
+            print(curr.code, curr.current_price, curr.previous_price)
         curr.save()
-
 
 
 @periodic_task(run_every=timedelta(minutes=5))
