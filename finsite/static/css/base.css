@@ -3,15 +3,18 @@ body {
 }
 
 div.separator-large {
-    margin: 2.2rem;
+    height: 2.2rem;
+    width: 2.2rem;
 }
 
 div.separator-medium {
-    margin: 1.2rem;
+    height: 1.2rem;
+    width: 1.2rem;
 }
 
 div.separator-small {
-    margin: .7rem;
+    height: .7rem;
+    width: .7rem;
 }
 
 div.container {

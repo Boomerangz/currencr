@@ -1,0 +1,62 @@
+<div class="separator-medium"></div>
+{% if key == "adv-block-teaser" %}
+<div id="adv-block-teaser" style="display: none;">
+    <div id="mmgp-mwa-block-blockeWpCfmE5979df429fbc0">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=blockeWpCfmE5979df429fbc0">
+        </script>
+    </div>
+    <div id="mmgp-mwa-block-block597bd3dee740bGJvCrFt">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597bd3dee740bGJvCrFt">
+        </script>
+    </div>
+    <div id="mmgp-mwa-block-block597bd879b791djTJMQAc">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597bd879b791djTJMQAc">
+        </script>
+    </div>
+    <div id="mmgp-mwa-block-blockODSOEBY597bd5c62c25e">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=blockODSOEBY597bd5c62c25e">
+        </script>
+    </div>
+    <script>
+        (function() {
+            var container = document.getElementById("adv-block-teaser");
+            var wide = {
+                div: document.getElementById("mmgp-mwa-block-blockeWpCfmE5979df429fbc0"),
+                minWidth: 1020
+            }
+            var middle = {
+                div: document.getElementById("mmgp-mwa-block-block597bd3dee740bGJvCrFt"),
+                minWidth: 720
+            }
+            var narrow = {
+                div: document.getElementById("mmgp-mwa-block-block597bd879b791djTJMQAc"),
+                minWidth: 570
+            }
+            var small = {
+                div: document.getElementById("mmgp-mwa-block-blockODSOEBY597bd5c62c25e"),
+                minWidth: 340
+            }
+
+            window.addEventListener("resize", resizeHandler, false);
+            var adv = [wide, middle, narrow, small];
+            var last;
+            
+            container.style.display = "block";
+            setTimeout(resizeHandler, 1);
+            function resizeHandler(e) {
+                var idx = adv.length;
+                var last;
+                while (idx--) {
+                    if (adv[idx].minWidth > container.clientWidth) {
+                        adv[idx].div.style.display = "none";
+                    } else {
+                        adv[idx].div.style.display = "block";
+                        if (last) last.div.style.display = "none";
+                        last = adv[idx];
+                    }
+                }
+            }
+        })();
+    </script>
+</div>
+{% endif %}
