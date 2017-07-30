@@ -8,7 +8,7 @@
     {% for new in news_list %}
     <li class="list-group-item list-group-item-action">
         <a href="/news/{{ new.id }}/">{{ new.title }}</a>
-        <p class="mb-0">{{ new.summary }}</p>
+        <p class="mb-0 text-muted">{{ new.summary }}</p>
     </li>
     {% endfor %}
 </ul>

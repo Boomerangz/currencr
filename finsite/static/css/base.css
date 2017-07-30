@@ -45,6 +45,11 @@ div.footer {
 
 blockquote.red {
     border-color: #7C050B;
+    background-color: #fcf8e3;
+}
+
+blockquote.red strong {
+    color: #7C050B;
 }
 
 blockquote.blue {
