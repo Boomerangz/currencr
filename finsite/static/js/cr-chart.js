@@ -25,7 +25,7 @@ window.cr = {};
               grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 12, height: 0, dash: [1, 0]},
               axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
               chart: {
-                  lines: {thickness: 1.2, color: "#003333", alpha: 1, bounds: true},
+                  lines: {thickness: 1.5, color: "#003333", alpha: 1, bounds: true},
                   points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", alpha: 0, bounds: true}
               }
           }
