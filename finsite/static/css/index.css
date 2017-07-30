@@ -12,11 +12,13 @@ div.content {
 }
 
 div.lead-content-large {
+    font-size: 1.25rem;
     display: none;
     margin-left: 1.5rem;
 }
 
 #lead-content-small {
+    font-size: 1.25rem;
     border-color: #002D40;
     display: none;
 }

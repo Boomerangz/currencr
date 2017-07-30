@@ -40,15 +40,9 @@
                     var max = blocks[i - 1] ? blocks[i - 1].width : Number.MAX_VALUE;
                     var b = max > container.clientWidth;
                     if (a && b) {
-                        blocks[i].div.style.position = "relative";
-                        blocks[i].div.style.opacity = 1;
-                        blocks[i].div.style.top = 0;
-                        blocks[i].div.style.left = 0;
+                        blocks[i].div.style.display = "block";
                     } else {
-                        blocks[i].div.style.position = "absolute";
-                        blocks[i].div.style.opacity = 0;
-                        blocks[i].div.style.top = -9999;
-                        blocks[i].div.style.left = -9999;
+                        blocks[i].div.style.display = "none";
                     }
                 }
             }

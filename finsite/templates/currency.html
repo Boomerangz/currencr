@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}Currencr.me - {{ currency.name }}{% endblock %}
+{% block title %}Currencr.me - Прогноз будущего курса для {{ currency.name }}{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="/static/css/currency.css">
 {% endblock %}
@@ -9,7 +9,10 @@
 {% endblock %}
 {% block content %}
 <div class="page-content">
-
+    <blockquote class="blockquote blue maxw-800">
+        <h2 class="mt-1">Прогноз на ближайшие 60 минут для {{ currency.name }}.</h2>
+        <p class="mb-0">Постоянно проверяйте актуальность прогноза. В случае неожиданной динамики курса - прогноз будет актуализирован.</p>
+    </blockquote>
     <div id="card-content" class="card">
         <div id="chart-header" class="card-header">
             <div class="header-ui">
@@ -41,10 +44,12 @@
     </div>
 
     <div class="separator-medium"></div>
-    <div class="alert alert-warning" role="alert">
+    <blockquote class="blockquote red mb-0">
         <strong>{% trans "Warning!" %}</strong><br />
         {% trans "Denial of responsibility" %}
-    </div>
+    </blockquote>
+
+    {% include "adv.html" with key="adv-block-a" %}
 
     {% if news_list %}
     <div class="separator-medium"></div>

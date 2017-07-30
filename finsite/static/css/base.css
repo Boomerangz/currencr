@@ -42,3 +42,15 @@ div.footer {
     width: auto;
     height: 100px;
 }
+
+blockquote.red {
+    border-color: #7C050B;
+}
+
+blockquote.blue {
+    border-color: #00446E;
+}
+
+blockquote.maxw-800 {
+    max-width: 800px;
+}
