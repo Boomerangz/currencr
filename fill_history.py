@@ -7,9 +7,9 @@ delete_previous_history=True
 url_template = "https://min-api.cryptocompare.com/data/histominute?fsym=%s&tsym=USD&limit=2000&aggregate=1&e=Kraken"
 
 
-for curr in Currency.objects.all().filter(code='XRP'):
+for curr in Currency.objects.all():
     if delete_previous_history:
-        CurrencyHistoryRecord.objects.filter(currency=curr).delete()
+        CurrencyHistoryRecord.objects.filter(currency=curr, exchange="Kraken").delete()
     toTs = None
     while True:
         url = url_template % curr.code

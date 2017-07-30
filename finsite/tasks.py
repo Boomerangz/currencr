@@ -34,7 +34,7 @@ def update_prices(exchange_name="Kraken", update_currency=True):
         url = url_template % (curr.code, count, exchange_name)
         r = requests.get(url)
         parsed_data = r.json()
-        for d in parsed_data["Data"]:
+        for d in parsed_data["Data"][:-1]:
             histime = datetime.fromtimestamp(d["time"])
             if CurrencyHistoryRecord.objects.filter(time=histime, currency=curr, exchange=exchange_name).count()==0:
                 CurrencyHistoryRecord.objects.create(currency=curr, price=d["close"], volume=d["volumeto"], time=histime, exchange=exchange_name)
