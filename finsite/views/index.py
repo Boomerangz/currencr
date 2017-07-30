@@ -24,7 +24,7 @@ class IndexView(TemplateView):
         day_ago = datetime.now() - timedelta(hours=24)
         for c in currency_list:
             c.day_history = self.get_history_for_currency(c, from_time=day_ago)
-        context['news_list'] = get_news(search=search, limit=len(currency_list), language=translation.get_language())
+        context['news_list'] = get_news(search=search, limit=25, language=translation.get_language())
         context['currency_list'] = currency_list
         return context
 
