@@ -67,6 +67,14 @@ def update_news_ru():
             if 'ТАСС:' in title:
                 continue
             text = '<br/>'.join([s for s in article.text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
+            if 'Материал предоставил' in text:
+                text = text[:text.find('Материал предоставил')]
+            text = text.replace('on •<br/><br/>','')
+            text = text.replace('<br/>Источник<br/>','')
+
+
+
+
             summary = article.summary
             top_image = article.top_image
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
