@@ -26,7 +26,7 @@ def get_stock_history_from_db(request, code):
         period = request.GET.get('period', 'minute')
 
         currency_history_items = CurrencyHistoryRecord.objects.\
-            filter(currency=currency).order_by('time')
+            filter(currency=currency, exchange='Kraken').order_by('time')
 
         try:
             date_from = int(request.GET.get('from'))
