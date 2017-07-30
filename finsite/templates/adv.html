@@ -4,6 +4,9 @@
     <div class="adv-teaser-01" id="mmgp-mwa-block-block597cf108a7d59ihNAPuB">
         <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597cf108a7d59ihNAPuB"></script>
     </div>
+    <div class="adv-teaser-01" id="mmgp-mwa-block-blockpONwkLC597d27c853f64">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=blockpONwkLC597d27c853f64"></script>
+    </div>
     <div class="adv-teaser-01" id="mmgp-mwa-block-block597d0ec07144fuHJhQer">
         <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597d0ec07144fuHJhQer"></script>
     </div>
@@ -15,7 +18,10 @@
             var container = document.getElementById("adv-block-a");
             var blocks = [{
                 div: document.getElementById("mmgp-mwa-block-block597cf108a7d59ihNAPuB"),
-                width: 670
+                width: 1010
+            }, {
+                div: document.getElementById("mmgp-mwa-block-blockpONwkLC597d27c853f64"),
+                width: 710
             }, {
                 div: document.getElementById("mmgp-mwa-block-block597d0ec07144fuHJhQer"),
                 width: 530
@@ -27,16 +33,22 @@
             setTimeout(function() {
                 container.className = "adv-blue";
                 resizeHandler();
-            }, 1);
+            }, 10);
             function resizeHandler(e) {
                 for (var i = 0; i < blocks.length; i++) {
                     var a = blocks[i].width <= container.clientWidth;
                     var max = blocks[i - 1] ? blocks[i - 1].width : Number.MAX_VALUE;
                     var b = max > container.clientWidth;
                     if (a && b) {
-                        blocks[i].div.style.display = "block";
+                        blocks[i].div.style.position = "relative";
+                        blocks[i].div.style.opacity = 1;
+                        blocks[i].div.style.top = 0;
+                        blocks[i].div.style.left = 0;
                     } else {
-                        blocks[i].div.style.display = "none";
+                        blocks[i].div.style.position = "absolute";
+                        blocks[i].div.style.opacity = 0;
+                        blocks[i].div.style.top = -9999;
+                        blocks[i].div.style.left = -9999;
                     }
                 }
             }
