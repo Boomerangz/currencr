@@ -55,8 +55,8 @@ def update_news_ru():
     print(feeds_list)
     feeds = [feedparser.parse(f) for f in feeds_list]
     news_list =  sum([[{'title': x['title'], 'link': x['link'], 'date': x['published']} \
-                 for x in f['entries']] for f in feeds], [])
-    news_list.extend(map(lambda x: {'link':x}, get_news_from_bitmedia()))
+                 for x in reversed(f['entries'])] for f in feeds], [])
+    news_list.extend(map(lambda x: {'link':x}, reversed(list(get_news_from_bitmedia()))))
     for news in news_list:
         try:
             article = Article(news['link'], language='ru')
