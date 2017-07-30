@@ -34,24 +34,24 @@
     function addPreviewChart(currency, data) {
         var canvas = document.getElementById("preview-canvas-" + currency);
         canvas.width = 300;
-        canvas.height = 80;
+        canvas.height = 70;
 
         stages[currency] = new createjs.Stage("preview-canvas-" + currency);
-        createjs.Ticker.setFPS(1);
+        createjs.Ticker.setFPS(10);
         
         var PADDING = 6;
         var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - PADDING, canvas.height));
         chart.x = PADDING / 2;
         chart.set(data.slice(-24));
-        stages[currency].update();
 
         var WIDTH = 450;
         var SPACE = 20;
         var li = document.getElementById("currency-list-item-" + currency);
-        var price = document.getElementById("currency-symbol-price-" + currency);
-
+        var price = document.getElementById("currency-list-item-container-" + currency);
+        
         document.addEventListener("DOMContentLoaded", resizeHandlerChart, false);
         window.addEventListener("resize", resizeHandlerChart, false);
+        resizeHandlerChart();
         function resizeHandlerChart(e) {
             setTimeout(function() {
                 var style = window.getComputedStyle(li, null);
@@ -85,14 +85,21 @@
         </li>
         {% for currency in currency_list %}
         <li id="currency-list-item-{{ currency.name }}" class="list-group-item list-group-item-action currency-list-item">
-            <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
-                <div class="mr-1">
-                    <a href="/{{ currency.code }}/">{{ currency.name }}</a>
-                    &nbsp;{% if currency.exchange > 0 %}{{ currency.code }}{% endif %}
+            <div class="currency-list-item-container" id="currency-list-item-container-{{ currency.name }}">
+                <div>
+                    <a href="/{{ currency.code }}/">
+                        <div class="crypt-logo" style="-webkit-mask-box-image: url(/static/img/crypt/{{ currency.code }}.png); mask: url(/static/img/crypt/{{ currency.code }}.png);"></div>
+                    </a>
                 </div>
-                <div class="mr-1">
-                    <span>{{ currency.current_price|floatformat:3 }}</span>
-                    <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
+                    <div class="mr-1">
+                        <a href="/{{ currency.code }}/">{{ currency.name }}</a>
+                        &nbsp;{% if currency.exchange > 0 %}{{ currency.code }}{% endif %}
+                    </div>
+                    <div class="mr-1">
+                        <span>{{ currency.current_price|floatformat:3 }}</span>
+                        <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                    </div>
                 </div>
             </div>
             <div class="center"></div>
@@ -107,11 +114,11 @@
     </ul>
     <div id="lead-content-large" class="lead-content-large">
         <h2 class="mt-1">Прогнозы для популярных криптовалют</h2>
-        <p class="mb-2">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+        <p class="mb-3">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
         <img id="lead-img" class="mb-3" src="/static/img/screen.png"/>
         <p class="mb-0">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
         <hr class="my-3">
-        <p class="mb-0">Мы постоянно работаем над качеством прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
+        <p class="mb-0 text-muted">Мы постоянно работаем над качеством прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
     </div>
     <script>
         handleResizing();

@@ -1,9 +1,3 @@
-div.adv-placeholder {
-    background-color: #999999;
-    width: auto;
-    height: 100px;
-}
-
 div.content {
     display: flex;
     flex-direction: row;
@@ -48,15 +42,37 @@ div.currency-list-item {
     text-align: center;
 }
 
+div.currency-list-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: .25rem;
+}
+
+img.crypt-logo {
+    width: 50px;
+    height: 50px;
+    margin-right: .6rem;
+}
+
+div.crypt-logo {
+    width: 50px;
+    height: 50px;
+    margin-right: .6rem;
+    background-color: #002D40;
+}
+
 #currency-list-header {
     background-color: #002D40;
     color: #EEE;
 }
 
 div.currency-symbol-price {
+    white-space: nowrap;
     text-align: left;
     float: left;
-    width: 165px;
+    width: 140px;
 }
 
 #news-list-header {
