@@ -120,18 +120,6 @@
 
 {% include "adv.html" with key="adv-block-a" %}
 
-{% if news_list %}
-<div class="separator-medium"></div>
-<ul id="news-list" class="list-group">
-    <li id="news-list-header" class="list-group-item">
-        <h6 class="mb-0">{% trans "News" %}</h6>
-    </li>
-    {% for new in news_list %}
-    <li class="list-group-item list-group-item-action">
-        <a href="/news/{{ new.id }}/">{{ new.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
+{% include "new.html" with news_list=news_list %}
 
 {% endblock %}
