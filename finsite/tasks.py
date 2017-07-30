@@ -21,7 +21,7 @@ def update_prices(exchange_name="Kraken", update_currency=True):
 
 
     for curr in Currency.objects.all():
-        last_time = CurrencyHistoryRecord.objects.filter(currency=curr).order_by('-time').first()
+        last_time = CurrencyHistoryRecord.objects.filter(currency=curr, exchange=exchange_name).order_by('-time').first()
         if last_time:
             last_time = last_time.time
             now = datetime.now()
