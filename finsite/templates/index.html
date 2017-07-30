@@ -1,6 +1,4 @@
 {% extends 'base.html' %}
-
-
 {% load i18n %}
 {% block css %}
 <link rel="stylesheet" href="/static/css/index.css">
@@ -76,14 +74,10 @@
 {% endblock %}
 
 {% block content %}
-<div class="adv-placeholder"></div>
-<div class="separator-medium"></div>
-
 <blockquote id="lead-content-small" class="blockquote">
     <h3 class="mt-0">Прогнозы для BTC, ETH, LTC и других криптовалют</h3>
-    <p class="lead mb-0">Графики с детальными прогнозами на 60 минут, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+    <p class="mb-0">Графики с детальными прогнозами на 60 минут, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
 </blockquote>
-
 <div id="page-content" class="content">
     <ul id="currency-list" class="list-group">
         <li id="currency-list-header" class="list-group-item">
@@ -113,22 +107,18 @@
     </ul>
     <div id="lead-content-large" class="lead-content-large">
         <h2 class="mt-1">Прогнозы для популярных криптовалют</h2>
-        <p class="lead">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+        <p class="mb-2">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
         <img id="lead-img" class="mb-3" src="/static/img/screen.png"/>
-        <p class="lead">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
-        <hr class="my-4">
-        <p class="lead">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
+        <p class="mb-0">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
+        <hr class="my-3">
+        <p class="mb-0">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
     </div>
     <script>
         handleResizing();
     </script>
 </div>
 
-<div class="separator-medium"></div>
-<div id="mmgp-mwa-block-blockeWpCfmE5979df429fbc0">
-	<script async type="text/javascript" src="//adsmmgp.com/api?hash=blockeWpCfmE5979df429fbc0">
-	</script>
-</div>
+{% include "adv.html" with key="adv-block-a" %}
 
 {% if news_list %}
 <div class="separator-medium"></div>

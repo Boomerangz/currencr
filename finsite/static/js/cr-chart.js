@@ -10,7 +10,7 @@ window.cr = {};
  */
 (function() {
     
-    ComplexChart.RULER_WIDTH = 80;
+    ComplexChart.RULER_WIDTH = 75;
     ComplexChart.TIMELINE_HEIGHT = 16;
     
     function ComplexChart(width, height, pointsCount) {

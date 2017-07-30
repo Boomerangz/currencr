@@ -1,0 +1,52 @@
+<div class="separator-medium"></div>
+{% if key == "adv-block-a" %}
+<div class="adv-blue-hidden" id="adv-block-a">
+    <div class="adv-teaser-01" id="mmgp-mwa-block-block597cf108a7d59ihNAPuB">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597cf108a7d59ihNAPuB"></script>
+    </div>
+    <div class="adv-teaser-01" id="mmgp-mwa-block-blockpONwkLC597d27c853f64">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=blockpONwkLC597d27c853f64"></script>
+    </div>
+    <div class="adv-teaser-01" id="mmgp-mwa-block-block597d0ec07144fuHJhQer">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597d0ec07144fuHJhQer"></script>
+    </div>
+    <div class="adv-text-01" id="mmgp-mwa-block-blockODSOEBY597bd5c62c25e">
+        <script async type="text/javascript" src="//adsmmgp.com/api?hash=blockODSOEBY597bd5c62c25e"></script>
+    </div>
+    <script>
+        (function() {
+            var container = document.getElementById("adv-block-a");
+            var blocks = [{
+                div: document.getElementById("mmgp-mwa-block-block597cf108a7d59ihNAPuB"),
+                width: 1010
+            }, {
+                div: document.getElementById("mmgp-mwa-block-blockpONwkLC597d27c853f64"),
+                width: 710
+            }, {
+                div: document.getElementById("mmgp-mwa-block-block597d0ec07144fuHJhQer"),
+                width: 530
+            }, {
+                div: document.getElementById("mmgp-mwa-block-blockODSOEBY597bd5c62c25e"),
+                width: 350
+            }];
+            window.addEventListener("resize", resizeHandler, false);
+            setTimeout(function() {
+                container.className = "adv-blue";
+                resizeHandler();
+            }, 10);
+            function resizeHandler(e) {
+                for (var i = 0; i < blocks.length; i++) {
+                    var a = blocks[i].width <= container.clientWidth;
+                    var max = blocks[i - 1] ? blocks[i - 1].width : Number.MAX_VALUE;
+                    var b = max > container.clientWidth;
+                    if (a && b) {
+                        blocks[i].div.style.display = "block";
+                    } else {
+                        blocks[i].div.style.display = "none";
+                    }
+                }
+            }
+        })();
+    </script>
+</div>
+{% endif %}

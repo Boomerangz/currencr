@@ -1,0 +1,26 @@
+div.adv-blue-hidden {
+    height: 1px;
+    border-radius: .25rem;
+    background-color: #FFF;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div.adv-blue {
+    height: auto;
+    border-radius: .25rem;
+    background-color: #002D40;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+div.adv-teaser-01 {
+    margin: 16px 6px 12px 6px;
+    white-space: normal;
+    min-height: 126px;
+}
+
+div.adv-text-01 {
+    margin: 12px 6px 12px 6px;
+    white-space: normal;
+}
