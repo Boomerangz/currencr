@@ -66,6 +66,7 @@
                 canvas.width = innerWidth;
             }
             chart.setComplexSize(canvas.width - CHART_PADDING, canvas.height);
+            chart.set(data.slice(-24));
             chart.redraw();
             stages[currency].update();
         }
