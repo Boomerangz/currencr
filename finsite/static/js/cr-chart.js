@@ -79,6 +79,12 @@ window.cr = {};
     p.setPredictionBound = function(x) {
         this._predictionBoundX = x;
         this._updatePredictionBound();
+        var currentCapacity = Math.min(this.getData().length, this.getCapacity());
+        var timelineIndex = this._complexData.length - currentCapacity + this.getIndexByLocalX(x);
+        if (timelineIndex === -1 || timelineIndex === 0) return;
+        var item = this._complexData[timelineIndex];
+        this._timeline.showMarker();
+        this._timeline.setMarker(x, this._formatDate(item.date));
     }
     
     
@@ -392,8 +398,11 @@ window.cr = {};
         
         this._leftField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
         this._rightField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
+        this._markField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
         this._currentField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#7C050B", 0, height));
+       
         this._currentField.visible = false;
+        this._markField.visible = false;
         
         this.setWidth(width);
         this._backgroundShape.scaleY = height;
@@ -416,6 +425,23 @@ window.cr = {};
     
     p.showCurrent = function() {
         this._currentField.visible = true;
+    };
+
+    p.setMarker = function(localX, value) {
+        this._markField.setText(value);
+        var fieldWidth = this._markField.getBounds().width;
+        localX = localX - fieldWidth / 2;
+        localX = Math.max(localX, 0);
+        localX = Math.min(localX, this._width - fieldWidth);
+        this._markField.x = localX;
+    }
+
+    p.hideMarker = function() {
+        this._markField.visible = false;
+    };
+    
+    p.showMarker = function() {
+        this._markField.visible = true;
     };
     
     p.setRange = function(left, right) {
