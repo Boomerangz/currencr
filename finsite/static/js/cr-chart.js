@@ -79,12 +79,6 @@ window.cr = {};
     p.setPredictionBound = function(x) {
         this._predictionBoundX = x;
         this._updatePredictionBound();
-        var currentCapacity = Math.min(this.getData().length, this.getCapacity());
-        var timelineIndex = this._complexData.length - currentCapacity + this.getIndexByLocalX(x);
-        if (timelineIndex === -1 || timelineIndex === 0) return;
-        var item = this._complexData[timelineIndex];
-        this._timeline.showMarker();
-        this._timeline.setMarker(x, this._formatDate(item.date));
     }
     
     
@@ -107,6 +101,12 @@ window.cr = {};
         graphics.moveTo(0,0);
         graphics.lineTo(0, size.height);
         this._predictionBoundShape.x = this._predictionBoundX;
+        var currentCapacity = Math.min(this.getData().length, this.getCapacity());
+        var timelineIndex = this._complexData.length - currentCapacity + this.getIndexByLocalX(this._predictionBoundX);
+        if (timelineIndex === -1 || timelineIndex === 0) return;
+        var item = this._complexData[timelineIndex];
+        this._timeline.showMarker();
+        this._timeline.setMarker(this._predictionBoundX, this._formatDate(item.date));
     }
 
     p._updateGuidesAndRulers = function() {
@@ -225,14 +225,14 @@ window.cr = {};
         this._guide.guideY.y = levelY;
     };
 
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     p._formatDate = function(date, isFull){
         var result = "";
         if (isFull) {
             var day = date.getDate();
-            var month = date.getMonth() + 1;
+            var month = monthNames[date.getMonth()];
             day = day < 10 ? "0" + day : day;
-            month = month < 10 ? "0" + month : month;
-            result += day + "." + month + "." + date.getFullYear() + " ";
+            result += day + " " + month + " ";
         }
         var hours = date.getHours();
         var minutes = date.getMinutes();
