@@ -19,7 +19,7 @@ div.separator-small {
 
 div.container {
     max-width: 1100px;
-    min-width: 380px;
+    min-width: 290px;
     width: 100%;
 }
 
@@ -50,12 +50,4 @@ blockquote.red {
 
 blockquote.red strong {
     color: #7C050B;
-}
-
-blockquote.blue {
-    border-color: #00446E;
-}
-
-blockquote.maxw-800 {
-    max-width: 800px;
 }

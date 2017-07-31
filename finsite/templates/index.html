@@ -34,55 +34,52 @@
     function addPreviewChart(currency, data) {
         var canvas = document.getElementById("preview-canvas-" + currency);
         canvas.width = 300;
-        canvas.height = 70;
+        canvas.height = 75;
 
         stages[currency] = new createjs.Stage("preview-canvas-" + currency);
         createjs.Ticker.setFPS(10);
         
-        var PADDING = 6;
-        var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - PADDING, canvas.height));
-        chart.x = PADDING / 2;
+        var CHART_PADDING = 6;
+        var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - CHART_PADDING, canvas.height));
+        chart.x = CHART_PADDING / 2;
         chart.set(data.slice(-24));
 
         var WIDTH = 450;
-        var SPACE = 20;
+        var SPACE = 10;
         var li = document.getElementById("currency-list-item-" + currency);
         var price = document.getElementById("currency-list-item-container-" + currency);
         
-        document.addEventListener("DOMContentLoaded", resizeHandlerChart, false);
-        window.addEventListener("resize", resizeHandlerChart, false);
-        resizeHandlerChart();
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener("resize", resizeHandlerChart, false);
+            resizeHandlerChart();
+        }, false);
+        
         function resizeHandlerChart(e) {
-            setTimeout(function() {
-                var style = window.getComputedStyle(li, null);
-                var innerWidth = parseInt(style.getPropertyValue("width"));
-                innerWidth -= parseInt(style.getPropertyValue("padding-left"));
-                innerWidth -= parseInt(style.getPropertyValue("padding-right"));
-                innerWidth -= parseInt(style.getPropertyValue("border-width")) * 2;
-                if (innerWidth > WIDTH) {
-                    canvas.width = innerWidth - price.clientWidth - SPACE;
-                } else {
-                    canvas.width = innerWidth;
-                }
-                chart.setComplexSize(canvas.width - PADDING, canvas.height);
-                chart.redraw();
-                stages[currency].update();
-            }, 1);
+            var style = window.getComputedStyle(li, null);
+            var innerWidth = parseInt(style.getPropertyValue("width"));
+            innerWidth -= parseInt(style.getPropertyValue("padding-left"));
+            innerWidth -= parseInt(style.getPropertyValue("padding-right"));
+            innerWidth -= parseInt(style.getPropertyValue("border-width")) * 2;
+            if (innerWidth > WIDTH) {
+                canvas.width = innerWidth - price.clientWidth - SPACE;
+            } else {
+                canvas.width = innerWidth;
+            }
+            chart.setComplexSize(canvas.width - CHART_PADDING, canvas.height);
+            chart.redraw();
+            stages[currency].update();
         }
     }
 </script>
 {% endblock %}
 
 {% block content %}
-<blockquote id="lead-content-small" class="blockquote">
+<blockquote id="lead-content-small" class="blockquote lead-content-small">
     <h3 class="mt-0">Прогнозы для BTC, ETH, LTC и других криптовалют</h3>
     <p class="mb-0">Графики с детальными прогнозами на 60 минут, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
 </blockquote>
 <div id="page-content" class="content">
-    <ul id="currency-list" class="list-group">
-        <li id="currency-list-header" class="list-group-item">
-            <h6 class="mb-0">{% trans "History and forecasts" %}</h6>
-        </li>
+    <ul id="currency-list" class="list-group currency-list">
         {% for currency in currency_list %}
         <li id="currency-list-item-{{ currency.name }}" class="list-group-item list-group-item-action currency-list-item">
             <div class="currency-list-item-container" id="currency-list-item-container-{{ currency.name }}">
@@ -113,9 +110,9 @@
         {% endfor %}
     </ul>
     <div id="lead-content-large" class="lead-content-large">
-        <h2 class="mt-1">Прогнозы для популярных криптовалют</h2>
+        <h2 class="mt-0">Прогнозы для популярных криптовалют</h2>
         <p class="mb-3">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
-        <img id="lead-img" class="mb-3" src="/static/img/screen.png"/>
+        <img class="mb-3 lead-img" src="/static/img/screen.png"/>
         <p class="mb-0">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
         <hr class="my-3">
         <p class="mb-0 text-muted">Мы постоянно работаем над качеством прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
@@ -125,8 +122,6 @@
     </script>
 </div>
 
-{% include "adv.html" with key="adv-block-a" %}
-
-{% include "new.html" with news_list=news_list %}
+{% include "new.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
 
 {% endblock %}

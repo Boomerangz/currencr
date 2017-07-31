@@ -9,8 +9,8 @@
 {% endblock %}
 {% block content %}
 <div class="page-content">
-    <blockquote class="blockquote blue maxw-800">
-        <h2 class="mt-1">Текущий курс и прогноз для {{ currency.name }}.</h2>
+    <blockquote class="blockquote top-info">
+        <h2 class="mt-0">Текущий курс и прогноз для {{ currency.name }}.</h2>
         <p class="mb-0 text-muted">Постоянно проверяйте состояние прогноза. В случае неожиданной динамики курса - прогноз будет актуализирован.</p>
         <p class="mb-0">Прогноз и цена формируется на основе данных биржи <a href="https://www.kraken.com/charts" target="_blank">kraken.com</a></p>
     </blockquote>
@@ -50,10 +50,8 @@
         <p class="mb-2">{% trans "Denial of responsibility" %}</p>
     </blockquote>
 
-    {% include "adv.html" with key="adv-block-a" %}
-
-    {% include "new.html" with news_list=news_list %}
-
+    {% include "new.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
+    
     <div class="separator-large"></div>
     <div id="disqus_thread"></div>
     <script>

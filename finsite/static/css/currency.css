@@ -9,6 +9,12 @@
     color: #FFF;
 }
 
+blockquote.top-info {
+    font-size: 1.25rem;
+    border-color: #002D40;
+    max-width: 800px;
+}
+
 div.header-ui {
     display: flex;
     flex-direction: row;
@@ -27,9 +33,4 @@ h6.header-symbol-currency {
 
 #chart-canvas {
     display: block;
-}
-
-#news-list-header {
-    background-color: #002D40;
-    color: #FFF;
 }

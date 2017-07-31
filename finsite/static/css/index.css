@@ -11,7 +11,7 @@ div.lead-content-large {
     margin-left: 1.5rem;
 }
 
-#lead-content-small {
+blockquote.lead-content-small {
     font-size: 1.25rem;
     border-color: #002D40;
     display: none;
@@ -28,14 +28,14 @@ div.center {
     width: 1px;
 }
 
-#lead-img {
+img.lead-img {
     width: 100%;
 }
 
-#currency-list {
+ul.currency-list {
     width: auto;
     max-width: 700px;
-    min-width: 340px;
+    min-width: 290px;
 }
 
 div.currency-list-item {
@@ -50,22 +50,11 @@ div.currency-list-item-container {
     margin-bottom: .25rem;
 }
 
-img.crypt-logo {
-    width: 50px;
-    height: 50px;
-    margin-right: .6rem;
-}
-
 div.crypt-logo {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     margin-right: .6rem;
     background-color: #002D40;
-}
-
-#currency-list-header {
-    background-color: #002D40;
-    color: #EEE;
 }
 
 div.currency-symbol-price {
@@ -73,9 +62,4 @@ div.currency-symbol-price {
     text-align: left;
     float: left;
     width: 140px;
-}
-
-#news-list-header {
-    background-color: #002D40;
-    color: #FFF;
 }
