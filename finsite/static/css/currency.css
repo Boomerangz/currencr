@@ -1,12 +1,16 @@
-#card-content {
+div.card-content {
     border-color: #FFF;
 }
 
-#chart-header {
+div.chart-header {
     display: block;
     padding-bottom: 10px;
     background-color: #002D40;
     color: #FFF;
+}
+
+.card-header {
+    padding-top: .2rem;
 }
 
 blockquote.top-info {
@@ -22,13 +26,13 @@ div.header-ui {
 }
 
 h6.header-symbol-currency {
-    margin-top: 12px;
+    margin-top: 0.8rem;
     margin-bottom: 0px;
     color: #EEE;
 }
 
-#header-chart-timeframe {
-    margin-left: 20px;
+ul.header-chart-timeframe {
+    margin-left: 1.5rem;
 }
 
 #chart-canvas {

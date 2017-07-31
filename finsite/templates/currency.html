@@ -14,20 +14,20 @@
         <p class="mb-0 text-muted">Постоянно проверяйте состояние прогноза. В случае неожиданной динамики курса - прогноз будет актуализирован.</p>
         <p class="mb-0">Прогноз и цена формируется на основе данных биржи <a href="https://www.kraken.com/charts" target="_blank">kraken.com</a></p>
     </blockquote>
-    <div id="card-content" class="card">
-        <div id="chart-header" class="card-header">
+    <div class="card card-content">
+        <div class="card-header chart-header">
             <div class="header-ui">
                 <h6 class="header-symbol-currency">
                     {{ currency.code }} {{ currency.money_symbol }}{{ currency.current_price|floatformat:3 }}
                 </h6>
-                <ul id="header-chart-timeframe" class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
+                <ul class="nav nav-tabs card-header-tabs header-chart-timeframe">
+                    <li>
                         <a class="nav-link active" href="./" style="background-color: #e8f8ff;">1M</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link disabled">1H</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link disabled">1D</a>
                     </li>
                 </ul>
