@@ -89,7 +89,7 @@ function createChart() {
     }
     
     function reqErrorHandler(e) {
-        alert(req.status + ": " + req.statusText);
+        alert("История курса по " + currencyCode + " не была загружена. Попробуйте позднее...");
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
     }
@@ -121,7 +121,7 @@ function createChart() {
     }
 
     function reqPredictionErrorHandler(e) {
-        alert(req.status + ": " + req.statusText);
+        alert("На данный момент прогноза по " + currencyCode + " нет. Попробуйте позднее...");
         req.removeEventListener("load", reqCompleteHandler, false);
         req.removeEventListener("error", reqErrorHandler, false);
     }
