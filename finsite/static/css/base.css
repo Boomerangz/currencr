@@ -1,5 +1,6 @@
 body {
     overflow-y: scroll;
+    font-family: 'Roboto Slab', serif;
 }
 
 div.separator-large {
@@ -19,7 +20,7 @@ div.separator-small {
 
 div.container {
     max-width: 1100px;
-    min-width: 380px;
+    min-width: 290px;
     width: 100%;
 }
 
@@ -29,7 +30,7 @@ div.logo {
     display:table-cell; 
     vertical-align:middle;
     text-align:center;
-    padding: 6px 13px 7px 18px;
+    padding: 6px 17px 7px 22px;
 }
 
 img.logo {
@@ -43,14 +44,29 @@ div.footer {
     height: 100px;
 }
 
+.blockquote {
+    padding-top: 0rem;
+    padding-bottom: .1rem;
+    margin-bottom: 1.2rem;
+}
+
 blockquote.red {
     border-color: #7C050B;
+    background-color: #fcf8e3;
 }
 
-blockquote.blue {
-    border-color: #00446E;
+blockquote.red strong {
+    color: #7C050B;
 }
 
-blockquote.maxw-800 {
-    max-width: 800px;
+p.thin {
+    font-weight: 300;
+}
+
+p.regular {
+    font-weight: 400;
+}
+
+p.bold {
+    font-weight: 700;
 }

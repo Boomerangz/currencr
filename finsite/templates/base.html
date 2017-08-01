@@ -5,10 +5,13 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&amp;subset=cyrillic" rel="stylesheet">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/base.css">
     <link rel="stylesheet" href="/static/css/adv.css">
+    <link rel="stylesheet" href="/static/css/new.css">
 
     {% block css %}
     {% endblock %}
@@ -47,7 +50,7 @@
         <div class="page-header">
             <a href="/">
                 <div class="logo">
-                    <img src="/static/img/logo.png" class="logo" />
+                    <img src="/static/img/logo-beta.png" class="logo" />
                 </div>
             </a>
             {% block header %}
@@ -56,7 +59,7 @@
         <div class="separator-large"></div>
         {% block content %}
         {% endblock %}
-        <div class="separator-medium"></div>
+        <div class="separator-small"></div>
         <div class="footer"></div>
     </div>
     

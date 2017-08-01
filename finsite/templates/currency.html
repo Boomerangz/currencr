@@ -9,24 +9,25 @@
 {% endblock %}
 {% block content %}
 <div class="page-content">
-    <blockquote class="blockquote blue maxw-800">
-        <h2 class="mt-1">Прогноз на ближайшие 60 минут для {{ currency.name }}.</h2>
-        <p class="mb-0">Постоянно проверяйте актуальность прогноза. В случае неожиданной динамики курса - прогноз будет актуализирован.</p>
+    <blockquote class="blockquote top-info">
+        <h2 class="mb-2 mt-0">Текущий курс и прогноз для {{ currency.name }}.</h2>
+        <p class="mb-1 regular">Прогноз и цена формируется на основе данных биржи <a href="https://www.kraken.com/charts" target="_blank">kraken.com</a></p>
+        <p class="mb-0 thin">Постоянно проверяйте состояние прогноза. В случае неожиданной динамики курса - прогноз будет актуализирован.</p>
     </blockquote>
-    <div id="card-content" class="card">
-        <div id="chart-header" class="card-header">
+    <div class="card card-content">
+        <div class="card-header chart-header">
             <div class="header-ui">
                 <h6 class="header-symbol-currency">
                     {{ currency.code }} {{ currency.money_symbol }}{{ currency.current_price|floatformat:3 }}
                 </h6>
-                <ul id="header-chart-timeframe" class="nav nav-tabs card-header-tabs">
-                    <li class="nav-item">
+                <ul class="nav nav-tabs card-header-tabs header-chart-timeframe">
+                    <li>
                         <a class="nav-link active" href="./" style="background-color: #e8f8ff;">1M</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link disabled">1H</a>
                     </li>
-                    <li class="nav-item">
+                    <li>
                         <a class="nav-link disabled">1D</a>
                     </li>
                 </ul>
@@ -44,25 +45,13 @@
     </div>
 
     <div class="separator-medium"></div>
-    <blockquote class="blockquote red mb-0">
+    <blockquote class="blockquote red mb-0 pt-1">
         <strong>{% trans "Warning!" %}</strong><br />
-        {% trans "Denial of responsibility" %}
+        <p class="mb-2">{% trans "Denial of responsibility" %}</p>
     </blockquote>
 
-    {% include "adv.html" with key="adv-block-a" %}
-
-    {% if news_list %}
-    <div class="separator-medium"></div>
-    <ul class="list-group">
-        <li id="news-list-header" class="list-group-item">{% trans "News" %}</li>
-        {% for new in news_list %}
-        <li class="list-group-item list-group-item-action">
-            <a href="/news/{{ new.id |escape}}/">{{ new.title }}</a>
-        </li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-
+    {% include "new.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
+    
     <div class="separator-large"></div>
     <div id="disqus_thread"></div>
     <script>

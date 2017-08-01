@@ -25,7 +25,7 @@ window.cr = {};
               grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 12, height: 0, dash: [1, 0]},
               axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
               chart: {
-                  lines: {thickness: 1.2, color: "#003333", alpha: 1, bounds: true},
+                  lines: {thickness: 1.5, color: "#003333", alpha: 1, bounds: true},
                   points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", alpha: 0, bounds: true}
               }
           }
@@ -101,6 +101,12 @@ window.cr = {};
         graphics.moveTo(0,0);
         graphics.lineTo(0, size.height);
         this._predictionBoundShape.x = this._predictionBoundX;
+        var currentCapacity = Math.min(this.getData().length, this.getCapacity());
+        var timelineIndex = this._complexData.length - currentCapacity + this.getIndexByLocalX(this._predictionBoundX);
+        if (timelineIndex === -1 || timelineIndex === 0) return;
+        var item = this._complexData[timelineIndex];
+        this._timeline.showMarker();
+        this._timeline.setMarker(this._predictionBoundX, this._formatDate(item.date));
     }
 
     p._updateGuidesAndRulers = function() {
@@ -219,14 +225,14 @@ window.cr = {};
         this._guide.guideY.y = levelY;
     };
 
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     p._formatDate = function(date, isFull){
         var result = "";
         if (isFull) {
             var day = date.getDate();
-            var month = date.getMonth() + 1;
+            var month = monthNames[date.getMonth()];
             day = day < 10 ? "0" + day : day;
-            month = month < 10 ? "0" + month : month;
-            result += day + "." + month + "." + date.getFullYear() + " ";
+            result += day + " " + month + " ";
         }
         var hours = date.getHours();
         var minutes = date.getMinutes();
@@ -392,8 +398,11 @@ window.cr = {};
         
         this._leftField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
         this._rightField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
+        this._markField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
         this._currentField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#7C050B", 0, height));
+       
         this._currentField.visible = false;
+        this._markField.visible = false;
         
         this.setWidth(width);
         this._backgroundShape.scaleY = height;
@@ -416,6 +425,23 @@ window.cr = {};
     
     p.showCurrent = function() {
         this._currentField.visible = true;
+    };
+
+    p.setMarker = function(localX, value) {
+        this._markField.setText(value);
+        var fieldWidth = this._markField.getBounds().width;
+        localX = localX - fieldWidth / 2;
+        localX = Math.max(localX, 0);
+        localX = Math.min(localX, this._width - fieldWidth);
+        this._markField.x = localX;
+    }
+
+    p.hideMarker = function() {
+        this._markField.visible = false;
+    };
+    
+    p.showMarker = function() {
+        this._markField.visible = true;
     };
     
     p.setRange = function(left, right) {

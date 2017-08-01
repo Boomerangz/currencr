@@ -1,26 +1,25 @@
-div.adv-blue-hidden {
+li.adv-dynamic-block-news-01-hidden {
     height: 1px;
-    border-radius: .25rem;
-    background-color: #FFF;
     overflow: hidden;
     white-space: nowrap;
 }
 
-div.adv-blue {
+li.adv-dynamic-block-news-01 {
     height: auto;
-    border-radius: .25rem;
-    background-color: #002D40;
     overflow: hidden;
     white-space: nowrap;
+    min-height: 126px;
+    padding: .5rem;
+    padding-top: 1.0rem;
 }
 
 div.adv-teaser-01 {
-    margin: 16px 6px 12px 6px;
     white-space: normal;
     min-height: 126px;
+    margin: 0 auto;
 }
 
 div.adv-text-01 {
-    margin: 12px 6px 12px 6px;
     white-space: normal;
+    margin: 0 auto;
 }

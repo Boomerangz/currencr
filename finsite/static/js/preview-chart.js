@@ -13,13 +13,13 @@ window.cr = {};
     function PreviewChart(width, height) {
         var size = {width: width, height: height};
         var point = {width: 1, height: 1};
-        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 12, bottom: 10}};
+        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 8, bottom: 10}};
         var style = {
             background: {color: "#000000", alpha: 0},
             grid: {thickness: 1, color: "#000000", alpha: 0, width: 0, height: 0, dash: [1, 0]},
             axisX:  {thickness: 1, color: "#000000", alpha: 0, offset: 0},
             chart: {
-                lines: {thickness: 3, color: "#002D40", alpha: 1, bounds: false},
+                lines: {thickness: 5, color: "#002D40", alpha: 1, bounds: false},
                 points:  {thickness: 1, radius: 1, lineColor: "#002D40", fillColor: "#002D40", alpha: 0, bounds: false}
             }
         };

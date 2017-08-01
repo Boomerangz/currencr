@@ -1,6 +1,5 @@
-<div class="separator-medium"></div>
-{% if key == "adv-block-a" %}
-<div class="adv-blue-hidden" id="adv-block-a">
+{% if key == "adv-dynamic-block-news-01" %}
+<li class="list-group-item adv-dynamic-block-news-01-hidden" id="adv-block-a">
     <div class="adv-teaser-01" id="mmgp-mwa-block-block597cf108a7d59ihNAPuB">
         <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597cf108a7d59ihNAPuB"></script>
     </div>
@@ -27,26 +26,32 @@
                 width: 530
             }, {
                 div: document.getElementById("mmgp-mwa-block-blockODSOEBY597bd5c62c25e"),
-                width: 350
+                width: 340
             }];
             window.addEventListener("resize", resizeHandler, false);
             setTimeout(function() {
-                container.className = "adv-blue";
+                container.className = "list-group-item adv-dynamic-block-news-01";
                 resizeHandler();
             }, 10);
             function resizeHandler(e) {
+                var isDisplay = false;
                 for (var i = 0; i < blocks.length; i++) {
                     var a = blocks[i].width <= container.clientWidth;
                     var max = blocks[i - 1] ? blocks[i - 1].width : Number.MAX_VALUE;
                     var b = max > container.clientWidth;
                     if (a && b) {
+                        isDisplay = true;
                         blocks[i].div.style.display = "block";
                     } else {
                         blocks[i].div.style.display = "none";
                     }
                 }
+                if (!isDisplay) {
+                    var parentNode = container.parentNode;
+                    parentNode.removeChild(container);
+                }
             }
         })();
     </script>
-</div>
+</li>
 {% endif %}

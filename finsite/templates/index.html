@@ -34,65 +34,70 @@
     function addPreviewChart(currency, data) {
         var canvas = document.getElementById("preview-canvas-" + currency);
         canvas.width = 300;
-        canvas.height = 80;
+        canvas.height = 75;
 
         stages[currency] = new createjs.Stage("preview-canvas-" + currency);
-        createjs.Ticker.setFPS(1);
+        createjs.Ticker.setFPS(10);
         
-        var PADDING = 6;
-        var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - PADDING, canvas.height));
-        chart.x = PADDING / 2;
+        var CHART_PADDING = 6;
+        var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - CHART_PADDING, canvas.height));
+        chart.x = CHART_PADDING / 2;
         chart.set(data.slice(-24));
-        stages[currency].update();
 
         var WIDTH = 450;
-        var SPACE = 20;
+        var SPACE = 10;
         var li = document.getElementById("currency-list-item-" + currency);
-        var price = document.getElementById("currency-symbol-price-" + currency);
-
-        document.addEventListener("DOMContentLoaded", resizeHandlerChart, false);
-        window.addEventListener("resize", resizeHandlerChart, false);
+        var price = document.getElementById("currency-list-item-container-" + currency);
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            window.addEventListener("resize", resizeHandlerChart, false);
+            resizeHandlerChart();
+        }, false);
+        
         function resizeHandlerChart(e) {
-            setTimeout(function() {
-                var style = window.getComputedStyle(li, null);
-                var innerWidth = parseInt(style.getPropertyValue("width"));
-                innerWidth -= parseInt(style.getPropertyValue("padding-left"));
-                innerWidth -= parseInt(style.getPropertyValue("padding-right"));
-                innerWidth -= parseInt(style.getPropertyValue("border-width")) * 2;
-                if (innerWidth > WIDTH) {
-                    canvas.width = innerWidth - price.clientWidth - SPACE;
-                } else {
-                    canvas.width = innerWidth;
-                }
-                chart.setComplexSize(canvas.width - PADDING, canvas.height);
-                chart.redraw();
-                stages[currency].update();
-            }, 1);
+            var style = window.getComputedStyle(li, null);
+            var innerWidth = parseInt(style.getPropertyValue("width"));
+            innerWidth -= parseInt(style.getPropertyValue("padding-left"));
+            innerWidth -= parseInt(style.getPropertyValue("padding-right"));
+            innerWidth -= parseInt(style.getPropertyValue("border-width")) * 2;
+            if (innerWidth > WIDTH) {
+                canvas.width = innerWidth - price.clientWidth - SPACE;
+            } else {
+                canvas.width = innerWidth;
+            }
+            chart.setComplexSize(canvas.width - CHART_PADDING, canvas.height);
+            chart.set(data.slice(-24));
+            chart.redraw();
+            stages[currency].update();
         }
     }
 </script>
 {% endblock %}
 
 {% block content %}
-<blockquote id="lead-content-small" class="blockquote">
+<blockquote id="lead-content-small" class="blockquote lead-content-small">
     <h3 class="mt-0">Прогнозы для BTC, ETH, LTC и других криптовалют</h3>
     <p class="mb-0">Графики с детальными прогнозами на 60 минут, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
 </blockquote>
 <div id="page-content" class="content">
-    <ul id="currency-list" class="list-group">
-        <li id="currency-list-header" class="list-group-item">
-            <h6 class="mb-0">{% trans "History and forecasts" %}</h6>
-        </li>
+    <ul id="currency-list" class="list-group currency-list">
         {% for currency in currency_list %}
         <li id="currency-list-item-{{ currency.name }}" class="list-group-item list-group-item-action currency-list-item">
-            <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
-                <div class="mr-1">
-                    <a href="/{{ currency.code }}/">{{ currency.name }}</a>
-                    &nbsp;{% if currency.exchange > 0 %}{{ currency.code }}{% endif %}
+            <div class="currency-list-item-container" id="currency-list-item-container-{{ currency.name }}">
+                <div>
+                    <a href="/{{ currency.code }}/">
+                        <div class="crypt-logo" style="-webkit-mask-box-image: url(/static/img/crypt/{{ currency.code }}.png); mask: url(/static/img/crypt/{{ currency.code }}.png);"></div>
+                    </a>
                 </div>
-                <div class="mr-1">
-                    <span>{{ currency.current_price|floatformat:3 }}</span>
-                    <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
+                    <div class="mr-1">
+                        <a href="/{{ currency.code }}/">{{ currency.name }}</a>
+                        &nbsp;{% if currency.exchange > 0 %}{{ currency.code }}{% endif %}
+                    </div>
+                    <div class="mr-1">
+                        <span>{{ currency.current_price|floatformat:3 }}</span>
+                        <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                    </div>
                 </div>
             </div>
             <div class="center"></div>
@@ -106,32 +111,19 @@
         {% endfor %}
     </ul>
     <div id="lead-content-large" class="lead-content-large">
-        <h2 class="mt-1">Прогнозы для популярных криптовалют</h2>
-        <p class="mb-2">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
-        <img id="lead-img" class="mb-3" src="/static/img/screen.png"/>
-        <p class="mb-0">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
+        <h2 class="mt-0 mb-2">Прогнозы для популярных криптовалют</h2>
+        <p class="mb-4 regular">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+        <img class="mb-4 lead-img" src="/static/img/screen.png"/>
+        <p class="mb-0 regular">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
         <hr class="my-3">
-        <p class="mb-0">Мы постоянно улучшаем качество прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
+        <p class="mb-0 thin">Мы постоянно работаем над качеством прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
     </div>
     <script>
         handleResizing();
     </script>
 </div>
 
-{% include "adv.html" with key="adv-block-a" %}
-
-{% if news_list %}
-<div class="separator-medium"></div>
-<ul id="news-list" class="list-group">
-    <li id="news-list-header" class="list-group-item">
-        <h6 class="mb-0">{% trans "News" %}</h6>
-    </li>
-    {% for new in news_list %}
-    <li class="list-group-item list-group-item-action">
-        <a href="/news/{{ new.id }}/">{{ new.title }}</a>
-    </li>
-    {% endfor %}
-</ul>
-{% endif %}
+{% include "new.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
+<div class="separator-large"></div>
 
 {% endblock %}
