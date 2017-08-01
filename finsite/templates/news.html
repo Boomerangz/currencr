@@ -2,33 +2,30 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
+    <title>{{ article.title }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="{{ article.summary }}" />
-
-    <!-- Twitter Card data -->
+    <meta name="MobileOptimized" content="176">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="Currencr.me">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ article.title }}">
+    <meta property="og:description" content="{{ article.summary }}">
+    {% if article.image %}
+        <meta property="og:image" content="{{ article.image }}">
+    {% endif %}    
     <meta name="twitter:card" content="{{ article.summary }}">
-    <meta name="twitter:site" content="currencr.me">
     <meta name="twitter:title" content="{{ article.title }}">
     <meta name="twitter:description" content="{{ article.summary }}">
-    <-- Twitter Summary card images must be at least 120x120px -->
     {% if article.image %}
         <meta name="twitter:image" content="{{ article.image }}">
-    {% endif %}
-    
-
-    <!-- Open Graph data -->
-    <meta property="og:title" content="{{ article.title }}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://currencr.me/{{ request.path }}" />
-    {% if article.image %}
-        <meta property="og:image" content="{{ article.image }}" />
-    {% endif %}
-    <meta property="og:description" content="{{ article.summary }}" /> 
-    <meta property="og:site_name" content="Currencr.me" />
-
-    <title>{{ article.title  }}</title>
+    {% endif %} 
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="16x16">
+    <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="32x32">
 
     <!-- Bootstrap Core CSS -->
     <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
@@ -47,8 +44,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.js"></script>
     <![endif]-->
-
-</head>
+  </head>
 
 <body>
 
