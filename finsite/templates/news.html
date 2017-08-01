@@ -5,9 +5,28 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="{{ article.summary }}" />
+
+    <!-- Twitter Card data -->
+    <meta name="twitter:card" content="{{ article.summary }}">
+    <meta name="twitter:site" content="currencr.me">
+    <meta name="twitter:title" content="{{ article.title }}">
+    <meta name="twitter:description" content="{{ article.summary }}">
+    <-- Twitter Summary card images must be at least 120x120px -->
+    {% if article.image %}
+        <meta name="twitter:image" content="{{ article.image }}">
+    {% endif %}
+    
+
+    <!-- Open Graph data -->
+    <meta property="og:title" content="{{ article.title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://currencr.me/{{ request.path }}" />
+    {% if article.image %}
+        <meta property="og:image" content="{{ article.image }}" />
+    {% endif %}
+    <meta property="og:description" content="{{ article.summary }}" /> 
+    <meta property="og:site_name" content="Currencr.me" />
 
     <title>{{ article.title  }}</title>
 
