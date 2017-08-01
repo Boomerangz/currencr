@@ -1,6 +1,23 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block title %}Currencr - Курсы криптовалют, прогнозы от нейронной сети и новости{% endblock %}
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="MobileOptimized" content="176">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="Currencr.me">
+    <meta property="og:type" content="site">
+    <meta property="og:title" content="Currencr - Курсы криптовалют, прогнозы от нейронной сети и новости">
+    <meta property="og:description" content="Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.">
+    <meta property="og:image" content="/static/img/screen.png">
+    <meta name="twitter:card" content="Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.">
+    <meta name="twitter:title" content="Currencr - Курсы криптовалют, прогнозы от нейронной сети и новости">
+    <meta name="twitter:description" content="Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.">
+    <meta name="twitter:image" content="/static/img/screen.png">
+{% endblock %}
 {% block css %}
 <link rel="stylesheet" href="/static/css/index.css">
 {% endblock %}
