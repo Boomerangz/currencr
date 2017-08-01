@@ -31,7 +31,9 @@ def update_prices(exchange_name="Kraken", update_currency=True):
         else:
             count = 2000
 
-        url = url_template % (curr.code, count, exchange_name)
+
+
+        url = url_template % (curr.code, count, exchange_name if curr.code != "BCC" else "Bitfinex")
         r = requests.get(url)
         parsed_data = r.json()
         for d in parsed_data["Data"][:-1]:
