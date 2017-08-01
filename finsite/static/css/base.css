@@ -1,5 +1,6 @@
 body {
     overflow-y: scroll;
+    font-family: 'Roboto Slab', serif;
 }
 
 div.separator-large {
@@ -43,6 +44,12 @@ div.footer {
     height: 100px;
 }
 
+.blockquote {
+    padding-top: 0rem;
+    padding-bottom: .1rem;
+    margin-bottom: 1.2rem;
+}
+
 blockquote.red {
     border-color: #7C050B;
     background-color: #fcf8e3;
@@ -50,4 +57,16 @@ blockquote.red {
 
 blockquote.red strong {
     color: #7C050B;
+}
+
+p.thin {
+    font-weight: 300;
+}
+
+p.regular {
+    font-weight: 400;
+}
+
+p.bold {
+    font-weight: 700;
 }
