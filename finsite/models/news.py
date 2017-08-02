@@ -17,7 +17,10 @@ class NewsItem(models.Model):
         return "%d %s %s"%(self.id, self.title, datetime.strftime(self.created_at, "%Y-%m-%d %H:%M"))
 
     def summary(self):
-        return self.text.replace('<br>','\n').replace('<br/>','\n').strip().split('\n')[0]
+        summary = self.text.replace('<br>','\n').replace('<br/>','\n').strip().split('\n')[0]
+        if len(summary) > 200:
+            summary = summary[:197] + '...'
+        return summary
 
 
 class KeywordSynonims(models.Model):

@@ -73,16 +73,12 @@ def update_news_ru():
                 text = text[:text.find('Материал предоставил')]
             text = text.replace('on •<br/><br/>','')
             text = text.replace('<br/>Источник<br/>','')
-
-
-
-
             summary = article.summary
             top_image = article.top_image
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
             keywords = article.keywords
-            if NewsItem.objects.filter(title__iexact=title).count() == 0:
+            if NewsItem.objects.filter(Q(title__iexact=title)|Q(link__iexact=news['link'])).count() == 0:
                 NewsItem.objects.create(link=news['link'],
                                         title=title,
                                         text=text,
