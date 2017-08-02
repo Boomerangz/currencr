@@ -1,9 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="utf-8">
-    <title>{{ article.title }}</title>
+{% extends 'base.html' %}
+{% load i18n %}
+{% block head %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,18 +13,16 @@
     <meta property="og:description" content="{{ article.summary }}">
     {% if article.image %}
         <meta property="og:image" content="{{ article.image }}">
-    {% endif %}    
+    {% endif %}
     <meta name="twitter:card" content="{{ article.summary }}">
     <meta name="twitter:title" content="{{ article.title }}">
     <meta name="twitter:description" content="{{ article.summary }}">
     {% if article.image %}
         <meta name="twitter:image" content="{{ article.image }}">
     {% endif %} 
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="16x16">
-    <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="32x32">
+{% endblock %}
 
-    <!-- Bootstrap Core CSS -->
+{% block css %}
     <link href="/static/vendor/bootstrap/css/bootstrap.css" rel="stylesheet">
 
     <!-- Theme CSS -->
@@ -37,17 +32,13 @@
     <link href="/static/vendor/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+{% endblock %}
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.js"></script>
-    <![endif]-->
-  </head>
-
-<body>
-
+{% block title %}
+{{ article.title }}
+{% endblock %}
+    
+{% block content %}
     <!-- Navigation -->
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
@@ -70,7 +61,7 @@
 
     <!-- Post Content -->
     <article>
-        <div class="container">
+        
             <div class="row">
                 {% if article.image %}
                     <center><img src="{{article.image}}" style="width:40%"></center>
@@ -81,7 +72,6 @@
                     <a href="{{ article.link }}">Ссылка на источник</a>
                 </div>                
             </div>
-        </div>
     </article>
 
     <hr>
@@ -104,44 +94,7 @@
         (d.head || d.body).appendChild(s);
         })();
         </script>
-    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <ul class="list-inline text-center">
-                        <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <span class="fa-stack fa-lg">
-                                    <i class="fa fa-circle fa-stack-2x"></i>
-                                    <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                                </span>
-                            </a>
-                        </li>
-                    </ul>
-                    <p class="copyright text-muted">Copyright &copy; Currencr.me 2017</p>
-                </div>
-            </div>
-        </div>
-    </footer>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>    
 
 
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
@@ -150,7 +103,39 @@
 
     <!-- Theme JavaScript -->
     <script src="/static/js/clean-blog.js"></script>
+{% endblock %}
+
+{% comment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>{{ article.title }}</title>
+    
+    <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
+    <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="16x16">
+    <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="32x32">
+
+    <!-- Bootstrap Core CSS -->
+    
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.js"></script>
+    <![endif]-->
+  </head>
+
+<body>
+
+    
 
 </body>
 
 </html>
+
+{% endcomment %}
