@@ -19,7 +19,7 @@ class NewsItem(models.Model):
     def summary(self):
         summary = self.text.replace('<br>','\n').replace('<br/>','\n').strip().split('\n')[0]
         if len(summary) > 200:
-            summary = summary[:197].split(' ')[:-1] + '...'
+            summary = ' '.join(summary[:197].split(' ')[:-1]) + '...'
         return summary
 
 
