@@ -1,16 +1,21 @@
 {% if key == "adv-dynamic-block-news-01" %}
 <li class="list-group-item adv-dynamic-block-news-01-hidden" id="adv-block-a">
-    <div class="adv-teaser-01" id="mmgp-mwa-block-block597cf108a7d59ihNAPuB">
+    <div class="adv-teaser-01" id="mmgp-mwa-block-block597cf108a7d59ihNAPuB" style="opacity: 0;">
         <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597cf108a7d59ihNAPuB"></script>
     </div>
-    <div class="adv-teaser-01" id="mmgp-mwa-block-blockpONwkLC597d27c853f64">
+    <div class="adv-teaser-01" id="mmgp-mwa-block-blockpONwkLC597d27c853f64" style="opacity: 0;">
         <script async type="text/javascript" src="//adsmmgp.com/api?hash=blockpONwkLC597d27c853f64"></script>
     </div>
-    <div class="adv-teaser-01" id="mmgp-mwa-block-block597d0ec07144fuHJhQer">
+    <div class="adv-teaser-01" id="mmgp-mwa-block-block597d0ec07144fuHJhQer" style="opacity: 0;">
         <script async type="text/javascript" src="//adsmmgp.com/api?hash=block597d0ec07144fuHJhQer"></script>
     </div>
-    <div class="adv-text-01" id="mmgp-mwa-block-blockODSOEBY597bd5c62c25e">
+    <div class="adv-text-01" id="mmgp-mwa-block-blockODSOEBY597bd5c62c25e" style="opacity: 0;">
         <script async type="text/javascript" src="//adsmmgp.com/api?hash=blockODSOEBY597bd5c62c25e"></script>
+    </div>
+    <div class="adv-best-01" id="bestchange-0" style="opacity: 0;">
+        <a target="_blank" href="https://www.bestchange.ru/?p=239302">
+            <img src="http://www.bestchange.ru/images/banners/300x100-6.gif" alt="Мониторинг обменников электронных денег" title="BestChange.ru - Мониторинг обменников в интернете" width="300" height="100" border="0" />
+        </a>
     </div>
     <script>
         (function() {
@@ -27,13 +32,16 @@
             }, {
                 div: document.getElementById("mmgp-mwa-block-blockODSOEBY597bd5c62c25e"),
                 width: 340
+            }, {
+                div: document.getElementById("bestchange-0"),
+                width: 298
             }];
-            window.addEventListener("resize", resizeHandler, false);
+            window.addEventListener("resize", advResizeHandler);
             setTimeout(function() {
                 container.className = "list-group-item adv-dynamic-block-news-01";
-                resizeHandler();
+                advResizeHandler();
             }, 10);
-            function resizeHandler(e) {
+            function advResizeHandler(e) {
                 var isDisplay = false;
                 for (var i = 0; i < blocks.length; i++) {
                     var a = blocks[i].width <= container.clientWidth;
@@ -42,13 +50,18 @@
                     if (a && b) {
                         isDisplay = true;
                         blocks[i].div.style.display = "block";
+                        blocks[i].div.style.opacity = 1;
                     } else {
                         blocks[i].div.style.display = "none";
+                        blocks[i].div.style.opacity = 0;
                     }
                 }
                 if (!isDisplay) {
                     var parentNode = container.parentNode;
                     parentNode.removeChild(container);
+                    window.removeEventListener("resize", advResizeHandler);
+                    blocks = null;
+                    container = null;
                 }
             }
         })();

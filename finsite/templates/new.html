@@ -11,7 +11,7 @@
     {% endif %}
 
     {% for new in news_list %}
-    <li class="list-group-item list-group-item-action">
+    <li class="list-group-item list-group-item-action news-list-item">
         <h5><a href="/news/{{ new.id }}/">{{ new.title }}</a></h5>
         <p class="mb-0 thin">{{ new.summary }}</p>
     </li>

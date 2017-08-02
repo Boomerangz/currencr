@@ -2,6 +2,7 @@ li.adv-dynamic-block-news-01-hidden {
     height: 1px;
     overflow: hidden;
     white-space: nowrap;
+    min-height: 126px;
 }
 
 li.adv-dynamic-block-news-01 {
@@ -9,8 +10,7 @@ li.adv-dynamic-block-news-01 {
     overflow: hidden;
     white-space: nowrap;
     min-height: 126px;
-    padding: .5rem;
-    padding-top: 1.0rem;
+    padding: 1.0rem 0rem .75rem 0rem;
 }
 
 div.adv-teaser-01 {
@@ -20,6 +20,11 @@ div.adv-teaser-01 {
 }
 
 div.adv-text-01 {
+    white-space: normal;
+    margin: 0 auto;
+}
+
+div.adv-best-01 {
     white-space: normal;
     margin: 0 auto;
 }

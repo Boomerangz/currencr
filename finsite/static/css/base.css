@@ -39,6 +39,7 @@ img.logo {
 }
 
 div.footer {
+    border-top: 1rem solid #00446e;
     background-color: #002D40;
     width: auto;
     height: 100px;
@@ -69,4 +70,8 @@ p.regular {
 
 p.bold {
     font-weight: 700;
+}
+
+p.white {
+    color: #FFF;
 }
