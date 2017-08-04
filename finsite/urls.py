@@ -39,6 +39,8 @@ def gitpull(request):
     print(dir)
     g = git.cmd.Git(dir)
     g.pull()
+    from django.core.management import call_command
+    call_command('collectstatic', verbosity=0, interactive=False)
     return Response({"status":"success"})
 
 
