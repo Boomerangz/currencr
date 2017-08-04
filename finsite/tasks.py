@@ -75,6 +75,8 @@ def update_news_ru():
                 text = text[:text.find('Материал предоставил')]
             text = text.replace('on •<br/><br/>','')
             text = text.replace('<br/>Источник<br/>','')
+            if 'forklog' in text.lower():
+                text = '.'.join([t for t in text.split('.') if 'forklog' not in t.lower()])
             top_image = article.top_image
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
