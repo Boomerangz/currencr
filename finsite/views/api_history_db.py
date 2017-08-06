@@ -4,7 +4,7 @@ from django.db.models import Sum, Avg
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, APIException
-from finsite.models import Currency, CurrencyHistoryRecord
+from finsite.models import Currency, CurrencyHistoryRecord, Exchange
 
 
 
@@ -24,9 +24,17 @@ def get_stock_history_from_db(request, code):
             raise NotFound() 
 # date =        
         period = request.GET.get('period', 'minute')
+        exchange = None
+        if 'exchange' in request.GET:
+            try:
+                exchange = Exchange.objects.get(name__iexact=request.GET['exchange'])
+            except:
+                pass
+        exchange = exchange or currency.selected_exchange
+
 
         currency_history_items = CurrencyHistoryRecord.objects.\
-            filter(currency=currency, exchange='Kraken').order_by('time')
+            filter(currency=currency, exchange=exchange).order_by('time')
 
         try:
             date_from = int(request.GET.get('from'))

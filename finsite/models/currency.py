@@ -3,18 +3,22 @@ import json
 
 import requests
 from django.db import models
-from yahoo_finance import Share
-from coinmarketcap import Market
-coinmarketcap = Market()
-from forex_python.converter import CurrencyRates, CurrencyCodes
+from .exchange import Exchange
+
+
+PREDICTION_STATUS = (
+    (0, 'Off'),
+    (1, 'On'),
+)
 
 class Currency(models.Model):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
-    exchange = models.IntegerField(blank=False, null=False)
-    description = models.TextField()
-    ordering = models.IntegerField(default=0)
+    exchange_list = models.ManyToManyField(Exchange, related_name='exchange_list')
+    selected_exchange = models.ForeignKey(Exchange, default=1)
+    prediction_status = models.IntegerField(choices=PREDICTION_STATUS, default=0)
 
+    ordering = models.IntegerField(default=1)
 
     current_price = models.DecimalField(decimal_places=5,max_digits=15, default=0)
     previous_price = models.DecimalField(decimal_places=5,max_digits=15, default=0)
@@ -38,37 +42,21 @@ class Currency(models.Model):
             return ((self.previous_price - self.current_price) / self.previous_price) * -100
         return 0
 
-    def data(self):
-        if self.exchange == 0:
-            return {'code':self.code, 'price':CurrencyRates().get_rate(*self.code.split('-'))}
-        elif self.exchange > 1:
-            yahoo_data = Share(self.get_stock_identifier())
-            return {'code':self.code, 'price':yahoo_data.get_price()}
-        elif self.exchange == 1:
-            price, volume = get_kraken_ticker(self.code)
-            return {'code':self.code, 'price':price, 'volume':volume}
-
-
-
-    def money_symbol(self):
-        if self.exchange == 1:
-            return "$"
-        elif self.exchange == 2:
-            return "$"
-        elif self.exchange == 3:
-            return "£"
-        elif self.exchange == 0:
-            return CurrencyCodes().get_currency_name(self.code.split('-')[-1]) or self.code.split('-')[-1]
+    def data(self, exchange_name=None):
+        if exchange_name:
+            exc = Exchange.objects.get(name__iexact=exchange_name)
+            exchange_name = exc.name
         else:
-            return ""
-
+            exchange_name = self.selected_exchange.name
+        price, volume = get_ticker(self.code, exchange_name)
+        return {'code':self.code, 'price':price, 'volume':volume}
 
     def get_stock_identifier(self):
         postfix = '.L' if self.exchange == 3 else ''
         return self.code + postfix
 
-def get_kraken_ticker(currency):
-    url = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=%s&tsyms=USD&e=Kraken" % currency.upper()
+def get_ticker(currency, exchange_name):
+    url = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=%s&tsyms=USD&e=%s" % (currency.upper(), exchange_name)
     r = requests.get(url)
     parsed = r.json()["RAW"][currency.upper()]["USD"]
     return parsed["PRICE"], parsed["LASTVOLUMETO"]

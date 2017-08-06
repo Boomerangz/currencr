@@ -12,14 +12,14 @@
     <blockquote class="blockquote top-info">
         {% if currency.code == "BCH" %}
             <h2 class="mb-2 mt-0">Текущий курс «нового Биткоина» {{ currency.name }}.</h2>
-            <p class="mb-1 regular">График формируется на основе данных биржи <a href="https://www.kraken.com/charts" target="_blank">kraken.com</a></p>
+            <p class="mb-1 regular">График формируется на основе данных биржи <a href="{{ currency.selected_exchange.link }}" target="_blank">{{ currency.selected_exchange.pseudonym }}</a></p>
             <p class="mb-0 thin">Курс и прогноз для «обычного Биткоина» смотрите <a href="http://currencr.me/BTC/" target="_blank">здесь</a>.</p>
         {% else %}
             <h2 class="mb-2 mt-0">Текущий курс и прогноз для {{ currency.name }}.</h2>
             {% if currency.code == "BTC" %}
                 <p class="mb-1 regular">Курс «нового Биткоина» (Bitcoin Cash, BCH) смотрите <a href="http://currencr.me/BCH/" target="_blank">здесь</a></p>
             {% endif %}
-            <p class="mb-1 regular">Прогноз и цена формируется на основе данных биржи <a href="https://www.kraken.com/charts" target="_blank">kraken.com</a></p>
+            <p class="mb-1 regular">Прогноз и цена формируется на основе данных биржи <a href="{{ currency.selected_exchange.link }}" target="_blank">{{ currency.selected_exchange.pseudonym }}</a></p>
             <p class="mb-0 thin">Постоянно проверяйте состояние прогноза. В случае неожиданной динамики курса - прогноз будет актуализирован.</p>
         {% endif %}
     </blockquote>
@@ -27,7 +27,7 @@
         <div class="card-header chart-header">
             <div class="header-ui">
                 <h6 class="header-symbol-currency">
-                    {{ currency.code }} {{ currency.money_symbol }}{{ currency.current_price|floatformat:3 }}
+                    {{ currency.code }} {{ currency.current_price|floatformat:3 }}
                 </h6>
                 <ul class="nav nav-tabs card-header-tabs header-chart-timeframe">
                     <li>

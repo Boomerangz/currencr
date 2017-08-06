@@ -7,4 +7,5 @@ from finsite.models import Currency
 def get_stock_fresh(request, code):
     if request.method == 'GET':
         currency = Currency.objects.get(code__iexact=code)
-        return Response(currency.data(), headers={'Access-Control-Allow-Origin':'*'})
+        exchange_name = request.GET.get('exchange')
+        return Response(currency.data(exchange_name=exchange_name), headers={'Access-Control-Allow-Origin':'*'})
