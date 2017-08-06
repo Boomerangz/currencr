@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
-{% block title %}Currencr - {{ currency.code }}/USD | Курс, новости и прогнозирование цены нейронной сетью{% endblock %}
+
 {% block css %}
 <link rel="stylesheet" href="/static/css/currency.css">
 {% endblock %}
@@ -17,20 +17,20 @@
     <meta name="robots" content="index, follow">
     <meta property="og:site_name" content="Currencr.me">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Currencr - {{ currency.code }}/USD | Курс, новости и прогнозирование цены нейронной сетью">
+    <meta property="og:title" content="Currencr - {{ currency.url_code }}/USD | Курс, новости и прогнозирование цены нейронной сетью">
     <meta property="og:description" content="Курс {{ currency.name }} {{ currency.url_code }}">
     <meta property="og:image" content="https://currencr.me/static/img/screen.png">
     <meta name="twitter:card" content="Текущий курс {{ currency.name }} {{ currency.url_code }}">
-    <meta name="twitter:title" content="Currencr - {{ currency.code }}/USD | Курс, новости и прогнозирование цены нейронной сетью">
+    <meta name="twitter:title" content="Currencr - {{ currency.url_code }}/USD | Курс, новости и прогнозирование цены нейронной сетью">
     <meta name="twitter:description" content="Курс {{ currency.name }} {{ currency.url_code }}">
     <meta name="twitter:image" content="https://currencr.me/static/img/screen.png">
 {% endblock %}
-
+{% block title %}Currencr - {{ currency.url_code }}/USD | Курс, новости и прогнозирование цены нейронной сетью{% endblock %}
 
 {% block content %}
 <div class="page-content">
     <blockquote class="blockquote top-info">
-        {% if currency.code == "BCC" %}
+        {% if currency.code == "BCH" %}
             <h2 class="mb-2 mt-0">Текущий курс «нового Биткоина» {{ currency.name }}.</h2>
             <p class="mb-1 regular">График формируется на основе данных биржи <a href="{{ currency.selected_exchange.link }}" target="_blank">{{ currency.selected_exchange.pseudonym }}</a></p>
             <p class="mb-0 thin">Курс и прогноз для «обычного Биткоина» смотрите <a href="/BTC/" target="_blank">здесь</a>.</p>
