@@ -16,7 +16,7 @@ from finsite.models import Currency, CurrencyHistoryRecord, NewsItem, Exchange
 def update_prices():
     url_template = "https://min-api.cryptocompare.com/data/histominute?fsym=%s&tsym=USD&limit=%d&aggregate=1&e=%s"
     for exc in Exchange.objects.all():        
-        for curr in Currency.objects.all():
+        for curr in Currency.objects.filter(exchange_list__id=exc.id):
             last_time = CurrencyHistoryRecord.objects.filter(currency=curr, exchange=exc).order_by('-time').first()
             if last_time:
                 last_time = last_time.time
