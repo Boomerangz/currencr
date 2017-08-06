@@ -7,6 +7,26 @@
 {% block js %}
 <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 {% endblock %}
+
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="MobileOptimized" content="176">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="Currencr.me">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Currencr - {{ currency.code }}/USD | Курс, новости и прогнозирование цены нейронной сетью">
+    <meta property="og:description" content="Курс {{ currency.name }} {{ currency.url_code }}">
+    <meta property="og:image" content="https://currencr.me/static/img/screen.png">
+    <meta name="twitter:card" content="Текущий курс {{ currency.name }} {{ currency.url_code }}">
+    <meta name="twitter:title" content="Currencr - {{ currency.code }}/USD | Курс, новости и прогнозирование цены нейронной сетью">
+    <meta name="twitter:description" content="Курс {{ currency.name }} {{ currency.url_code }}">
+    <meta name="twitter:image" content="https://currencr.me/static/img/screen.png">
+{% endblock %}
+
+
 {% block content %}
 <div class="page-content">
     <blockquote class="blockquote top-info">
