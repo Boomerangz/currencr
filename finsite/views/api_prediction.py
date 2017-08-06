@@ -9,7 +9,7 @@ from datetime import datetime
 @api_view(['GET'])
 def get_prediction(request, code):
     try:
-        currency = Currency.objects.get(code__iexact=code)
+        currency = Currency.objects.get(url_code__iexact=code)
     except:
         raise NotFound()
     history = CurrencyHistoryRecord.objects.\

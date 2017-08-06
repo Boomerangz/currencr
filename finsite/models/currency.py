@@ -14,6 +14,10 @@ PREDICTION_STATUS = (
 class Currency(models.Model):
     code = models.CharField(max_length=10)
     name = models.CharField(max_length=50)
+    url_code = models.CharField(max_length=10)
+
+
+
     exchange_list = models.ManyToManyField(Exchange, related_name='exchange_list')
     selected_exchange = models.ForeignKey(Exchange, default=1)
     prediction_status = models.IntegerField(choices=PREDICTION_STATUS, default=0)

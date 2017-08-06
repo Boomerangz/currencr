@@ -103,14 +103,14 @@
         <li id="currency-list-item-{{ currency.name }}" class="list-group-item list-group-item-action currency-list-item">
             <div class="currency-list-item-container" id="currency-list-item-container-{{ currency.name }}">
                 <div>
-                    <a href="/{{ currency.code }}/">
-                        <div class="crypt-logo" style="-webkit-mask-box-image: url(/static/img/crypt/{{ currency.code }}.png); mask: url(/static/img/crypt/{{ currency.code }}.png);"></div>
+                    <a href="/{{ currency.url_code }}/">
+                        <div class="crypt-logo" style="-webkit-mask-box-image: url(/static/img/crypt/{{ currency.url_code }}.png); mask: url(/static/img/crypt/{{ currency.url_code }}.png);"></div>
                     </a>
                 </div>
                 <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
                     <div class="mr-1">
-                        <a href="/{{ currency.code }}/">{{ currency.name }}</a>
-                        &nbsp;{% if currency.exchange > 0 %}{{ currency.code }}{% endif %}
+                        <a href="/{{ currency.url_code }}/">{{ currency.name }}</a>
+                        &nbsp;{% if currency.exchange > 0 %}{{ currency.url_code }}{% endif %}
                     </div>
                     <div class="mr-1">
                         <span>{{ currency.current_price|floatformat:3 }}</span>

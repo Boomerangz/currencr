@@ -19,7 +19,7 @@ filter_params = {
 def get_stock_history_from_db(request, code):
     if request.method == 'GET':
         try:
-            currency = Currency.objects.get(code__iexact=code)
+            currency = Currency.objects.get(url_code__iexact=code)
         except:
             raise NotFound() 
 # date =        

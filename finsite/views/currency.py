@@ -11,6 +11,6 @@ class CurrencyView(TemplateView):
 
     def get_context_data(self, code, **kwargs):
         context = super(CurrencyView, self).get_context_data(**kwargs)
-        context['currency'] = Currency.objects.get(code__iexact=code)
+        context['currency'] = Currency.objects.get(url_code__iexact=code)
         context['news_list'] = get_news(search=context['currency'].name, language=translation.get_language())
         return context
