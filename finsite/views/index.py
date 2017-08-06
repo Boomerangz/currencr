@@ -32,7 +32,7 @@ class IndexView(TemplateView):
         if not from_time:
             from_time = datetime.now() - timedelta(hours=24)
         return list(map(lambda c: c['price'], CurrencyHistoryRecord.objects.\
-                filter(currency=currency, time__gte=from_time).order_by('time') \
+                filter(currency=currency, time__gte=from_time, exchange=currency.selected_exchange).order_by('time') \
                                 .extra(select= {'time':"date_trunc('hour', time)"}) \
                                 .values("time") \
                                 .annotate(price=Avg('price'), volume=Sum('volume'))))
