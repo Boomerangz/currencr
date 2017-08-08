@@ -20,70 +20,70 @@ msgstr ""
 #: finsite/templates/currency.html:20 finsite/templates/currency.html:24
 #: finsite/templates/currency.html:28 finsite/templates/index.html:17
 msgid "Exchange rate, news and forecasts"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/currency.html:23
 msgid "Current exchange rate"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/currency.html:25
 msgid "Exchange rate"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/currency.html:33
 msgid "Exchange rate and forecast for"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/currency.html:34
 msgid "Chart is based on data of"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/currency.html:35
 msgid "Check forecast frequently"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/currency.html:69
 msgid "Denial of responsibility"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/index.html:13
 msgid "Currencr - Cryptocurrency exchange rates, news and forecasts"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/index.html:14 finsite/templates/index.html:16
 #: finsite/templates/index.html:18
-msgid ""
+msgid "китайский"
 "Graphs with detailed minute forecasts, based on the work of neural networks "
 "and algorithms of statistical analysis."
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/index.html:97
 msgid "Forecasts for BTC, ETH, LTC and other cryptocurrencys"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/index.html:98 finsite/templates/index.html:133
-msgid ""
+msgid "китайский"
 "Graphs with detailed forecasts for 60 minutes, based on the work of neural "
 "networks and algorithms for statistical analysis."
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/index.html:132
 msgid "Forecasts for popular cryptocurrencies"
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/index.html:135
-msgid ""
+msgid "китайский"
 "Evaluate our 60-minute forecasts and take on the arsenal of another tool for "
 "successful trading. Look for yourself the most successful entry and exit "
 "points in your intraday."
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/index.html:137
-msgid ""
+msgid "китайский"
 "We constantly work on the quality of forecasts, try innovations and select "
 "only the best approaches for publication."
-msgstr ""
+msgstr "китайский"
 
 #: finsite/templates/new.html:6
 msgid "News"
-msgstr ""
+msgstr "китайский"
