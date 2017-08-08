@@ -45,9 +45,6 @@ msgstr ""
 #: finsite/templates/currency.html:69
 msgid "Denial of responsibility"
 msgstr ""
-"The authors of the system are not responsible for the trading and investment "
-"decisions you made and for any damage associated with the use of information "
-"posted on the page."
 
 #: finsite/templates/index.html:13
 msgid "Currencr - Cryptocurrency exchange rates, news and forecasts"
@@ -89,10 +86,4 @@ msgstr ""
 
 #: finsite/templates/new.html:6
 msgid "News"
-msgstr "News"
-
-#~ msgid "Warning!"
-#~ msgstr "Warning!"
-
-#~ msgid "History and forecasts"
-#~ msgstr "History and forecasts"
+msgstr ""

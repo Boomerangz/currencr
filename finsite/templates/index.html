@@ -10,12 +10,12 @@
     <meta name="robots" content="index, follow">
     <meta property="og:site_name" content="Currencr.me">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Currencr - Курсы криптовалют, прогнозы от нейронной сети и новости">
-    <meta property="og:description" content="Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.">
+    <meta property="og:title" content="{% trans "Currencr - Cryptocurrency exchange rates, news and forecasts" %}">
+    <meta property="og:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
     <meta property="og:image" content="https://currencr.me/static/img/screen.png">
-    <meta name="twitter:card" content="Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.">
-    <meta name="twitter:title" content="Currencr - Курсы криптовалют, прогнозы от нейронной сети и новости">
-    <meta name="twitter:description" content="Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.">
+    <meta name="twitter:card" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
+    <meta name="twitter:title" content="Currencr - {% trans "Exchange rate, news and forecasts" %}">
+    <meta name="twitter:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
     <meta name="twitter:image" content="https://currencr.me/static/img/screen.png">
 {% endblock %}
 {% block css %}
@@ -94,8 +94,8 @@
 
 {% block content %}
 <blockquote id="lead-content-small" class="blockquote lead-content-small">
-    <h3 class="mt-0">Прогнозы для BTC, ETH, LTC и других криптовалют</h3>
-    <p class="mb-0">Графики с детальными прогнозами на 60 минут, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+    <h3 class="mt-0">{% trans "Forecasts for BTC, ETH, LTC and other cryptocurrencys" %}</h3>
+    <p class="mb-0">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
 </blockquote>
 <div id="page-content" class="content">
     <ul id="currency-list" class="list-group currency-list">
@@ -129,12 +129,12 @@
         {% endfor %}
     </ul>
     <div id="lead-content-large" class="lead-content-large">
-        <h2 class="mt-0 mb-2">Прогнозы для популярных криптовалют</h2>
-        <p class="mb-4 regular">Графики с детальными поминутными прогнозами, основанные на работе нейронных сетей и алгоритмах статистического анализа.</p>
+        <h2 class="mt-0 mb-2">{% trans "Forecasts for popular cryptocurrencies" %}</h2>
+        <p class="mb-4 regular">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
         <img class="mb-4 lead-img" src="/static/img/screen.png"/>
-        <p class="mb-0 regular">Оцените наши 60-и минутные прогнозы и возьмите на вооружение ещё один инструмент успешного трейдинга. Ищите для себя наиболее удачные точки входа и выхода в вашем интрадей.</p>
+        <p class="mb-0 regular">{% trans "Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday." %}</p>
         <hr class="my-3">
-        <p class="mb-0 thin">Мы постоянно работаем над качеством прогнозов, пробуем нововведения и отбираем для публикации только наилучшие подходы.</p>
+        <p class="mb-0 thin">{% trans "We constantly work on the quality of forecasts, try innovations and select only the best approaches for publication." %}</p>
     </div>
     <script>
         handleResizing();
