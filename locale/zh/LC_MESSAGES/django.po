@@ -63,8 +63,7 @@ msgstr "预测 BTC，ETH，LTC 和其他 cryptocurrency"
 
 #: finsite/templates/index.html:98 finsite/templates/index.html:133
 msgid "китайский"
-"Graphs with detailed forecasts for 60 minutes, based on the work of neural "
-"networks and algorithms for statistical analysis."
+"Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis."
 msgstr "根据统计分析，神经网络和算法分钟图详细预测"
 
 #: finsite/templates/index.html:132
@@ -73,15 +72,11 @@ msgstr "预测cryptocurrency神经网络"
 
 #: finsite/templates/index.html:135
 msgid "китайский"
-"Evaluate our 60-minute forecasts and take on the arsenal of another tool for "
-"successful trading. Look for yourself the most successful entry and exit "
-"points in your intraday."
+"Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday."
 msgstr "看，我们有60分钟预报和使用的另一个工具，用于成功的交易。 寻找最好的入境点和出口的一天"
 
 #: finsite/templates/index.html:137
-msgid "китайский"
-"We constantly work on the quality of forecasts, try innovations and select "
-"only the best approaches for publication."
+msgid "We constantly work on the quality of forecasts, try innovations and select only the best approaches for publication."
 msgstr "我们正在不断努力，在质量的预报发布只有最好的结果"
 
 #: finsite/templates/new.html:6
