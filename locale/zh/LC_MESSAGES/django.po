@@ -52,9 +52,7 @@ msgstr "Currencr - cryptocurrency 当然，新闻和预测"
 
 #: finsite/templates/index.html:14 finsite/templates/index.html:16
 #: finsite/templates/index.html:18
-msgid "китайский"
-"Graphs with detailed minute forecasts, based on the work of neural networks "
-"and algorithms of statistical analysis."
+msgid "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis."
 msgstr "根据统计分析，神经网络和算法分钟图详细预测"
 
 #: finsite/templates/index.html:97
@@ -62,8 +60,7 @@ msgid "Forecasts for BTC, ETH, LTC and other cryptocurrencys"
 msgstr "预测 BTC，ETH，LTC 和其他 cryptocurrency"
 
 #: finsite/templates/index.html:98 finsite/templates/index.html:133
-msgid "китайский"
-"Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis."
+msgid "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis."
 msgstr "根据统计分析，神经网络和算法分钟图详细预测"
 
 #: finsite/templates/index.html:132
@@ -71,8 +68,7 @@ msgid "Forecasts for popular cryptocurrencies"
 msgstr "预测cryptocurrency神经网络"
 
 #: finsite/templates/index.html:135
-msgid "китайский"
-"Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday."
+msgid "Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday."
 msgstr "看，我们有60分钟预报和使用的另一个工具，用于成功的交易。 寻找最好的入境点和出口的一天"
 
 #: finsite/templates/index.html:137
