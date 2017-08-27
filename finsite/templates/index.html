@@ -60,7 +60,6 @@
         var CHART_PADDING = 6;
         var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - CHART_PADDING, canvas.height));
         chart.x = CHART_PADDING / 2;
-        chart.set(data.slice(-24));
 
         var WIDTH = 450;
         var SPACE = 10;
@@ -84,7 +83,7 @@
                 canvas.width = innerWidth;
             }
             chart.setComplexSize(canvas.width - CHART_PADDING, canvas.height);
-            chart.set(data.slice(-24));
+            chart.setPreview(data.slice(-24));
             chart.redraw();
             stages[currency].update();
         }

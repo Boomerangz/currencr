@@ -28,9 +28,9 @@ window.cr = {};
 
     var p = createjs.extend(PreviewChart, charts.StreamingChart);
 
-    p.set = function(data) {
+    p.setPreview = function(data) {
         this.setPoint(this.getSize().width / (data.length - 1), this.getPoint().height);
-        this.StreamingChart_set(data);
+        this.set(data);
     }
 
     cr.PreviewChart = createjs.promote(PreviewChart, "StreamingChart");

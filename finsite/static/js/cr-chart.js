@@ -22,7 +22,7 @@ window.cr = {};
           {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.1, bottom: height * 0.1}},
           {
               background: {color: "#00AAFF", alpha: 0.1},
-              grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 12, height: 0, dash: [1, 0]},
+              grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 15, height: 0, dash: [1, 0]},
               axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
               chart: {
                   lines: {thickness: 1.5, color: "#003333", alpha: 1, bounds: true},
@@ -65,13 +65,13 @@ window.cr = {};
         this._updateGuidesAndRulers();
     };
     
-    p.setSize = function(width, height) {
+    p.setComplexSize = function(width, height) {
         width -= ComplexChart.RULER_WIDTH;
         var ratio = width / this.getSize().width;
         this._timeline.setWidth(width);
         this._guide.setSize(width, height);
         this._ruler.x = width;
-        this.StreamingChart_setSize(width, height);
+        this.StreamingChart_setComplexSize(width, height);
         this._predictionBoundX *= ratio;
         this._updatePredictionBound();
     };

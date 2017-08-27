@@ -9,6 +9,10 @@ div.chart-header {
     color: #FFF;
 }
 
+div.chart-container {
+    height: 350px;
+}
+
 .card-header {
     padding-top: .2rem;
 }
