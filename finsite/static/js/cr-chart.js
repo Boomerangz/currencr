@@ -120,7 +120,7 @@ window.cr = {};
         this._ruler.setRange(this._chartRange.top, this._chartRange.bottom);
         var gridHeight = this._calculateGridHeight();
         if (gridHeight === 0) return;
-        this.setGrid(this.getCapacity() / 10, gridHeight);
+        this.setGrid(this.getGrid().width, gridHeight);
         this._setRuler(gridHeight);
     };
     
