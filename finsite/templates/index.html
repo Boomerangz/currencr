@@ -51,18 +51,19 @@
     var stages = {};
     function addPreviewChart(currency, data) {
         var canvas = document.getElementById("preview-canvas-" + currency);
-        canvas.width = 300;
-        canvas.height = 75;
+        canvas.width = 258;
+        canvas.height = 90;
 
         stages[currency] = new createjs.Stage("preview-canvas-" + currency);
         createjs.Ticker.setFPS(10);
         
         var CHART_PADDING = 6;
         var chart = stages[currency].addChild(new cr.PreviewChart(canvas.width - CHART_PADDING, canvas.height));
+        chart.setPreview(data.slice(-24));
         chart.x = CHART_PADDING / 2;
 
         var WIDTH = 450;
-        var SPACE = 10;
+        var SPACE = 8;
         var li = document.getElementById("currency-list-item-" + currency);
         var price = document.getElementById("currency-list-item-container-" + currency);
         
@@ -83,8 +84,6 @@
                 canvas.width = innerWidth;
             }
             chart.setComplexSize(canvas.width - CHART_PADDING, canvas.height);
-            chart.setPreview(data.slice(-24));
-            chart.redraw();
             stages[currency].update();
         }
     }
