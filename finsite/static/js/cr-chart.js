@@ -113,7 +113,7 @@ window.cr = {};
         var currentCapacity = Math.min(this.getData().length, this.getCapacity());
         var left = this._complexData[this._complexData.length - currentCapacity];
         var right = this._complexData[this._complexData.length - 1];
-        this._timeline.setRange(this._formatDate(left.date, 1), this._formatDate(right.date, 1));
+        this._timeline.setRange(this._formatDate(left.date, true), this._formatDate(right.date));
         if (this._isInteractiveState) this._processInteractive();
         var isRangeUpdated = this._processChartRange();
         if (!isRangeUpdated) return;
@@ -225,21 +225,19 @@ window.cr = {};
         this._guide.guideY.y = levelY;
     };
 
-    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     p._formatDate = function(date, isFull){
-        var result = "";
-        if (isFull) {
-            var day = date.getDate();
-            var month = monthNames[date.getMonth()];
-            day = day < 10 ? "0" + day : day;
-            result += day + " " + month + " ";
-        }
-        var hours = date.getHours();
-        var minutes = date.getMinutes();
-        hours = hours < 10 ? "0" + hours : hours;
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        result += hours + ":" + minutes;
-        return result;
+        if (isFull) return date.toLocaleTimeString([], {
+            day: "2-digit",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        });
+        return date.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: false
+        });
     }
     
     cr.ComplexChart = createjs.promote(ComplexChart, "StreamingChart");
