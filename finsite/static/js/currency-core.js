@@ -135,8 +135,9 @@ function uploadTicker(symbol, exchange, callback) {
  * @param {string} callback 
  */
 function uploadForecasts(symbol, exchange, callback) {
+    var now = (new Date()).getTime();
     var req = new XMLHttpRequest();
-    req.open("GET", "https://prdc.currencr.me/" + symbol + "/" + exchange, true);
+    req.open("GET", "https://prdc.currencr.me/" + symbol + "/" + exchange + "?nocache=" + now, true);
     req.addEventListener("load", function() {
         if (!callback) return;
         try {
