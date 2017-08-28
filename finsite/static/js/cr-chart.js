@@ -22,7 +22,7 @@ window.cr = {};
           {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.1, bottom: height * 0.1}},
           {
               background: {color: "#00AAFF", alpha: 0.1},
-              grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 15, height: 0, dash: [1, 0]},
+              grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 15, height: 0, dash: [1, 0], offset: 0},
               axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
               chart: {
                   lines: {thickness: 1.5, color: "#003333", alpha: 1, bounds: true},
@@ -35,9 +35,9 @@ window.cr = {};
         this._chartRange = {top: Number.MAX_VALUE, bottom: -Number.MAX_VALUE};
         this._isInteractiveState = false;
         
-        this._predictionBoundShape = this.addChild(new createjs.Shape());
-        this._predictionBoundShape.mouseEnabled = false;        
-        this._predictionBoundX = 0;
+        this._forecastPositionShape = this.addChild(new createjs.Shape());
+        this._forecastPositionShape.mouseEnabled = false;        
+        this._forecastIndex = 0;
 
         this._guide = this.addChild(new cr.Guide(width, height));
         this._guide.visible = false;
@@ -67,18 +67,16 @@ window.cr = {};
     
     p.setComplexSize = function(width, height) {
         width -= ComplexChart.RULER_WIDTH;
-        var ratio = width / this.getSize().width;
         this._timeline.setWidth(width);
         this._guide.setSize(width, height);
         this._ruler.x = width;
         this.StreamingChart_setComplexSize(width, height);
-        this._predictionBoundX *= ratio;
-        this._updatePredictionBound();
+        this._updateForecastPosition();
     };
 
-    p.setPredictionBound = function(x) {
-        this._predictionBoundX = x;
-        this._updatePredictionBound();
+    p.setForecastPosition = function(x) {
+        this._forecastIndex = x;
+        this._updateForecastPosition();
     }
     
     
@@ -86,27 +84,30 @@ window.cr = {};
     //  Private
     //
     
-    p._updatePredictionBound = function() {
-        var graphics = this._predictionBoundShape.graphics.clear();
-        if (this._predictionBoundX === 0) return;
+    p._updateForecastPosition = function() {
+        var localX = this.getLocalXByIndex(this._forecastIndex);
+        var graphics = this._forecastPositionShape.graphics.clear();
+        if (localX === 0) return;
+        // -----
         var size = this.getSize();
         graphics.beginLinearGradientFill(
             ["rgba(0,170,255,0.2)","rgba(0,170,255,0.0)"],
             [0, 1],
-            0, 0, (size.width - this._predictionBoundX) * 0.60, 0
+            0, 0, (size.width - localX) * 0.60, 0
         )
-        graphics.drawRect(0, 0, size.width - this._predictionBoundX, size.height);
+        graphics.drawRect(0, 0, size.width - localX, size.height);
         graphics.endFill();
         graphics.beginStroke("#002D40").setStrokeStyle(1);
         graphics.moveTo(0,0);
         graphics.lineTo(0, size.height);
-        this._predictionBoundShape.x = this._predictionBoundX;
+        // -----
+        this._forecastPositionShape.x = localX;
         var currentCapacity = Math.min(this.getData().length, this.getCapacity());
-        var timelineIndex = this._complexData.length - currentCapacity + this.getIndexByLocalX(this._predictionBoundX);
+        var timelineIndex = this._complexData.length - currentCapacity + this._forecastIndex;
         if (timelineIndex === -1 || timelineIndex === 0) return;
         var item = this._complexData[timelineIndex];
         this._timeline.showMarker();
-        this._timeline.setMarker(this._predictionBoundX, this._formatDate(item.date));
+        this._timeline.setMarker(localX, this._formatDate(item.date));
     }
 
     p._updateGuidesAndRulers = function() {
@@ -145,13 +146,11 @@ window.cr = {};
     };
     
     p._calculateGridHeight = function() {
-        //console.log("");
         var delta = Math.abs(this._chartRange.top - this._chartRange.bottom);
         var logRatio = 0.200;
         var heights = [];
         var reserve = 0;
         var count = 0;
-        //console.log("delta=" + delta);
         do {
             heights[0] = this._calculateGridHeightByLogBase(0.2, delta, 0, logRatio);
             heights[1] = this._calculateGridHeightByLogBase(0.5, delta, 0, logRatio);
@@ -161,19 +160,15 @@ window.cr = {};
             heights[4] = this._calculateGridHeightByLogBase(50, delta, 0, logRatio);
             heights[5] = this._calculateGridHeightByLogBase(200, delta, 0, logRatio);
             heights[6] = this._calculateGridHeightByLogBase(2, delta, 0, logRatio);
-            //console.log("heights=" + heights.toString());
             for (var i = 0; i < heights.length; i++) {
                 reserve = Math.max(reserve, heights[i]);
-                //console.log("reserve=" + reserve);
                 count = Math.ceil(delta / heights[i]);
                 if (count > 16 || count < 8) continue;
-                //console.log("return normal=" + heights[i] + " (" + count + ")");
                 return heights[i];
             }
             logRatio -= 0.040;
         } while(logRatio > 0.080);
         count = Math.ceil(delta / reserve);
-        //console.log("return reserve=" + reserve + " (" + count + ")");
         return reserve;
     };
     

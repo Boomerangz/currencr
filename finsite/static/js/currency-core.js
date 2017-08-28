@@ -37,14 +37,19 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
 
     var length = 0;
     var now = new Date();
-    var from = now.getTime() - 150 * 60 * 1000;
+    var count = 150;
+    var lag = 5;
+    var from = now.getTime() - (count + lag) * 60 * 1000;
+    var pointWidth = 0;
     uploadHistory(symbol, exchange, from, function(history) {
-        var pointWidth = chart.getSize().width / (history.length - 1);
+        pointWidth = chart.getSize().width / (count - 1);
+        history = history.slice(-count);
         chart.setPoint(pointWidth, chart.getPoint().height);
         chart.complexAppend(history);
         length = history.length;
         log.text = log.text + "History; Point width: " + pointWidth + "; total length: " + length + ";\n\n";
         var time = history[length - 1].date.getTime();
+        chart.setGridOffset(60 - history[0].date.getMinutes());
         uploadTicker(symbol, exchange, function(ticker) {
             pointWidth = chart.getSize().width / length;
             ticker.date = new Date(time += step);
@@ -62,12 +67,12 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
                             price: prices[i]
                         });
                     }
+                    var index = length - 1;
                     length += forecast.length;
                     pointWidth = chart.getSize().width / (length - 1);
                     chart.setPoint(pointWidth, chart.getPoint().height);
                     chart.complexAppend(forecast);
-                    var index = chart.getCapacity() - forecast.length - 1;
-                    chart.setPredictionBound(chart.getLocalXByIndex(index));
+                    chart.setForecastPosition(index);
                     log.text = log.text + "Forecasts; Point width: " + pointWidth + "; total length: " + length + ";\n\n";
                 }
             });
