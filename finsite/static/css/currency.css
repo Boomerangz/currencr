@@ -4,22 +4,21 @@ div.card-content {
 
 div.chart-header {
     display: block;
-    padding-bottom: 10px;
+    padding-bottom: 0rem;
+    border-bottom: 0px;
     background-color: #002D40;
     color: #FFF;
 }
 
 @media only screen and (max-width: 720px) {
     div.chart-container {
-        max-width: 720px;
         height: 240px;
     }
 }
 
 @media only screen and (min-width: 721px) {
     div.chart-container {
-        min-width: 721px;
-        height: 400px;
+        height: 360px;
     }
 }
 
@@ -40,13 +39,18 @@ div.header-ui {
 }
 
 h6.header-symbol-currency {
-    margin-top: 0.8rem;
+    margin-top: 0.40rem;
     margin-bottom: 0px;
     color: #EEE;
 }
 
 ul.header-chart-timeframe {
-    margin-left: 1.5rem;
+    margin-left: 1.0rem;
+    margin-bottom: -1px;
+}
+
+a.nav-link-chart-header {
+    padding: .2rem .5rem;
 }
 
 #chart-canvas {
