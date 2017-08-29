@@ -9,8 +9,18 @@ div.chart-header {
     color: #FFF;
 }
 
-div.chart-container {
-    height: 350px;
+@media only screen and (max-width: 720px) {
+    div.chart-container {
+        max-width: 720px;
+        height: 240px;
+    }
+}
+
+@media only screen and (min-width: 721px) {
+    div.chart-container {
+        min-width: 721px;
+        height: 400px;
+    }
 }
 
 .card-header {

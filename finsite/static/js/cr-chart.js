@@ -10,7 +10,7 @@ window.cr = {};
  */
 (function() {
     
-    ComplexChart.RULER_WIDTH = 75;
+    ComplexChart.RULER_WIDTH = 60;
     ComplexChart.TIMELINE_HEIGHT = 16;
     
     function ComplexChart(width, height, pointsCount) {
@@ -47,6 +47,8 @@ window.cr = {};
         
         this._ruler = this.addChild(new cr.Ruler(ComplexChart.RULER_WIDTH, height));
         this._ruler.x = width;
+
+        this._fLength = 2;
         
         this._handleMouseOver();
     }
@@ -62,15 +64,21 @@ window.cr = {};
         this._complexData = this._complexData.concat(data);
         data = data.map(function(item) {return Number(item.price);});
         this.append(data);
+        var max = Math.ceil(this.getExtreme().max.value);
+        this._fLength = Math.max(6 - max.toString().length, 0);
         this._updateGuidesAndRulers();
     };
     
     p.setComplexSize = function(width, height) {
         width -= ComplexChart.RULER_WIDTH;
+        height -= ComplexChart.TIMELINE_HEIGHT;
         this._timeline.setWidth(width);
+        this._timeline.y = height;
         this._guide.setSize(width, height);
         this._ruler.x = width;
+        this._ruler.setHeight(height);
         this.StreamingChart_setComplexSize(width, height);
+        this._updateGuidesAndRulers();
         this._updateForecastPosition();
     };
 
@@ -114,11 +122,12 @@ window.cr = {};
         var currentCapacity = Math.min(this.getData().length, this.getCapacity());
         var left = this._complexData[this._complexData.length - currentCapacity];
         var right = this._complexData[this._complexData.length - 1];
+        if (!left || !right) return;
         this._timeline.setRange(this._formatDate(left.date, true), this._formatDate(right.date));
         if (this._isInteractiveState) this._processInteractive();
         var isRangeUpdated = this._processChartRange();
         if (!isRangeUpdated) return;
-        this._ruler.setRange(this._chartRange.top, this._chartRange.bottom);
+        this._ruler.setRange(this._chartRange.top.toFixed(this._fLength), this._chartRange.bottom.toFixed(this._fLength));
         var gridHeight = this._calculateGridHeight();
         if (gridHeight === 0) return;
         this.setGrid(this.getGrid().width, gridHeight);
@@ -129,7 +138,7 @@ window.cr = {};
         var currentY = Math.ceil(this._chartRange.top / gridHeight) * gridHeight;
         this._ruler.clear();
         while (currentY > this._chartRange.bottom) {
-            this._ruler.addField(this.getLocalYByValue(currentY), currentY);
+            this._ruler.addField(this.getLocalYByValue(currentY), currentY.toFixed(this._fLength));
             currentY -= gridHeight;
         }
     };
@@ -215,7 +224,7 @@ window.cr = {};
         var rulerValue = this.getInterpolatedValueByLocalX(mouseX) || 0;
         var levelY = this.getLocalYByValue(rulerValue);
         this._timeline.setCurrent(mouseX, this._formatDate(item.date));
-        this._ruler.setCurrent(levelY, rulerValue);
+        this._ruler.setCurrent(levelY, rulerValue.toFixed(this._fLength));
         this._guide.guideX.x = Math.round(mouseX);
         this._guide.guideY.y = levelY;
     };
@@ -326,7 +335,7 @@ window.cr = {};
     var p = createjs.extend(Ruler, createjs.Container);
     
     p.setCurrent = function(localY, value) {
-        this._currentField.setText(value.toFixed(3));
+        this._currentField.setText(value);
         this._currentField.y = localY - this._bottomField.getBounds().height / 2;
     };
     
@@ -339,8 +348,8 @@ window.cr = {};
     };
     
     p.setRange = function(top, bottom) {
-        this._topField.setText(top.toFixed(3));
-        this._bottomField.setText(bottom.toFixed(3));
+        this._topField.setText(top);
+        this._bottomField.setText(bottom);
         this._bottomField.y = this._height - this._bottomField.getBounds().height;
     };
     
@@ -359,10 +368,18 @@ window.cr = {};
             this._fieldsContainer.addChild(field);
         }
         field.y = localY - cr.Ruler.FIELD_HEIGHT / 2;
-        field.setText(value.toFixed(3));
+        field.setText(value);
         field.visible = true;
         this._usedCount ++;
     };
+
+    p.setHeight = function(height) {
+        this._height = height;
+        this._backgroundShape.scaleY = this._height;
+        var graphics = this._fieldsContainer.mask.graphics.clear();
+        graphics.beginFill("#002D40").drawRect(0, 0,  this._width, this._height).endFill();
+        this._bottomField.y = this._height - this._bottomField.getBounds().height;
+    }
     
     p._makeField = function(value, background) {
         return new cr.TextItem(value, Ruler.FONT, Ruler.FONT_COLOR, background, this._width, Ruler.FIELD_HEIGHT);
