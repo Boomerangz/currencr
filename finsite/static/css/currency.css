@@ -10,6 +10,32 @@ div.chart-header {
     color: #FFF;
 }
 
+div.inline-block {
+    display: inline-block;
+}
+
+div.symbol {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+div.symbol-logo {
+    overflow: hidden;
+    margin: 0px 1px 0px 1px;
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: #002D40; 
+    mask-size: 100%;
+    -webkit-mask-size: 100%;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+}
+
+h3.symbol-name {
+    margin: 0px 0px -3px 0px;
+}
+
 @media only screen and (max-width: 720px) {
     div.chart-container {
         height: 240px;
@@ -28,7 +54,6 @@ div.chart-header {
 
 blockquote.top-info {
     font-size: 1.25rem;
-    border-color: #002D40;
     max-width: 850px;
 }
 

@@ -1,14 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block css %}
-<link rel="stylesheet" href="/static/css/currency.css">
-{% endblock %}
-
-{% block js %}
-<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
-{% endblock %}
-
+{% block title %}Currencr - {{ currency.url_code }}/USD | {% trans "Exchange rate, news and forecasts" %}{% endblock %}
 {% block head %}
 <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="format-detection" content="telephone=no">
@@ -25,20 +18,36 @@
 <meta name="twitter:title" content="Currencr - {{ currency.url_code }}/USD | {% trans "Exchange rate, news and forecasts" %}">
 <meta name="twitter:description" content="{% trans "Exchange rate" %} {{ currency.name }} {{ currency.url_code }}">
 <meta name="twitter:image" content="https://currencr.me/static/img/screen.png">
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/static/css/currency.css">
+{% endblock %}
+
+{% block js %}
+<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
 <script src="/static/js/chart-lib.js"></script>
 <script src="/static/js/cr-chart.js"></script>
 <script src="/static/js/currency-core.js"></script>
 {% endblock %}
 
-{% block title %}Currencr - {{ currency.url_code }}/USD | {% trans "Exchange rate, news and forecasts" %}{% endblock %}
-
 {% block content %}
 <div class="page-content">
+
     <blockquote class="top-info">        
-        <h3 class="mb-2 mt-0">{% trans "Exchange rate and forecast for" %} {{ currency.name }}.</h2>
+        <h3 class="mb-2 mt-0">
+            {% trans "Exchange rate and forecast for" %}
+            <div class="inline-block">
+                <div class="symbol">
+                    <div class="symbol-logo" style="-webkit-mask-box-image: url(/static/img/crypt/{{ currency.url_code }}.png); mask-image: url(/static/img/crypt/{{ currency.url_code }}.png);"></div>
+                    <h3 class="symbol-name">{{ currency.name }}.</h3>
+                </div>
+            </div>
+        </h3>
         <p class="mb-0 regular">{% trans "Chart is based on data of" %} <a href="{{ currency.selected_exchange.link }}" target="_blank">{{ currency.selected_exchange.pseudonym }}</a></p>
         <p class="mb-0 thin">{% trans "Check forecast frequently" %}</p>
     </blockquote>
+
     <div class="card card-content">
         <div class="card-header chart-header">
             <div class="header-ui">

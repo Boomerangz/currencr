@@ -13,7 +13,6 @@ div.lead-content-large {
 
 blockquote.lead-content-small {
     font-size: 1.25rem;
-    border-color: #002D40;
     display: none;
 }
 
@@ -50,7 +49,7 @@ div.currency-list-item-container {
     margin-bottom: .25rem;
 }
 
-div.crypt-logo {
+div.symbol-logo {
     width: 40px;
     height: 40px;
     margin-right: .6rem;
