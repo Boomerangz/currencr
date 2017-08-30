@@ -1,5 +1,6 @@
+
 function handleResizing() {
-    var WIDTH = 700;
+    var WIDTH = 720;
     var largeContent = document.getElementById("lead-content-large");
     var smallContent = document.getElementById("lead-content-small");
     var currencyList = document.getElementById("currency-list");
@@ -32,7 +33,7 @@ function addPreviewChart(currency, data) {
     chart.setPreview(data.slice(-24));
     chart.x = CHART_PADDING / 2;
     var WIDTH = 450;
-    var SPACE = 8;
+    var SPACE = 5;
     var li = document.getElementById("currency-list-item-" + currency);
     var price = document.getElementById("currency-list-item-container-" + currency);
      
@@ -48,7 +49,8 @@ function addPreviewChart(currency, data) {
         innerWidth -= parseInt(style.getPropertyValue("padding-right"));
         innerWidth -= parseInt(style.getPropertyValue("border-width")) * 2;
         if (innerWidth > WIDTH) {
-            canvas.width = innerWidth - price.clientWidth - SPACE;
+            var freeWidth = (innerWidth - price.clientWidth) * 0.9;
+            canvas.width = freeWidth - SPACE;
         } else {
             canvas.width = innerWidth;
         }
