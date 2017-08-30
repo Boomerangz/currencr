@@ -1,26 +1,3 @@
-
-function handleResizing() {
-    var WIDTH = 720;
-    var largeContent = document.getElementById("lead-content-large");
-    var smallContent = document.getElementById("lead-content-small");
-    var currencyList = document.getElementById("currency-list");
-    var container = document.getElementById("page-content");
-    window.addEventListener("resize", resizeHandler, false);
-    resizeHandler();
-        
-    function resizeHandler(e) {
-        if (container.clientWidth <= WIDTH) {
-            largeContent.style.display = "none";
-            smallContent.style.display = "block";
-            currencyList.style.width = "100%";
-        } else {
-            largeContent.style.display = "block";
-            smallContent.style.display = "none";
-            currencyList.style.width = "auto";
-        }
-    }
-};
-    
 var stages = {};
 function addPreviewChart(currency, data) {
     var canvas = document.getElementById("preview-canvas-" + currency);

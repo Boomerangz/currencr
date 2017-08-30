@@ -73,15 +73,11 @@
     <div id="lead-content-large" class="lead-content-large">
         <h2 class="mt-0 mb-2">{% trans "Forecasts for popular cryptocurrencies" %}</h2>
         <p class="mb-4 thin">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
-        <img class="mb-4 lead-img" src="/static/img/screen.png"/>
+        <img class="w-100 mb-4" src="/static/img/screen.png"/>
         <p class="mb-0 thin">{% trans "Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday." %}</p>
         <hr class="my-3">
         <p class="mb-0 regular">{% trans "We constantly work on the quality of forecasts, try innovations and select only the best approaches for publication." %}</p>
     </div>
-    
-    <script>
-        handleResizing();
-    </script>
 </div>
 
 {% include "new.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}

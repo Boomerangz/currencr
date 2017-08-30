@@ -5,15 +5,37 @@ div.content {
     align-items: flex-start;
 }
 
-div.lead-content-large {
-    font-size: 1.25rem;
-    display: none;
-    margin-left: 1.5rem;
+@media only screen and (max-width: 720px) {
+    ul.currency-list {
+        width: 100%;
+        max-width: 720px;
+        min-width: 280px;
+    }
+
+    div.lead-content-large {
+        display: none;
+    }
+
+    blockquote.lead-content-small {
+        font-size: 1.25rem;
+        display: block;
+    }
 }
 
-blockquote.lead-content-small {
-    font-size: 1.25rem;
-    display: none;
+@media only screen and (min-width: 721px) {
+    ul.currency-list {
+        width: 300px;
+    }
+    
+    div.lead-content-large {
+        font-size: 1.25rem;
+        display: block;
+        margin-left: 1.5rem;
+    }
+
+    blockquote.lead-content-small {
+        display: none;
+    }
 }
 
 canvas.preview {
@@ -25,16 +47,6 @@ div.center {
     display: inline-block;
     margin: 0 auto;
     width: 1px;
-}
-
-img.lead-img {
-    width: 100%;
-}
-
-ul.currency-list {
-    width: auto;
-    max-width: 720px;
-    min-width: 300px;
 }
 
 div.currency-list-item {
