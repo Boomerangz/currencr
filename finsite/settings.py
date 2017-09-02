@@ -44,6 +44,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'finsite.middleware.redirect_middleware.LocaleRedirectMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,6 +79,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'finsite.middleware.redirect_middleware.languages_context_processor',
             ],
         },
     },
@@ -128,6 +132,13 @@ LANGUAGES = [
     ('en','English'),
     ('ru','Russian'),
     ('zh','Chinese simplified'),
+]
+
+
+LANGUAGES_SITES = [
+    ('en','English'),
+    ('ru','Russian'),
+    ('cn','Chinese simplified'),
 ]
 
 LOCALEURL_USE_ACCEPT_LANGUAGE = True
