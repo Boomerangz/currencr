@@ -48,7 +48,7 @@ msgstr "提交人的系统是不负责的采取的贸易和投资决定并对任
 
 #: finsite/templates/index.html:13
 msgid "Currencr - Cryptocurrency exchange rates, news and forecasts"
-msgstr "Currencr - cryptocurrency 当然，新闻和预测"
+msgstr "Currencr - 加密貨幣 当然，新闻和预测"
 
 #: finsite/templates/index.html:14 finsite/templates/index.html:16
 #: finsite/templates/index.html:18
@@ -57,7 +57,7 @@ msgstr "根据统计分析，神经网络和算法分钟图详细预测"
 
 #: finsite/templates/index.html:97
 msgid "Forecasts for BTC, ETH, LTC and other cryptocurrencys"
-msgstr "预测 BTC，ETH，LTC 和其他 cryptocurrency"
+msgstr "预测 BTC，ETH，LTC 和其他 加密貨幣"
 
 #: finsite/templates/index.html:98 finsite/templates/index.html:133
 msgid "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis."
@@ -65,7 +65,7 @@ msgstr "根据统计分析，神经网络和算法分钟图详细预测"
 
 #: finsite/templates/index.html:132
 msgid "Forecasts for popular cryptocurrencies"
-msgstr "预测cryptocurrency神经网络"
+msgstr "预测加密貨幣神经网络"
 
 #: finsite/templates/index.html:135
 msgid "Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday."
