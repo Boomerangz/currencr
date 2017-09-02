@@ -16,6 +16,7 @@
     <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="16x16">
     <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="32x32">
 
+    
 
     {% block css %}
     {% endblock %}
@@ -61,6 +62,15 @@
             {% block header %}
             {% endblock %}
         </div>
+        <ul>
+        {% comment %}
+        {% for lang in LANGUAGES %}
+        <li>
+            <a href="https://{{ lang.0 }}.currencr.me">{{lang.1}}</a>
+        </li>
+        {% endfor %}
+        {% endcomment %}
+        </ul>
         <div class="separator-large"></div>
         {% block content %}
         {% endblock %}
