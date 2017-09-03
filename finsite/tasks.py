@@ -184,5 +184,7 @@ def get_news_data_from_forklog(link):
     text = str(article)
     text = text.replace('<p>Подписывайтесь на новости ForkLog в Twitter!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости Forklog в  VK!</p>', '')
+    text = text.replace('<p>Подписывайтесь на новости Forklog в  VK!</p>', '')
+    text = text.replace('<p>Подписывайтесь на новости ForkLog в VK!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости Forklog в Telegram!</p>', '')
     return {'content':text, 'link':link, 'title':title}
