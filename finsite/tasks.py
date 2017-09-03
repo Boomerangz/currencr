@@ -65,17 +65,24 @@ def update_news_ru():
             title = article.title
             if 'ТАСС:' in title:
                 continue
-            text = '<br/>'.join([s for s in article.text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
+            text = article.content
+            top_image = article.top_image
+            keywords = article.keywords
+
+            if 'forklog' in news['link']:
+                text = get_news_data_from_forklog(news['link'])['content']
+
+            text = '<br/>'.join([s for s in text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
             if 'Материал предоставил' in text:
                 text = text[:text.find('Материал предоставил')]
             text = text.replace('on •<br/><br/>','')
             text = text.replace('<br/>Источник<br/>','')
             if 'forklog' in text.lower():
                 text = '.'.join([t for t in text.split('.') if 'forklog' not in t.lower()])
-            top_image = article.top_image
+            
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
-            keywords = article.keywords
+            
             if NewsItem.objects.filter(title__iexact=title).count() == 0:
                 NewsItem.objects.create(link=news['link'],
                                         title=title,
@@ -85,6 +92,8 @@ def update_news_ru():
                                         language='ru')
         except Exception as e:
             print(e)
+
+
 
 @periodic_task(run_every=timedelta(minutes=5))
 def update_news_en():
@@ -152,3 +161,25 @@ def get_news_from_forklog():
         if not link:
                 continue
         yield link['href']
+
+
+
+
+def get_news_data_from_forklog(link):
+    import requests
+    import re
+    from bs4 import BeautifulSoup
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'
+    }
+    r = requests.get(link, headers = headers)
+    text = r.text
+    soup = BeautifulSoup(text, 'html.parser')
+    article = soup.find('section', {'id':'article_content'})
+    [s.extract() for s in article.findAll('section', {'id':'article_share'})]
+    [s.extract() for s in article.findAll('div', {'id':'article_meta'})]
+    [s.unwrap() for s in article.findAll('a')]
+    title = article.find('h1').text
+    text = str(article)
+    text = text.replace('<p>Подписывайтесь на новости ForkLog в Twitter!</p>', '')
+    return {'content':text, 'link':link, 'title':title}
