@@ -180,6 +180,9 @@ def get_news_data_from_forklog(link):
     [s.extract() for s in article.findAll('div', {'id':'article_meta'})]
     [s.unwrap() for s in article.findAll('a')]
     title = article.find('h1').text
+    article.find('h1').extract()
     text = str(article)
     text = text.replace('<p>Подписывайтесь на новости ForkLog в Twitter!</p>', '')
+    text = text.replace('<p>Подписывайтесь на новости Forklog в  VK!</p>', '')
+    text = text.replace('<p>Подписывайтесь на новости Forklog в Telegram!</p>', '')
     return {'content':text, 'link':link, 'title':title}
