@@ -1,0 +1,19 @@
+{% load i18n %}
+{% if news_list %}
+    <style type="text/css"> @import url("/static/css/new-list.css"); </style>
+    <div class="separator-large"></div>
+    <ul class="list-group">
+        {% comment %}
+        {% if adv_key %}
+            {% include "adv.html" with key=adv_key %}
+        {% endif %}
+        {% endcomment %}
+
+        {% for new in news_list %}
+        <li class="list-group-item list-group-item-action news-list-item">
+            <h5><a href="/news/{{ new.id }}/">{{ new.title }}</a></h5>
+            <p class="mb-0 thin">{{ new.summary }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+{% endif %}

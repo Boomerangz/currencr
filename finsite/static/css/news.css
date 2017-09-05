@@ -1,0 +1,26 @@
+div.new-header {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+div.new-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: stretch;
+}
+
+article img {
+    /* copy bootstrap img-thumbnail */ 
+    padding: .25rem;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: .25rem;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    max-width: 100%;
+    height: auto;
+}

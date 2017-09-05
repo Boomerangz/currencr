@@ -52,11 +52,6 @@ h3.symbol-name {
     padding-top: .2rem;
 }
 
-blockquote.top-info {
-    font-size: 1.25rem;
-    max-width: 850px;
-}
-
 div.header-ui {
     display: flex;
     flex-direction: row;

@@ -13,12 +13,11 @@ div.content {
     }
 
     div.lead-content-large {
-        display: none;
+        display: none !important;
     }
 
     blockquote.lead-content-small {
-        font-size: 1.25rem;
-        display: block;
+        display: block !important;
     }
 }
 
@@ -28,13 +27,12 @@ div.content {
     }
     
     div.lead-content-large {
-        font-size: 1.25rem;
-        display: block;
+        display: block !important;
         margin-left: 1.5rem;
     }
 
     blockquote.lead-content-small {
-        display: none;
+        display: none !important;
     }
 }
 

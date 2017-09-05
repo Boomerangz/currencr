@@ -1,8 +1,3 @@
-li.news-list-header {
-    background-color: #002D40;
-    color: #FFF;
-}
-
 li.news-list-item {
     display: flex;
     flex-direction: column;

@@ -3,6 +3,11 @@ body {
     font-family: 'Roboto Slab', serif;
 }
 
+.simple-title {
+    font-size: 1.25rem;
+    max-width: 850px;
+}
+
 div.separator-large {
     height: 2.2rem;
     width: 2.2rem;
@@ -27,9 +32,9 @@ div.container {
 div.logo {
     background-color: #002D40;
     border-radius: .25rem;
-    display:table-cell; 
-    vertical-align:middle;
-    text-align:center;
+    display: table-cell; 
+    vertical-align: middle;
+    text-align: center;
     padding: 6px 17px 7px 22px;
 }
 
@@ -45,12 +50,6 @@ div.footer {
     height: 100px;
 }
 
-.blockquote {
-    padding-top: 0rem;
-    padding-bottom: .1rem;
-    margin-bottom: 1.2rem;
-}
-
 blockquote.red {
     border-color: #7C050B;
     background-color: #fcf8e3;
@@ -60,18 +59,18 @@ blockquote.red strong {
     color: #7C050B;
 }
 
-p.thin {
+.thin {
     font-weight: 300;
 }
 
-p.regular {
+.regular {
     font-weight: 400;
 }
 
-p.bold {
+.bold {
     font-weight: 700;
 }
 
-p.white {
+.white {
     color: #FFF;
 }

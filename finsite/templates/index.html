@@ -1,86 +1,86 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}Currencr - Курсы криптовалют, прогнозы от нейронной сети и новости{% endblock %}
+{% block title %}{% trans "Currencr - Cryptocurrency exchange rates, news and forecasts" %}{% endblock %}
 {% block head %}
-<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="format-detection" content="telephone=no">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="MobileOptimized" content="176">
-<meta name="HandheldFriendly" content="True">
-<meta name="robots" content="index, follow">
-<meta property="og:site_name" content="Currencr.me">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{% trans "Currencr - Cryptocurrency exchange rates, news and forecasts" %}">
-<meta property="og:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
-<meta property="og:image" content="https://currencr.me/static/img/screen.png">
-<meta name="twitter:card" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
-<meta name="twitter:title" content="Currencr - {% trans "Exchange rate, news and forecasts" %}">
-<meta name="twitter:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
-<meta name="twitter:image" content="https://currencr.me/static/img/screen.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="MobileOptimized" content="176">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="Currencr.me">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% trans "Currencr - Cryptocurrency exchange rates, news and forecasts" %}">
+    <meta property="og:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
+    <meta property="og:image" content="https://currencr.me/static/img/screen.png">
+    <meta name="twitter:card" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
+    <meta name="twitter:title" content="Currencr - {% trans "Exchange rate, news and forecasts" %}">
+    <meta name="twitter:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
+    <meta name="twitter:image" content="https://currencr.me/static/img/screen.png">
 {% endblock %}
 
 {% block css %}
-<link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="/static/css/index.css">
 {% endblock %}
 
 {% block js %}
-<script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
-<script src="/static/js/chart-lib.js"></script>
-<script src="/static/js/preview-chart.js"></script>
-<script src="/static/js/index-core.js"></script>
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <script src="/static/js/chart-lib.js"></script>
+    <script src="/static/js/preview-chart.js"></script>
+    <script src="/static/js/index-core.js"></script>
 {% endblock %}
 
 {% block content %}
 
-<blockquote id="lead-content-small" class="lead-content-small">
-    <h3 class="mb-2 mt-0">{% trans "Forecasts for BTC, ETH, LTC and other cryptocurrencys" %}</h3>
-    <p class="mb-0 thin">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
-</blockquote>
+    <blockquote id="lead-content-small" class="lead-content-small simple-title">
+        <h3 class="mb-2 mt-0">{% trans "Forecasts for BTC, ETH, LTC and other cryptocurrencys" %}</h3>
+        <p class="mb-0 thin">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
+    </blockquote>
 
-<div id="page-content" class="content">
-    <ul id="currency-list" class="list-group currency-list">
-        {% for currency in currency_list %}
-        <li id="currency-list-item-{{ currency.name }}" class="list-group-item list-group-item-action currency-list-item">
-            <div class="currency-list-item-container" id="currency-list-item-container-{{ currency.name }}">
-                <div>
-                    <a href="/{{ currency.url_code }}/">
-                        <div class="symbol-logo" style="-webkit-mask-box-image: url(/static/img/crypt/{{ currency.url_code }}.png); mask-image: url(/static/img/crypt/{{ currency.url_code }}.png);"></div>
-                    </a>
-                </div>
-                <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
-                    <div class="mr-1">
-                        <a href="/{{ currency.url_code }}/">{{ currency.name }}</a>
-                        &nbsp;{% if currency.exchange > 0 %}{{ currency.url_code }}{% endif %}
+    <div id="page-content" class="content">
+        <ul id="currency-list" class="list-group currency-list">
+            {% for currency in currency_list %}
+            <li id="currency-list-item-{{ currency.name }}" class="list-group-item list-group-item-action currency-list-item">
+                <div class="currency-list-item-container" id="currency-list-item-container-{{ currency.name }}">
+                    <div>
+                        <a href="/{{ currency.url_code }}/">
+                            <div class="symbol-logo" style="-webkit-mask-box-image: url(/static/img/crypt/{{ currency.url_code }}.png); mask-image: url(/static/img/crypt/{{ currency.url_code }}.png);"></div>
+                        </a>
                     </div>
-                    <div class="mr-1">
-                        <span>{{ currency.current_price|floatformat:3 }}</span>
-                        <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                    <div id="currency-symbol-price-{{ currency.name }}" class="currency-symbol-price">
+                        <div class="mr-1">
+                            <a href="/{{ currency.url_code }}/">{{ currency.name }}</a>
+                            &nbsp;{% if currency.exchange > 0 %}{{ currency.url_code }}{% endif %}
+                        </div>
+                        <div class="mr-1">
+                            <span>{{ currency.current_price|floatformat:3 }}</span>
+                            <span class="{% if currency.up %}text-success{% elif currency.down %}text-danger{%endif%}">({{ currency.percents|floatformat:3 }} %)</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="center"></div>
-            <canvas class="preview" id="preview-canvas-{{ currency.name }}"></canvas>
-            <script>
-                var data = {{ currency.day_history }};
-                var canvasID = "preview-canvas-{{ currency.name }}";
-                addPreviewChart("{{ currency.name }}", data);
-            </script>
-        </li>
-        {% endfor %}
-    </ul>
+                <div class="center"></div>
+                <canvas class="preview" id="preview-canvas-{{ currency.name }}"></canvas>
+                <script>
+                    var data = {{ currency.day_history }};
+                    var canvasID = "preview-canvas-{{ currency.name }}";
+                    addPreviewChart("{{ currency.name }}", data);
+                </script>
+            </li>
+            {% endfor %}
+        </ul>
 
-    <div id="lead-content-large" class="lead-content-large">
-        <h2 class="mt-0 mb-2">{% trans "Forecasts for popular cryptocurrencies" %}</h2>
-        <p class="mb-4 thin">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
-        <img class="w-100 mb-4" src="/static/img/screen.png"/>
-        <p class="mb-0 thin">{% trans "Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday." %}</p>
-        <hr class="my-3">
-        <p class="mb-0 regular">{% trans "We constantly work on the quality of forecasts, try innovations and select only the best approaches for publication." %}</p>
+        <div id="lead-content-large" class="lead-content-large simple-title">
+            <h2 class="mt-0 mb-2">{% trans "Forecasts for popular cryptocurrencies" %}</h2>
+            <p class="mb-4 thin">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
+            <img class="w-100 mb-4" src="/static/img/screen.png"/>
+            <p class="mb-0 thin">{% trans "Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday." %}</p>
+            <hr class="my-3">
+            <p class="mb-0 regular">{% trans "We constantly work on the quality of forecasts, try innovations and select only the best approaches for publication." %}</p>
+        </div>
     </div>
-</div>
 
-{% include "new.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
-<div class="separator-large"></div>
+    {% include "news-list.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
+    <div class="separator-large"></div>
 
 {% endblock %}
