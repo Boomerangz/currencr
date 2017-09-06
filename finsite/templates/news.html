@@ -19,7 +19,7 @@
     <meta name="twitter:description" content="{{ article.summary }}">
     {% if article.image %}
         <meta name="twitter:image" content="{{ article.image }}">
-    {% endif %} 
+    {% endif %}
 {% endblock %}
 
 {% block css %}
@@ -31,13 +31,14 @@
 {% block content %}
     <div id="page-content" class="content">
         <div class="new-content">
-            <div class="md5-4acedbc1-news">
+            <div class="vertical-left">
+                {% include "adv.html" with key="vertical-01"  %}
             </div>
             <div>
                 <div class="new-header">
                     <header>
                         <blockquote class="simple-title">
-                            <h3 class="mb-2 mt-0">{{ article.title }}</h3>
+                            <h2 class="mb-2 mt-0">{{ article.title }}</h2>
                         </blockquote>
                     </header>
                     {% if article.image %}

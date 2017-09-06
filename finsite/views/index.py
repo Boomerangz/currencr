@@ -24,7 +24,16 @@ class IndexView(TemplateView):
         day_ago = datetime.now() - timedelta(hours=24)
         for c in currency_list:
             c.day_history = self.get_history_for_currency(c, from_time=day_ago)
-        context['news_list'] = get_news(search=search, limit=25, language=translation.get_language())
+        news_list = list(get_news(search=search, limit=20, language=translation.get_language()))
+        top_news_list = []
+        counter = 0
+        for n in news_list:
+            if len(n.image) > 0 and counter < 3:
+                counter += 1
+                news_list.remove(n)
+                top_news_list.append(n)
+        context['news_list'] = news_list
+        context['top_news_list'] = top_news_list
         context['currency_list'] = currency_list
         return context
 

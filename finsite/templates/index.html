@@ -34,7 +34,7 @@
 {% block content %}
 
     <blockquote id="lead-content-small" class="lead-content-small simple-title">
-        <h3 class="mb-2 mt-0">{% trans "Forecasts for BTC, ETH, LTC and other cryptocurrencys" %}</h3>
+        <h2 class="mb-2 mt-0">{% trans "Forecasts for BTC, ETH, LTC and other cryptocurrencys" %}</h2>
         <p class="mb-0 thin">{% trans "Graphs with detailed forecasts for 60 minutes, based on the work of neural networks and algorithms for statistical analysis." %}</p>
     </blockquote>
 
@@ -77,10 +77,12 @@
             <p class="mb-0 thin">{% trans "Evaluate our 60-minute forecasts and take on the arsenal of another tool for successful trading. Look for yourself the most successful entry and exit points in your intraday." %}</p>
             <hr class="my-3">
             <p class="mb-0 regular">{% trans "We constantly work on the quality of forecasts, try innovations and select only the best approaches for publication." %}</p>
+            <div class="separator-large"></div>
+            {% include "adv.html" with key="horizontal-01" %}
         </div>
     </div>
 
-    {% include "news-list.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
+    {% include "news-list.html" with news_list=news_list adv_key="vertical-02" %}
     <div class="separator-large"></div>
 
 {% endblock %}

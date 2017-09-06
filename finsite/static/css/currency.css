@@ -36,13 +36,13 @@ h3.symbol-name {
     margin: 0px 0px -3px 0px;
 }
 
-@media only screen and (max-width: 720px) {
+@media all and (max-width: 720px) {
     div.chart-container {
-        height: 240px;
+        height: 220px;
     }
 }
 
-@media only screen and (min-width: 721px) {
+@media all and (min-width: 721px) {
     div.chart-container {
         height: 360px;
     }

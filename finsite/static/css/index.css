@@ -5,11 +5,12 @@ div.content {
     align-items: flex-start;
 }
 
-@media only screen and (max-width: 720px) {
+@media all and (max-width: 720px) {
     ul.currency-list {
         width: 100%;
         max-width: 720px;
         min-width: 280px;
+        margin-top: 5px;
     }
 
     div.lead-content-large {
@@ -21,9 +22,10 @@ div.content {
     }
 }
 
-@media only screen and (min-width: 721px) {
+@media all and (min-width: 721px) {
     ul.currency-list {
         width: 300px;
+        margin-top: 7px;
     }
     
     div.lead-content-large {

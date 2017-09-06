@@ -24,3 +24,15 @@ article img {
     max-width: 100%;
     height: auto;
 }
+
+@media all and (max-width: 720px) {
+    div.vertical-left {
+        display: none;
+    }
+}
+
+@media all and (min-width: 721px) {
+    div.vertical-left {
+        margin: 7px 1.5rem 0px 0px;
+    }
+}

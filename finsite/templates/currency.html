@@ -35,7 +35,7 @@
     <div id="page-content" class="content">
 
         <blockquote class="simple-title">        
-            <h3 class="mb-2 mt-0">
+            <h2 class="mb-2 mt-0">
                 {% trans "Exchange rate and forecast for" %}
                 <div class="inline-block">
                     <div class="symbol">
@@ -43,7 +43,7 @@
                         <h3 class="symbol-name">{{ currency.name }}.</h3>
                     </div>
                 </div>
-            </h3>
+            </h2>
             <p class="mb-0 regular">{% trans "Chart is based on data of" %} <a href="{{ currency.selected_exchange.link }}" target="_blank">{{ currency.selected_exchange.pseudonym }}</a></p>
             <p class="mb-0 thin">{% trans "Check forecast frequently" %}</p>
         </blockquote>
@@ -81,7 +81,7 @@
             <p class="mb-0 regular small">{% trans "Denial of responsibility" %}</p>
         </blockquote>
 
-        {% include "news-list.html" with news_list=news_list adv_key="adv-dynamic-block-news-01" %}
+        {% include "news-list.html" with news_list=news_list adv_key="vertical-01" %}
 
         {% include "comments.html" %}
         
