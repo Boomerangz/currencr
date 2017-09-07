@@ -12,14 +12,14 @@
     }
 }
 
-@media all and (max-width: 1080px) {
-    div.md5-4acedbc1-horizontal-01 {
+@media all and (max-width: 1085px) {
+    div.md5-4acedbc1-single-01 {
         display: none;
     }
 }
 
-@media all and (min-width: 1081px) {
-    div.md5-4acedbc1-horizontal-01 {
+@media all and (min-width: 1086px) {
+    div.md5-4acedbc1-single-01 {
         display: block;
     }
 }

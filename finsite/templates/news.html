@@ -31,9 +31,6 @@
 {% block content %}
     <div id="page-content" class="content">
         <div class="new-content">
-            <div class="vertical-left">
-                {% include "adv.html" with key="vertical-01"  %}
-            </div>
             <div>
                 <div class="new-header">
                     <header>
@@ -51,7 +48,9 @@
                     <a href="{{ article.link }}" target="_blank">Источник</a>
                 </article>
             </div>
+            {% include "adv.html" with key="vertical-01" classes="md5-4acedbc1-ml" %}
         </div>
+        <div class="separator-medium"></div>
         {% include "comments.html" %}
     </div>
 {% endblock %}
