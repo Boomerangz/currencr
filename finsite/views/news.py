@@ -18,19 +18,18 @@ class NewsView(TemplateView):
         context['article'] = article
         news_list = list(get_news(limit=10, language=translation.get_language()))
         smart_news_list = []
-        counter = 0
-        for n in news_list:
-            if len(n.image) > 0 and article.title != n.title and counter < 2:
-                smart_news_list.append(n)
-                counter += 1
-        context['smart_news_list'] = smart_news_list
+        # counter = 0
+        # for n in news_list:
+        #     if len(n.image) > 0 and article.title != n.title and counter < 2:
+        #         smart_news_list.append(n)
+        #         counter += 1
+        context['smart_news_list'] = [n for n in news_list if n.id != article.id and n.image][:2]
         return context
 
 
 
 def get_news(search=None, limit=10, language=get_language()):
     language = language.split('-')[0]
-    print(language)
     if not search:
         return NewsItem.objects.filter(language=language).order_by('-id')[:limit]
     else:
