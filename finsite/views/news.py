@@ -7,7 +7,7 @@ from django.views.generic import TemplateView
 from finsite.models import NewsItem, KeywordSynonims, Currency
 
 from django.utils import translation
-
+import random
 
 class NewsView(TemplateView):
     template_name = 'news.html'
@@ -17,7 +17,9 @@ class NewsView(TemplateView):
         article = NewsItem.objects.get(pk=pk)
         context['article'] = article
         news_list = list(get_news(limit=10, language=translation.get_language()))
-        context['smart_news_list'] = [n for n in news_list if n.id != article.id and n.image][:2]
+        news_list_for_image = list(get_news(limit=40, language=translation.get_language()))
+        random.shuffle(news_list_for_image)
+        context['smart_news_list'] = [n for n in news_list_for_image if n.id != article.id and n.image][:2]
         return context
 
 
