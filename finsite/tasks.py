@@ -71,14 +71,17 @@ def update_news_ru():
 
             if 'forklog' in news['link']:
                 text = get_news_data_from_forklog(news['link'])['content']
+            if 'bitnovosti.com' in news['link']:
+                data = get_news_data_from_bitnovosti(news['link'])
+                text = data['content']
+                title = data['title']
 
             text = '<br/>'.join([s for s in text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
             if 'Материал предоставил' in text:
                 text = text[:text.find('Материал предоставил')]
             text = text.replace('on •<br/><br/>','')
             text = text.replace('<br/>Источник<br/>','')
-            if 'forklog' in text.lower():
-                text = '.'.join([t for t in text.split('.') if 'forklog' not in t.lower()])
+            summary = get_summary(article.text)
             
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
@@ -92,7 +95,6 @@ def update_news_ru():
                                         language='ru')
         except Exception as e:
             print(e)
-
 
 
 @periodic_task(run_every=timedelta(minutes=5))
@@ -184,7 +186,38 @@ def get_news_data_from_forklog(link):
     text = str(article)
     text = text.replace('<p>Подписывайтесь на новости ForkLog в Twitter!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости Forklog в  VK!</p>', '')
-    text = text.replace('<p>Подписывайтесь на новости Forklog в  VK!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости ForkLog в VK!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости Forklog в Telegram!</p>', '')
+    return {'content':text, 'link':link, 'title':title}
+
+
+
+def get_news_data_from_bitnovosti(link):
+    import requests
+    import re
+    from bs4 import BeautifulSoup
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:45.0) Gecko/20100101 Firefox/45.0'
+    }
+    r = requests.get(link, headers = headers)
+    text = r.text
+    soup = BeautifulSoup(text, 'html.parser')
+    article = soup.find('section', {'class':'entry'})
+    [s.unwrap() for s in article.findAll('a')]
+    title = soup.find('h1', {'class':'posttitle'}).text.strip()
+    article.find('img').extract()
+    text = str(article)
+    if '<div class="pd-rating"' in text:
+        text = text[:text.index('<div class="pd-rating"')]
+    text = text.replace('<p>Подписывайтесь на Bitnovosti в telegram!</p>', '')
+    text = text.replace('Источник', '')
+    text = text.replace('<p>Related</p>', '')
+
+    text = text.replace('\n','')
+    length = 0
+    while len(text) != length:
+        length = len(text)
+        text = text.replace('<br>','<br/>')
+        text = text.replace('<br/><br/>','')
+    
     return {'content':text, 'link':link, 'title':title}
