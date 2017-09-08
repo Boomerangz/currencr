@@ -6,6 +6,8 @@ from django.views.generic import TemplateView
 
 from finsite.models import NewsItem, KeywordSynonims, Currency
 
+from django.utils import translation
+
 
 class NewsView(TemplateView):
     template_name = 'news.html'
@@ -14,6 +16,14 @@ class NewsView(TemplateView):
         context = super(NewsView, self).get_context_data(*args, **kwargs)
         article = NewsItem.objects.get(pk=pk)
         context['article'] = article
+        news_list = list(get_news(limit=10, language=translation.get_language()))
+        smart_news_list = []
+        counter = 0
+        for n in news_list:
+            if len(n.image) > 0 and article.title != n.title and counter < 2:
+                smart_news_list.append(n)
+                counter += 1
+        context['smart_news_list'] = smart_news_list
         return context
 
 

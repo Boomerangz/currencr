@@ -44,10 +44,33 @@ img.logo {
 }
 
 div.footer {
-    border-top: 1rem solid #00446e;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-top: 1.5rem solid #00446e;
     background-color: #002D40;
-    width: auto;
-    height: 100px;
+    padding: 1.5rem 2rem .5rem 2rem; 
+}
+
+div.footer img {
+    margin-top: -2px;
+}
+
+div.footer a {
+    color: #FFF;
+}
+
+div.footer a:visited {
+    color: #FFF;
+}
+
+div.footer a:active {
+    color: #FFF;
+}
+
+div.footer a:hover {
+    color: #FFF;
 }
 
 blockquote.red {

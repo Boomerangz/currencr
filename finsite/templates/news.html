@@ -48,7 +48,21 @@
                     <a href="{{ article.link }}" target="_blank">Источник</a>
                 </article>
             </div>
-            {% include "adv.html" with key="vertical-01" classes="md5-4acedbc1-ml" %}
+            <div>
+                {% for new in smart_news_list %}
+                    {% if new.image %}
+                        <div class="smart-news-list-item" style="background-image: url({{new.image}});">
+                            <div>
+                                <h5 class="mb-1 title">
+                                    <a href="/news/{{ new.id }}/">{{ new.title }}</a>
+                                </h5>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="separator-medium"></div>
+                {% include "adv.html" with key="vertical-01" classes="md5-4acedbc1-ml" %}
+            </div>
         </div>
         <div class="separator-medium"></div>
         {% include "comments.html" %}
