@@ -2,7 +2,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from cacheops import cached
-
+from html.parser import HTMLParser
 from finsite import models as fin_models
 
 
@@ -20,9 +20,8 @@ class NewsItem(models.Model):
     def __str__(self):
         return "%d %s %s"%(self.id, self.title, datetime.strftime(self.created_at, "%Y-%m-%d %H:%M"))
 
-    @cached(timeout=3600*12)
     def summary(self):
-        summary = self.text.replace('<br>','\n').replace('<br/>','\n').strip()
+        summary = strip_tags(self.text.replace('<br>','\n').replace('<br/>','\n').strip())        
         summary = '\n'.join([s.strip() for s in summary.split('\n')])
         summary_len = 0
         while summary_len != len(summary):
@@ -39,10 +38,29 @@ class NewsItem(models.Model):
         return summary
 
 
-
 class KeywordSynonims(models.Model):
     name = models.CharField(max_length=255)
     synonyms = ArrayField(models.CharField(max_length=200), blank=True)
 
     def __str__(self):
         return self.name
+
+
+
+    from html.parser import HTMLParser
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.strict = False
+        self.convert_charrefs= True
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
