@@ -36,6 +36,9 @@
                     <header>
                         <blockquote class="simple-title">
                             <h2 class="mb-2 mt-0">{{ article.title }}</h2>
+			    {% if request.user.is_superuser %}
+				<a href="https://ru.currencr.me/admin/finsite/newsitem/{{article.id}}/change/">Редактировать</a>
+			    {% endif %}
                         </blockquote>
                     </header>
                     {% if article.image %}

@@ -65,7 +65,7 @@ def update_news_ru():
             title = article.title
             if 'ТАСС:' in title:
                 continue
-            text = article.content
+            text = article.text
             top_image = article.top_image
             keywords = article.keywords
 
@@ -85,7 +85,7 @@ def update_news_ru():
                 text = text[:text.find('Материал предоставил')]
             text = text.replace('on •<br/><br/>','')
             text = text.replace('<br/>Источник<br/>','')
-            summary = get_summary(article.text)
+#            summary = get_summary(article.text)
             
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
@@ -192,6 +192,7 @@ def get_news_data_from_forklog(link):
     text = text.replace('<p>Подписывайтесь на новости ForkLog в Facebook!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости ForkLog в VK!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости Forklog в Telegram!</p>', '')
+    text = text.replace('<p>Подписывайтесь на канал ForkLog в YouTube!</p>','')
     text = text.replace('\n','')
     length = 0
     while len(text) != length:
