@@ -33,6 +33,8 @@ def update_prices():
             r = requests.get(url)
             parsed_data = r.json()
             for d in parsed_data["Data"][:-1]:
+                if (d.get("close", 0) or 0) < 0.00001:
+                    break
                 histime = datetime.fromtimestamp(d["time"])
                 if CurrencyHistoryRecord.objects.filter(time=histime, currency=curr, exchange=exc).count()==0:
                     CurrencyHistoryRecord.objects.create(currency=curr, price=d["close"], volume=d["volumeto"], time=histime, exchange=exc)
