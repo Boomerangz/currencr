@@ -12,7 +12,7 @@ class LocaleRedirectMiddleware(object):
         if request.META['HTTP_HOST'] == 'currencr.me' \
             and 'history' not in request.path_info and 'fresh' not in request.path_info:
             lang = get_language()
-            return redirect("https://"+lang + ".currencr.me")
+            return redirect("https://"+lang + ".currencr.me"+request.path)
         # Code to be executed for each request before
         # the view (and later middleware) are called.
 
