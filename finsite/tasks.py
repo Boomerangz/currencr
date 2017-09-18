@@ -10,7 +10,7 @@ from django.db.models import Q
 from newspaper import Article
 
 from finsite.models import Currency, CurrencyHistoryRecord, NewsItem, Exchange
-
+from finsite.news_parsers.cryptoinsider import get_news_data_from_cryptoinsider, get_news_data_from_coindesk
 
 @periodic_task(run_every=timedelta(seconds=30))
 def update_prices():
@@ -105,7 +105,7 @@ def update_news_ru():
 
 @periodic_task(run_every=timedelta(minutes=5))
 def update_news_en():
-    feeds_list = ['https://cryptoinsider.com/feed/']
+    feeds_list = ['https://cryptoinsider.com/feed/', 'https://www.coindesk.com/feed/', ]
     feeds = [feedparser.parse(f) for f in feeds_list]
     news_list =  sum([[{'title': x['title'], 'link': x['link'], 'date': x['published']} \
                  for x in f['entries']] for f in feeds], [])
@@ -118,7 +118,13 @@ def update_news_en():
             title = article.title
             if 'ТАСС:' in title:
                 continue
-            text = '<br/>'.join([s for s in article.text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
+            
+            if 'cryptoinsider' in news['link']:
+                text = get_news_data_from_cryptoinsider(news['link'])['content']
+            elif 'coindesk' in news['link']:
+                text = get_news_data_from_coindesk(news['link'])['content']
+            else:
+                text = '<br/>'.join([s for s in article.text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
             top_image = article.top_image
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
                 top_image = None
