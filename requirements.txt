@@ -15,3 +15,4 @@ numpy
 scipy
 django-cacheops
 mercury-parser
+uWSGI
