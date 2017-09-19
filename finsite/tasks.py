@@ -12,7 +12,7 @@ from newspaper import Article
 from finsite.models import Currency, CurrencyHistoryRecord, NewsItem, Exchange
 from finsite.news_parsers.cryptoinsider import get_news_data_from_cryptoinsider, get_news_data_from_coindesk
 
-@periodic_task(run_every=timedelta(seconds=30))
+@periodic_task(run_every=timedelta(seconds=55))
 def update_prices():
     url_template = "https://min-api.cryptocompare.com/data/histominute?fsym=%s&tsym=USD&limit=%d&aggregate=1&e=%s"
     for exc in Exchange.objects.all():        
