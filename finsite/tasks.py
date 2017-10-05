@@ -202,6 +202,8 @@ def get_news_data_from_forklog(link):
     text = text.replace('<p>Подписывайтесь на новости ForkLog в VK!</p>', '')
     text = text.replace('<p>Подписывайтесь на новости Forklog в Telegram!</p>', '')
     text = text.replace('<p>Подписывайтесь на канал ForkLog в YouTube!</p>','')
+    text = text.replace('<p>Подписывайтесь на новости ForkLog в Telegram: ForkLog — вся лента новостей, ForkLog Live — самые важные новости и опросы!</p>','')
+    
     text = text.replace('\n','')
     length = 0
     while len(text) != length:
