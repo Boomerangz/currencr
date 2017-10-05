@@ -9,7 +9,7 @@ from django.db.models import Q
 
 from newspaper import Article
 
-from finsite.models import Currency, CurrencyHistoryRecord, NewsItem, Exchange
+from finsite.models import Currency, CurrencyHistoryRecord, NewsItem, Exchange, NewsTextReplacement
 from finsite.news_parsers.cryptoinsider import get_news_data_from_cryptoinsider, get_news_data_from_coindesk
 
 @periodic_task(run_every=timedelta(seconds=55))
@@ -86,8 +86,8 @@ def update_news_ru():
             text = '<br/>'.join([s for s in text.split('\n') if 'Categories:' not in s and 'Tags:' not in s]).strip()
             if 'Материал предоставил' in text:
                 text = text[:text.find('Материал предоставил')]
-            text = text.replace('on •<br/><br/>','')
-            text = text.replace('<br/>Источник<br/>','')
+            for replacement in NewsTextReplacement.objects.all():
+                text = text.replace(replacement.from_string, replacement.to_string or '')
 #            summary = get_summary(article.text)
             
             if top_image == 'http://www.finanz.ru/Images/FacebookIcon.jpg':
@@ -197,13 +197,10 @@ def get_news_data_from_forklog(link):
     title = article.find('h1').text
     article.find('h1').extract()
     text = str(article)
-    text = text.replace('<p>Подписывайтесь на новости ForkLog в Twitter!</p>', '')
-    text = text.replace('<p>Подписывайтесь на новости ForkLog в Facebook!</p>', '')
-    text = text.replace('<p>Подписывайтесь на новости ForkLog в VK!</p>', '')
-    text = text.replace('<p>Подписывайтесь на новости Forklog в Telegram!</p>', '')
-    text = text.replace('<p>Подписывайтесь на канал ForkLog в YouTube!</p>','')
-    text = text.replace('<p>Подписывайтесь на новости ForkLog в Telegram: ForkLog — вся лента новостей, ForkLog Live — самые важные новости и опросы!</p>','')
-    
+    for replacement in NewsTextReplacement.objects.all():
+                text = text.replace(replacement.from_string, replacement.to_string or '')
+
+
     text = text.replace('\n','')
     length = 0
     while len(text) != length:
@@ -231,9 +228,10 @@ def get_news_data_from_bitnovosti(link):
     text = str(article)
     if '<div class="pd-rating"' in text:
         text = text[:text.index('<div class="pd-rating"')]
-    text = text.replace('<p>Подписывайтесь на Bitnovosti в telegram!</p>', '')
-    text = text.replace('Источник', '')
-    text = text.replace('<p>Related</p>', '')
+
+
+    for replacement in NewsTextReplacement.objects.all():
+                text = text.replace(replacement.from_string, replacement.to_string or '')
 
     text = text.replace('\n','')
     length = 0

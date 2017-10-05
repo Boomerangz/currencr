@@ -38,6 +38,13 @@ class NewsItem(models.Model):
         return summary
 
 
+class NewsTextReplacement(models.Model):
+    from_string = models.CharField(max_length=255)
+    to_string = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return "%d '%s'" % (self.id, self.from_string)
+
 class KeywordSynonims(models.Model):
     name = models.CharField(max_length=255)
     synonyms = ArrayField(models.CharField(max_length=200), blank=True)
@@ -64,3 +71,6 @@ def strip_tags(html):
     s = MLStripper()
     s.feed(html)
     return s.get_data()
+
+
+
