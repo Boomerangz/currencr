@@ -49,18 +49,21 @@ class Currency(models.Model):
     def data(self, exchange_name=None):
         if exchange_name:
             exc = Exchange.objects.get(name__iexact=exchange_name)
-            exchange_name = exc.name
         else:
-            exchange_name = self.selected_exchange.name
-        price, volume = get_ticker(self.code, exchange_name)
+            exc = self.selected_exchange
+        price, volume = get_ticker(self, exc)
         return {'code':self.code, 'price':price, 'volume':volume}
 
     def get_stock_identifier(self):
         postfix = '.L' if self.exchange == 3 else ''
         return self.code + postfix
 
-def get_ticker(currency, exchange_name):
-    url = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=%s&tsyms=USD&e=%s" % (currency.upper(), exchange_name)
-    r = requests.get(url)
-    parsed = r.json()["RAW"][currency.upper()]["USD"]
-    return parsed["PRICE"], parsed["LASTVOLUMETO"]
+from finsite.models.currency_history_record	 import CurrencyHistoryRecord
+
+def get_ticker(currency, exc):
+    history_point = CurrencyHistoryRecord.objects.filter(currency=currency, exchange=exc).order_by('-time')[0]
+    return history_point.price, history_point.volume
+    #url = "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=%s&tsyms=USD&e=%s" % (currency.upper(), exchange_name)
+    #r = requests.get(url)
+    #parsed = r.json()["RAW"][currency.upper()]["USD"]
+    #return parsed["PRICE"], parsed["LASTVOLUMETO"]

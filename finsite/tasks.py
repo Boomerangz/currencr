@@ -30,13 +30,14 @@ def update_prices():
 
 
             url = url_template % (curr.code, count, exc.name)
-            r = requests.get(url)
+            r = requests.get(url, timeout=10)
             parsed_data = r.json()
             for d in parsed_data["Data"][:-1]:
                 if (d.get("close", 0) or 0) < 0.00001:
                     break
                 histime = datetime.fromtimestamp(d["time"])
                 if CurrencyHistoryRecord.objects.filter(time=histime, currency=curr, exchange=exc).count()==0:
+                    print(curr.code, d["close"], d["volumeto"], histime, exc)
                     CurrencyHistoryRecord.objects.create(currency=curr, price=d["close"], volume=d["volumeto"], time=histime, exchange=exc)
 
             if exc == curr.selected_exchange:

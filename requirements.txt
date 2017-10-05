@@ -16,3 +16,4 @@ scipy
 django-cacheops
 mercury-parser
 uWSGI
+gunicorn
