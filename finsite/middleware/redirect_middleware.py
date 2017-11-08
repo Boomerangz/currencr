@@ -8,7 +8,6 @@ class LocaleRedirectMiddleware(object):
         # One-time configuration and initialization.
 
     def __call__(self, request):
-        print("before", request.META['HTTP_HOST'], )
         if request.META['HTTP_HOST'] == 'currencr.me' \
             and 'history' not in request.path_info and 'fresh' not in request.path_info:
             lang = get_language()
@@ -20,7 +19,6 @@ class LocaleRedirectMiddleware(object):
 
         # Code to be executed for each request/response after
         # the view is called.
-        print("after")
         return response
 
 
