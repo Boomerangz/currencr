@@ -4,13 +4,10 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
-
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700&amp;subset=cyrillic" rel="stylesheet">
     
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/base.css">
-    <link rel="stylesheet" href="/static/css/md5-4acedbc1.css">
 
     <link rel="shortcut icon" href="/static/img/favicon.ico" type="image/x-icon">
     <link rel="icon" type="image/png" href="/static/img/favicon.ico?1" sizes="16x16">
@@ -25,10 +22,8 @@
     {% block head %}
     {% endblock %}
     
-    <title>{% block title %}Currencr.me{% endblock %}</title>
+    <title>{% block title %}currencr.me{% endblock %}</title>
 
-    <script src="//apps.cointraffic.io/js/?wkey=UVEiKI"></script>
-    
     <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
     <script>
       (adsbygoogle = window.adsbygoogle || []).push({
@@ -36,7 +31,6 @@
         enable_page_level_ads: true
       });
     </script>
-
     <script>
         (function(i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
@@ -52,57 +46,23 @@
         ga('create', 'UA-102498894-1', 'auto');
         ga('send', 'pageview');
     </script>
-
 </head>
 
 <body>
     <div class="container">
-        <div class="separator-medium"></div>
-        <div class="page-header">
-            <a href="/">
-                <div class="logo">
-                    <img src="/static/img/logo-beta.png" class="logo" />
-                </div>
-            </a>
-            {% block header %}
-            {% endblock %}
-        </div>
-        <ul>
-        {% comment %}
-        {% for lang in LANGUAGES %}
-            <li>
-                <a href="https://{{ lang.0 }}.currencr.me">{{lang.1}}</a>
-            </li>
-        {% endfor %}
-        {% endcomment %}
-        </ul>
+        <div class="separator-large"></div>
+        {% block header %}
+            <!--HEADER-->
+        {% endblock %}
         <div class="separator-large"></div>
         {% block content %}
             <!--CONTENT-->
         {% endblock %}
-        <div class="separator-small"></div>
-        <div class="footer">
-            <div>
-                <p class="white thin mb-2">
-                    <img src="/static/img/social/fb.png" class="d-inline-block mr-1"/>
-                    <a href="https://www.facebook.com/currencr/">Facebook<a>
-                </p>
-                <p class="white thin mb-2">
-                    <img src="/static/img/social/vk.png" class="d-inline-block mr-1"/>
-                    <a href="https://vk.com/currencr">ВКонтакте<a>
-                </p>
-                <p class="white thin mb-2">
-                    <img src="/static/img/social/e-mail.png" class="d-inline-block mr-1"/>
-                    currencr.me@gmail.com
-                </p>
-            </div>
-            <div>
-                <br />
-                <p class="white thin text-right mb-1">currencr.me</p>
-                <p class="white small text-right mb-0">Akhtyamov Ruslan</p>
-                <p class="white small text-right mb-0">Zygin Igor</p>
-            </div>
-        </div>
+        <div class="separator-large"></div>
+        {% block footer %}
+            <!--FOOTER-->
+        {% endblock %}
+        <div class="separator-large"></div>
     </div>
     
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>

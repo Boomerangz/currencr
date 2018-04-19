@@ -10,33 +10,41 @@ window.cr = {};
  */
 (function() {
     
-    ComplexChart.RULER_WIDTH = 60;
+    ComplexChart.RULER_WIDTH = 70;
     ComplexChart.TIMELINE_HEIGHT = 16;
+    ComplexChart.BACKGROUND = "#262626";
     
     function ComplexChart(width, height, pointsCount) {
         width -= ComplexChart.RULER_WIDTH;
         height -= ComplexChart.TIMELINE_HEIGHT;
-        this.StreamingChart_constructor(
-          {width: width, height: height},
-          {width: width / (pointsCount - 1), height: height * 0.1},
-          {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.1, bottom: height * 0.1}},
-          {
-              background: {color: "#00AAFF", alpha: 0.1},
-              grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 15, height: 0, dash: [1, 0], offset: 0},
-              axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
-              chart: {
-                  lines: {thickness: 1.5, color: "#003333", alpha: 1, bounds: true},
-                  points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", alpha: 0, bounds: true}
-              }
-          }
-        );
+        var configSize = {width: width, height: height};
+        var configPoint = {width: width / (pointsCount - 1), height: height * 0.1};
+        var configAxis = {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.1, bottom: height * 0.1}};
+        var configStyle = {
+            background: {color: ComplexChart.BACKGROUND, alpha: 0},
+            grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 0, height: 0/*dynamic*/, dash: [1, 0], offset: 0},
+            axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
+            chart: {
+                points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", alpha: 0, bounds: true},
+                fill: {
+                    type: "linear", 
+                    isSymmetric: true,
+                    colors: ["rgb(0,183,195)", "rgb(231,72,86)"],
+                    ratios: [1, 1],
+                    coords: [0, 0, 1, 0],
+                    bounds: true
+                }
+            }
+        }
+        this.StreamingChart_constructor(configSize, configPoint, configAxis, configStyle);
         
         this._complexData = [];
         this._chartRange = {top: Number.MAX_VALUE, bottom: -Number.MAX_VALUE};
         this._isInteractiveState = false;
         
         this._forecastPositionShape = this.addChild(new createjs.Shape());
-        this._forecastPositionShape.mouseEnabled = false;        
+        this._forecastPositionShape.mouseEnabled = false;
+        this._forecastPositionShape.visible = false;
         this._forecastIndex = 0;
 
         this._guide = this.addChild(new cr.Guide(width, height));
@@ -50,6 +58,7 @@ window.cr = {};
 
         this._fLength = 2;
         
+        this._drawGuideF(this.getSize().height);
         this._handleMouseOver();
     }
     
@@ -94,28 +103,25 @@ window.cr = {};
     
     p._updateForecastPosition = function() {
         var localX = this.getLocalXByIndex(this._forecastIndex);
-        var graphics = this._forecastPositionShape.graphics.clear();
+        var tempValue = this.getInterpolatedValueByLocalX(localX);
+        var localY = this.getLocalYByValue(tempValue);
+        var size = this.getSize();
+        var ratio = (localX / size.width) || 1;
         if (localX === 0) return;
         // -----
-        var size = this.getSize();
-        graphics.beginLinearGradientFill(
-            ["rgba(0,170,255,0.2)","rgba(0,170,255,0.0)"],
-            [0, 1],
-            0, 0, (size.width - localX) * 0.60, 0
-        )
-        graphics.drawRect(0, 0, size.width - localX, size.height);
-        graphics.endFill();
-        graphics.beginStroke("#002D40").setStrokeStyle(1);
-        graphics.moveTo(0,0);
-        graphics.lineTo(0, size.height);
-        // -----
-        this._forecastPositionShape.x = localX;
         var currentCapacity = Math.min(this.getData().length, this.getCapacity());
         var timelineIndex = this._complexData.length - currentCapacity + this._forecastIndex;
         if (timelineIndex === -1 || timelineIndex === 0) return;
         var item = this._complexData[timelineIndex];
         this._timeline.showMarker();
         this._timeline.setMarker(localX, this._formatDate(item.date));
+
+        this._forecastPositionShape.x = localX;
+        this._forecastPositionShape.y = localY;
+        this._forecastPositionShape.scaleY = (size.height - localY) / size.height;
+        this._style.chart.fill.ratios = [ratio - 0.00001, ratio];
+
+        this.redraw();
     }
 
     p._updateGuidesAndRulers = function() {
@@ -243,6 +249,13 @@ window.cr = {};
             hour12: false
         });
     }
+
+    p._drawGuideF = function(height) {
+        var graphics = this._forecastPositionShape.graphics.clear();
+        graphics.beginStroke(ComplexChart.BACKGROUND).setStrokeStyle(3, "round");
+        graphics.moveTo(0,0);
+        graphics.lineTo(0, height);
+    }
     
     cr.ComplexChart = createjs.promote(ComplexChart, "StreamingChart");
     
@@ -283,13 +296,13 @@ window.cr = {};
     
     p._drawGuideX = function(height) {
         var graphics = this.guideX.graphics.clear();
-        graphics.setStrokeStyle(1).beginStroke("rgba(0, 0, 0, 0.6)");
+        graphics.setStrokeStyle(1.5).beginStroke("rgba(255, 255, 255, 0.9)");
         graphics.moveTo(0, 0).lineTo(0, height).endStroke();
     };
     
     p._drawGuideY = function(width) {
         var graphics = this.guideY.graphics.clear();
-        graphics.setStrokeStyle(1).beginStroke("rgba(255, 0, 0, 0.6)");
+        graphics.setStrokeStyle(1.5).beginStroke("rgba(255, 255, 255, 0.9)");
         graphics.moveTo(0, 0).lineTo(width, 0).endStroke();
     };
     
@@ -303,8 +316,10 @@ window.cr = {};
 (function() {
   
     Ruler.FIELD_HEIGHT = 16;
-    Ruler.FONT = "12px Courier";
-    Ruler.FONT_COLOR = "#FFFFFF";
+    Ruler.FONT = "14px Courier New";
+    Ruler.FONT_WHITE = "#FFFFFF";
+    Ruler.FONT_BLACK = "#000000";
+    Ruler.BACKGROUND = "#262626";
     
     function Ruler(width, height) {
         this.Container_constructor();
@@ -313,18 +328,18 @@ window.cr = {};
         
         this._backgroundShape = this.addChild(new createjs.Shape());
         var graphics = this._backgroundShape.graphics.clear();
-        graphics.beginFill("#002D40").drawRect(0, 0, 1, 1).endFill();
+        graphics.beginFill(Ruler.BACKGROUND).drawRect(0, 0, 1, 1).endFill();
         this._backgroundShape.scaleX = width;
         this._backgroundShape.scaleY = height;
         
         this._fieldsContainer = this.addChild(new createjs.Container());
         this._fieldsContainer.mask = new createjs.Shape();
         graphics = this._fieldsContainer.mask.graphics;
-        graphics.beginFill("#002D40").drawRect(0, 0, width, height).endFill();
+        graphics.beginFill(Ruler.BACKGROUND).drawRect(0, 0, width, height).endFill();
         
-        this._topField = this.addChild(this._makeField("", "#00446E"));
-        this._bottomField = this.addChild(this._makeField("", "#00446E"));
-        this._currentField = this.addChild(this._makeField("", "#7C050B"));
+        this._topField = this.addChild(this._makeField("", "#FFFFFF", Ruler.FONT_BLACK));
+        this._bottomField = this.addChild(this._makeField("", "#FFFFFF", Ruler.FONT_BLACK));
+        this._currentField = this.addChild(this._makeField("", "#FFFFFF", Ruler.FONT_BLACK));
         this._fields = [];
         this._usedCount = 0;
         
@@ -364,7 +379,7 @@ window.cr = {};
     p.addField = function(localY, value) {
         var field = this._fields[this._usedCount];
         if (!field) {
-            field = this._fields[this._usedCount] = this._makeField("", "#002D40");
+            field = this._fields[this._usedCount] = this._makeField("", Ruler.BACKGROUND, Ruler.FONT_WHITE);
             this._fieldsContainer.addChild(field);
         }
         field.y = localY - cr.Ruler.FIELD_HEIGHT / 2;
@@ -377,12 +392,12 @@ window.cr = {};
         this._height = height;
         this._backgroundShape.scaleY = this._height;
         var graphics = this._fieldsContainer.mask.graphics.clear();
-        graphics.beginFill("#002D40").drawRect(0, 0,  this._width, this._height).endFill();
+        graphics.beginFill(Ruler.BACKGROUND).drawRect(0, 0,  this._width, this._height).endFill();
         this._bottomField.y = this._height - this._bottomField.getBounds().height;
     }
     
-    p._makeField = function(value, background) {
-        return new cr.TextItem(value, Ruler.FONT, Ruler.FONT_COLOR, background, this._width, Ruler.FIELD_HEIGHT);
+    p._makeField = function(value, background, fontColor) {
+        return new cr.TextItem(value, Ruler.FONT, fontColor, background, this._width, Ruler.FIELD_HEIGHT);
     };
     
     cr.Ruler = createjs.promote(Ruler, "Container");
@@ -394,8 +409,10 @@ window.cr = {};
  */
 (function() {
   
-    Timeline.FONT = "12px Courier";
-    Timeline.FONT_COLOR = "#FFFFFF";
+    Timeline.FONT = "14px Courier New";
+    Timeline.FONT_WHITE = "#FFFFFF";
+    Timeline.FONT_BLACK = "#000000";
+    Timeline.BACKGROUND = "#262626";
   
     function Timeline(width, height) {
         this.Container_constructor();
@@ -404,12 +421,12 @@ window.cr = {};
         
         this._backgroundShape = this.addChild(new createjs.Shape());
         var graphics = this._backgroundShape.graphics.clear();
-        graphics.beginFill("#002D40").drawRect(0, 0, 1, 1).endFill();
+        graphics.beginFill(Timeline.BACKGROUND).drawRect(0, 0, 1, 1).endFill();
         
-        this._leftField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
-        this._rightField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
-        this._markField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#00446E", 0, height));
-        this._currentField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_COLOR, "#7C050B", 0, height));
+        this._leftField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_WHITE, Timeline.BACKGROUND, 0, height));
+        this._rightField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_WHITE, Timeline.BACKGROUND, 0, height));
+        this._markField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_WHITE, Timeline.BACKGROUND, 0, height));
+        this._currentField = this.addChild(new cr.TextItem("", Timeline.FONT, Timeline.FONT_BLACK, "#FFFFFF", 0, height));
        
         this._currentField.visible = false;
         this._markField.visible = false;

@@ -1,44 +1,6 @@
-div.card-content {
-    border-color: #FFF;
-}
-
-div.chart-header {
-    display: block;
-    padding-bottom: 0rem;
-    border-bottom: 0px;
-    background-color: #002D40;
-    color: #FFF;
-}
-
-div.inline-block {
-    display: inline-block;
-}
-
-div.symbol {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-div.symbol-logo {
-    overflow: hidden;
-    margin: 0px 1px 0px 1px;
-    width: 1.5rem;
-    height: 1.5rem;
-    background-color: #002D40; 
-    mask-size: 100%;
-    -webkit-mask-size: 100%;
-    mask-repeat: no-repeat;
-    -webkit-mask-repeat: no-repeat;
-}
-
-h3.symbol-name {
-    margin: 0px 0px -3px 0px;
-}
-
 @media all and (max-width: 720px) {
     div.chart-container {
-        height: 220px;
+        height: 200px;
     }
 }
 
@@ -48,31 +10,28 @@ h3.symbol-name {
     }
 }
 
-.card-header {
-    padding-top: .2rem;
+.currency {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 400;
 }
 
-div.header-ui {
+div.chart-menu {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
 }
 
-h6.header-symbol-currency {
-    margin-top: 0.40rem;
-    margin-bottom: 0px;
-    color: #EEE;
+.cr-grey {
+    color: #a8a8a8 !important;
 }
 
-ul.header-chart-timeframe {
-    margin-left: 1.0rem;
-    margin-bottom: -1px;
+.cr-red {
+    color: #e74856 !important;
 }
 
-a.nav-link-chart-header {
-    padding: .2rem .5rem;
+.cr-blue {
+    color: #00b7c3 !important;
 }
 
-#chart-canvas {
-    display: block;
+.rem-08 {
+    font-size: 0.8rem;
 }

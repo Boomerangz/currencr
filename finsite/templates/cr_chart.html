@@ -1,0 +1,33 @@
+<div class="chart-menu rem-08 mb-2">
+    <div class="mr-4">
+        <p class="cr-grey mb-1">PERIOD</p>
+        <div class="text-white">
+            <a class="mr-2 cr-blue">last&nbsp;3h</a>
+            <a class="mr-2">last&nbsp;24h</a>
+            <a class="mr-2">last&nbsp;week</a>
+        </div>
+    </div>
+    <div class="mr-4">
+        <p class="cr-grey mb-1">TIMEFRAME</p>
+        <div class="text-white">
+            <a class="mr-2 cr-blue">1m</a>
+            <a class="mr-2">15m</a>
+            <a class="mr-2">30m</a>
+        </div>
+    </div>
+</div>
+<div id="{{ container }}" class="chart-container">
+    <canvas id="{{ canvas }}">{{ name }}</canvas>
+</div>
+<script src="/static/js/chart-lib.js"></script>
+<script src="/static/js/cr-chart.js"></script>
+<script src="/static/js/cr-core.js"></script>
+<script>
+    createChart(
+        "{{ code }}",
+        "{{ exchange }}",
+        "{{ timeframe }}",
+        "{{ canvas }}",
+        "{{ container }}"
+    );
+</script>
