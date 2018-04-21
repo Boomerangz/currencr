@@ -29,12 +29,12 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     log.visible = false;
     stage.addChild(log);
 
-    window.addEventListener("resize", function(e) {
+    new ResizeObserver(function(e) {
         canvas.width = container.clientWidth;
         canvas.height = container.clientHeight;
         chart.setComplexSize(canvas.width, canvas.height);
-    }, false);
-
+    }).observe(container);
+    
     var length = 0;
     var now = new Date();
     var count = 150;

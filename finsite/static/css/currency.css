@@ -1,37 +1,4 @@
-@media all and (max-width: 720px) {
-    div.chart-container {
-        height: 200px;
-    }
-}
-
-@media all and (min-width: 721px) {
-    div.chart-container {
-        height: 360px;
-    }
-}
-
 .currency {
     font-family: 'Roboto Slab', serif;
     font-weight: 400;
-}
-
-div.chart-menu {
-    display: flex;
-    flex-direction: row;
-}
-
-.cr-grey {
-    color: #a8a8a8 !important;
-}
-
-.cr-red {
-    color: #e74856 !important;
-}
-
-.cr-blue {
-    color: #00b7c3 !important;
-}
-
-.rem-08 {
-    font-size: 0.8rem;
 }

@@ -1,3 +1,11 @@
+{% load static %}
+<script>
+    var link = document.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("type", "text/css");
+    link.setAttribute("href", "{% static "css/cr-core.css" %}");
+    document.head.appendChild(link);
+</script>
 <div class="chart-menu rem-08 mb-2">
     <div class="mr-4">
         <p class="cr-grey mb-1">PERIOD</p>
@@ -10,9 +18,9 @@
     <div class="mr-4">
         <p class="cr-grey mb-1">TIMEFRAME</p>
         <div class="text-white">
-            <a class="mr-2 cr-blue">1m</a>
-            <a class="mr-2">15m</a>
-            <a class="mr-2">30m</a>
+            <a href="#" class="mr-2 cr-blue">1m</a>
+            <a href="#" class="mr-2">15m</a>
+            <a href="#" class="mr-2">30m</a>
         </div>
     </div>
 </div>
