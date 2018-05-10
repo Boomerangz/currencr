@@ -12,7 +12,7 @@ def get_stock_history(request, code):
         # print(Currency.objects.filter(url_code__iexact=code).query)
         currency = Currency.objects.get(url_code__iexact=code)
         date1 = request.GET.get('from', '2016-04-01')
-        date2 = request.GET.get('to', '2016-05-01')
+        date2 = request.GET.get('to', '2020-05-01')
         if currency.exchange == 0:
             date1 = datetime.strptime(date1, '%Y-%m-%d')
             date2 = datetime.strptime(date2, '%Y-%m-%d')

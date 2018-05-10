@@ -19,7 +19,7 @@ class Currency(models.Model):
 
 
     exchange_list = models.ManyToManyField(Exchange, related_name='exchange_list')
-    selected_exchange = models.ForeignKey(Exchange, default=1)
+    selected_exchange = models.ForeignKey(Exchange, default=1, on_delete=models.PROTECT)
     prediction_status = models.IntegerField(choices=PREDICTION_STATUS, default=0)
 
     ordering = models.IntegerField(default=1)
