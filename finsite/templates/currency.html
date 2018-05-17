@@ -35,8 +35,8 @@
 {% endblock %}
 {% block content %}
     <div class="content">
-        <a class="rem-08 cr-blue">Kraken</a>
+        <a class="rem-08 cr-blue">{{ currency.selected_exchange.name }}</a>
         <h5 class="currency text-white mb-4">{{ currency.url_code }}/USD&nbsp;&nbsp;{{ currency.current_price|floatformat:3 }}</h5>
-        {% include "cr_chart.html" with container="chart-container" canvas="chart-canvas" code=currency.code name=currency.name exchange=currency.selected_exchange.name timeframe="minute" %}
+        {% include "cr_chart.html" with container="chart-container" canvas="chart-canvas" code=currency.code name=currency.name exchange=currency.selected_exchange.name timeframe=timeframe %}
     </div>
 {% endblock %}

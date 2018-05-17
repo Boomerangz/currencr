@@ -15,6 +15,22 @@
     flex-direction: row;
 }
 
+.timeframe-lnk:link {
+    color: #ffffff;
+}
+
+.timeframe-lnk:visited {
+    color: #ffffff;
+}
+
+.timeframe-lnk:hover {
+    color: #ffffff;
+}
+
+.timeframe-lnk:active {
+    color: #00b7c3;
+}
+
 .cr-grey {
     color: #a8a8a8 !important;
 }

@@ -6,7 +6,7 @@
  * @param {string} containerID
  */
 function createChart(symbol, exchange, timeframe, canvasID, containerID) {
-    var step = ({minute: 60, hour: 3600, day: 86400})[timeframe] * 1000;
+    var msStep = ({minute: 60, fiveminute: 300, hour: 3600, day: 86400})[timeframe] * 1000;
     var container = document.getElementById(containerID);
     var canvas = document.getElementById(canvasID);
     canvas.width = container.clientWidth;
@@ -22,12 +22,11 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     createjs.Ticker.setFPS(60);
     createjs.Ticker.on("tick", stage.update.bind(stage));
     
-    var chart = new cr.ComplexChart(container.clientWidth, container.clientHeight, 60);
+    var chart = new cr.ComplexChart(container.clientWidth, container.clientHeight, 1);
     stage.addChild(chart);
 
     var log = new createjs.Text("DEBUG LOG\n\n", "12px Courier", "#000000");
-    log.visible = false;
-    stage.addChild(log);
+    //stage.addChild(log);
 
     new ResizeObserver(function(e) {
         canvas.width = container.clientWidth;
@@ -37,49 +36,59 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     
     var length = 0;
     var now = new Date();
-    var count = 150;
-    var lag = 5;
-    var from = now.getTime() - (count + lag) * 60 * 1000;
+    var count = 120;
+    var forecast = [];
+    var totalCount = 600;
+    var lag = 120000;
+    var from = now.getTime() - totalCount * msStep - lag;
     var pointWidth = 0;
-    uploadHistory(symbol, exchange, from, function(history) {
+    var totalData;
+    uploadHistory(symbol, exchange, from, timeframe, function(history) {
         pointWidth = chart.getSize().width / (count - 1);
+        history = linearize(history, msStep);
+        totalData = history;
         history = history.slice(-count);
         chart.setPoint(pointWidth, chart.getPoint().height);
         chart.complexAppend(history);
         length = history.length;
         log.text = log.text + "History; Point width: " + pointWidth + "; total length: " + length + ";\n\n";
         var time = history[length - 1].date.getTime();
-        chart.setGridOffset(60 - history[0].date.getMinutes());
-        uploadTicker(symbol, exchange, function(ticker) {
-            pointWidth = chart.getSize().width / length;
-            ticker.date = new Date(time += step);
-            chart.setPoint(pointWidth, chart.getPoint().height);
-            chart.complexAppend([ticker]);
-            length ++;
-            log.text = log.text + "Ticker; Point width: " + pointWidth + "; total length: " + length + ";\n\n";
-            uploadForecasts(symbol, exchange, function(data) {
-                if (data.forecasts.length) {
-                    var prices = data.forecasts[0].prices;
-                    var forecast = [];
-                    for (var i = 0; i < prices.length; i++) {
-                        forecast.push({
-                            date: new Date(time += step),
-                            price: prices[i]
-                        });
-                    }
-                    var index = length - 1;
-                    length += forecast.length;
-                    pointWidth = chart.getSize().width / (length - 1);
-                    chart.setPoint(pointWidth, chart.getPoint().height);
-                    chart.complexAppend(forecast);
-                    chart.setForecastPosition(index);
-                    log.text = log.text + "Forecasts; Point width: " + pointWidth + "; total length: " + length + ";\n\n";
+        uploadForecasts(symbol, exchange, function(data) {
+            if (data.forecasts.length) {
+                var prices = data.forecasts[0].prices;
+                var mStep = Math.round(msStep / 60000);
+                for (var i = 0; i < prices.length; i += mStep) {
+                    forecast.push({
+                        date: new Date(time += msStep),
+                        price: prices[i]
+                    });
                 }
-            });
+                var index = length - 1;
+                totalData = totalData.concat(forecast);
+                length += forecast.length;
+                pointWidth = chart.getSize().width / (length - 1);
+                count = length;
+                chart.setPoint(pointWidth, chart.getPoint().height);
+                chart.complexAppend(forecast);
+                chart.setForecastPosition(index);
+                log.text = log.text + "Forecasts; Point width: " + pointWidth + "; total length: " + length + ";\n\n";
+            }
         });
     });
 
-    
+    canvas.addEventListener('mousewheel', function (event) {
+        count += (event.deltaY / 20);
+        count = Math.min(count, totalData.length);
+        count = Math.max(count, 100);
+        chart.complexClear();
+        pointWidth = chart.getSize().width / (count - 1);
+        chart.setPoint(pointWidth, chart.getPoint().height);
+        chart.complexAppend(totalData.slice(-count));
+        var index = count - forecast.length - 1;
+        index = Math.max(index, 0);
+        chart.setForecastPosition(index);
+        return false; 
+    }, false);
 }
 
 /**
@@ -89,14 +98,13 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
  * @param {string} from 
  * @param {string} callback 
  */
-function uploadHistory(symbol, exchange, from, callback) {
+function uploadHistory(symbol, exchange, from, timeframe, callback) {
     var req = new XMLHttpRequest();
-    req.open("GET", "./history_db/?from=" + from + "&period=minute&format=json", true);
+    req.open("GET", "./history_db/?from=" + from + "&period=" + timeframe + "&format=json&exchange=" + exchange, true);
     req.addEventListener("load", function() {
         if (!callback) return;
         try {
             var data = JSON.parse(req.responseText);
-            data = linearize(data);
         } catch(e) {
             alert("History error.\nTry again later...");
             return;
@@ -173,13 +181,12 @@ function uploadForecasts(symbol, exchange, callback) {
  * 
  * @param {Array.<Object>} array 
  */
-function linearize(array) {
-    var targetDelta = 60 * 1000;
+function linearize(array, step) {
     for (var i = 0; i < array.length - 1; i++) {
         var date0 = array[i].date = new Date(array[i].date);
         var date1 = new Date(array[i + 1].date);
         var delta = date1.getTime() - date0.getTime();
-        for (var ms = date0.getTime() + targetDelta; ms < date1.getTime(); ms += targetDelta) {
+        for (var ms = date0.getTime() + step; ms < date1.getTime(); ms += step) {
             var item = {
                 date: new Date(ms),
                 price: array[i].price

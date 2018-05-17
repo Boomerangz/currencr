@@ -19,13 +19,13 @@ window.cr = {};
         height -= ComplexChart.TIMELINE_HEIGHT;
         var configSize = {width: width, height: height};
         var configPoint = {width: width / (pointsCount - 1), height: height * 0.1};
-        var configAxis = {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.1, bottom: height * 0.1}};
+        var configAxis = {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.2, bottom: height * 0.2}};
         var configStyle = {
-            background: {color: ComplexChart.BACKGROUND, alpha: 0},
-            grid: {thickness: 0.5, color: "#00FFFF", alpha: 0.5, width: 0, height: 0/*dynamic*/, dash: [1, 0], offset: 0},
-            axisX:  {thickness: 1, color: "#00FFFF", alpha: 0.75, offset: 0},
+            background: {color: ComplexChart.BACKGROUND},
+            grid: {thickness: 1, color: "rgba(0,255,255,0.2)", width: 0, height: 0/*dynamic*/, dash: [1, 0], offset: 0},
+            axisX:  {thickness: 1, color: "rgba(0,255,255,1)", offset: 0},
             chart: {
-                points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", alpha: 0, bounds: true},
+                points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", bounds: true},
                 fill: {
                     type: "linear", 
                     isSymmetric: true,
@@ -76,6 +76,12 @@ window.cr = {};
         var max = Math.ceil(this.getExtreme().max.value);
         this._fLength = Math.max(6 - max.toString().length, 0);
         this._updateGuidesAndRulers();
+    };
+
+    p.complexClear = function() {
+        this._complexData = [];
+        this._chartRange = {top: Number.MAX_VALUE, bottom: -Number.MAX_VALUE};
+        this.clear();
     };
     
     p.setComplexSize = function(width, height) {
