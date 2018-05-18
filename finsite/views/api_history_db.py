@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound, APIException
 from finsite.models import Currency, CurrencyHistoryRecord, Exchange
+from django.http import HttpResponse
 
 
 
@@ -15,6 +16,20 @@ filter_params = {
     'day' : {'select': {'time':"date_trunc('day', time)"}},
 }
 
+
+
+def jsonify_generator(iterator):
+    yield '['
+    first = True
+    for item in iterator:
+        if not first:
+            yield ','
+        else:
+            first = False
+        yield item
+    yield ']'
+
+
 @api_view(['GET'])
 def get_stock_history_from_db(request, code):
     if request.method == 'GET':
@@ -22,7 +37,7 @@ def get_stock_history_from_db(request, code):
             currency = Currency.objects.get(url_code__iexact=code)
         except:
             raise NotFound() 
-# date =        
+
         period = request.GET.get('period', 'minute')
         exchange = None
         if 'exchange' in request.GET:
@@ -53,4 +68,14 @@ def get_stock_history_from_db(request, code):
 
         if period in filter_params.keys():
             currency_history_items = currency_history_items.extra(**filter_params[period]).values("time").annotate(price=Avg('price'), volume=Sum('volume')) #   filter(check_func[period], currency_history_items)
-        return Response([{'price':h['price'], 'volume':h['volume'], 'date':h['time'].strftime('%Y-%m-%dT%H:%M:%SZ')} for h in currency_history_items], headers={'Access-Control-Allow-Origin':'*'})
+        response = HttpResponse(jsonify_generator(
+                                        ({  'price' :h['price'],
+                                            'volume':h['volume'],
+                                            'date'  :h['time'].strftime('%Y-%m-%dT%H:%M:%SZ')
+                                         }
+                                            for h in currency_history_items.iterator()
+                                         )
+                                    )
+                                )
+        response['Access-Control-Allow-Origin'] = '*'
+        return response
