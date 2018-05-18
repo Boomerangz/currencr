@@ -10,9 +10,8 @@
     }
 }
 
-.chart-menu {
-    display: flex;
-    flex-direction: row;
+.timeframe-lnk {
+    margin-right: 12px !important;
 }
 
 .timeframe-lnk:link {
@@ -45,4 +44,9 @@
 
 .rem-08 {
     font-size: 0.8rem;
+}
+
+.chart-loader {
+    position: absolute;
+    margin: 20px;
 }

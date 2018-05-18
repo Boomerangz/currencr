@@ -78,3 +78,19 @@ msgstr "我们正在不断努力，在质量的预报发布只有最好的结果
 #: finsite/templates/new.html:6
 msgid "News"
 msgstr "新闻"
+
+#:
+msgid "Source"
+msgstr "Источник"
+
+msgid "minute_short"
+msgstr "1m"
+
+msgid "fiveminute_short"
+msgstr "5m"
+
+msgid "hour_short"
+msgstr "1h"
+
+msgid "day_short"
+msgstr "1d"

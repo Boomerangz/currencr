@@ -1,3 +1,4 @@
+{% load i18n %}
 {% load static %}
 <script>
     var link = document.createElement("link");
@@ -6,17 +7,29 @@
     link.setAttribute("href", "{% static "css/cr-core.css" %}");
     document.head.appendChild(link);
 </script>
-<div class="chart-menu rem-08 mb-2">
+<div class="layout-horizontal rem-08 mb-2">
     <div class="mr-4">
         <p class="cr-grey mb-1">TIMEFRAME</p>
         <div class="text-white">
             {% for item in timeframes %}
-            <a href="./?exchange={{ exchange }}&timeframe={{ item }}" class="timeframe-lnk mr-2{% if item == timeframe %} cr-blue{% endif %}">{{ item }}_short</a>
+            <a href="./?exchange={{ exchange }}&timeframe={{ item }}" class="timeframe-lnk mr-2{% if item == timeframe %} cr-blue{% endif %}">
+                {% with item|add:"_short" as item_short %}
+                {% trans item_short %}
+                {% endwith %}
+            </a>
             {% endfor %}
         </div>
     </div>
+    <div class="mr-4 mt-2">
+        <label class="switch">
+            <input id="{{ canvas }}_checkbox" type="checkbox" checked>
+            <span class="slider round"></span>
+           <span class="label">Forecast</span>
+        </label>
+    </div>
 </div>
 <div id="{{ container }}" class="chart-container">
+    <div id="{{ canvas }}_loader"class="loader chart-loader"></div>
     <canvas id="{{ canvas }}">{{ name }}</canvas>
 </div>
 <script src="{% static "js/chart-lib.js" %}"></script>

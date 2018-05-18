@@ -91,6 +91,22 @@ msgstr ""
 msgid "News"
 msgstr "News"
 
+#:
+msgid "Source"
+msgstr "Источник"
+
+msgid "minute_short"
+msgstr "1m"
+
+msgid "fiveminute_short"
+msgstr "5m"
+
+msgid "hour_short"
+msgstr "1h"
+
+msgid "day_short"
+msgstr "1d"
+
 #~ msgid "Warning!"
 #~ msgstr "Warning!"
 
