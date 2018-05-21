@@ -48,5 +48,7 @@
 
 .chart-loader {
     position: absolute;
-    margin: 20px;
+    left: 0;
+    right: 0;
+    margin: 80px auto 0 auto;
 }

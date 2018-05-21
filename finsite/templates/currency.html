@@ -25,12 +25,14 @@
 {% endblock %}
 
 {% block js %}
-    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+    <script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
+    <script src="/static/js/cssplugin.js"></script>
 {% endblock %}
 
 {% block header %}
     <div class="logo">
-        <img src="/static/img/logo-beta.png" class="logo">
+        <a href="/"><img src="/static/img/logo-beta.png" class="logo"></a>
     </div>
 {% endblock %}
 {% block content %}

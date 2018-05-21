@@ -7,16 +7,18 @@
  */
 function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     var TIMEFRAMES = {minute: 60, fiveminute: 300, hour: 3600, day: 86400};
+    var loader = document.getElementById(canvasID + "_loader");
     var container = document.getElementById(containerID);
     var canvas = document.getElementById(canvasID);
     canvas.width = container.clientWidth;
     canvas.height = container.clientHeight;
+    canvas.style.opacity = 0;
 
     window.context = canvas.getContext("2d");
     stage = new createjs.Stage(canvasID);
     stage.mouseMoveOutside = true;
     stage.preventSelection = false;
-    stage.enableMouseOver(30);
+    stage.enableMouseOver(10);
 
     createjs.Touch.enable(stage, false, true);
     createjs.Ticker.setFPS(60);
@@ -25,6 +27,8 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     var chart = new cr.ComplexChart(container.clientWidth, container.clientHeight, 1);
     stage.addChild(chart);
     handleResizing(canvas, container, chart);
+
+    loader.style.opacity = 1;
 
     var HFIDX = 0;
     var currentCount = 150;
@@ -42,12 +46,14 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             total.history = linearize(history, msStep);
             var time = total.history[total.history.length - 1].date.getTime();
             setData(total.history, null, currentCount);
+            createjs.CSSPlugin.install();
+            createjs.Tween.get(canvas).to({opacity:1}, 500);
         } else {
-            document.getElementById(canvasID + "_loader").remove();
+            hideLoader();
             return;
         }
         uploadForecasts(symbol, exchange, function(data) {
-            document.getElementById(canvasID + "_loader").remove();
+            hideLoader();
             if (!data) return;
             if (!data.forecasts.length) return;
             var prices = data.forecasts[HFIDX].prices;
@@ -94,6 +100,13 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             this.checked ? total.forecasts[0] : null,
             currentCount
         );
+    }
+
+    function hideLoader() {
+        if (loader.style.opacity != "1") return;
+        createjs.Tween.get(loader).to({opacity:0}, 100).call(function() {
+            loader.remove();
+        });
     }
 }
 
@@ -187,7 +200,7 @@ function linearize(array, step) {
 function handleResizing(canvas, container, chart) {
     try {
         new ResizeObserver(resizeCanvas).observe(container);
-    } catch {
+    } catch(e) {
         window.addEventListener("resize", resizeCanvas, false);
         window.onload = resizeCanvas;
     }
