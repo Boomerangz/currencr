@@ -1,3 +1,4 @@
+import json
 from datetime import datetime, timedelta
 
 from django.db.models import Sum, Avg
@@ -26,7 +27,7 @@ def jsonify_generator(iterator):
             yield ','
         else:
             first = False
-        yield item
+        yield json.dumps(item)
     yield ']'
 
 
