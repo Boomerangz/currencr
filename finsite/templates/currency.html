@@ -26,8 +26,6 @@
 
 {% block js %}
     <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
-    <script src="https://code.createjs.com/1.0.0/tweenjs.min.js"></script>
-    <script src="/static/js/cssplugin.js"></script>
 {% endblock %}
 
 {% block header %}
@@ -36,7 +34,7 @@
     </div>
 {% endblock %}
 {% block content %}
-    <div class="content">
+    <div class="w-100 content">
         <a class="rem-08 cr-blue">{{ currency.selected_exchange.name }}</a>
         <h5 class="currency text-white mb-4">{{ currency.url_code }}/USD&nbsp;&nbsp;{{ currency.current_price|floatformat:3 }}</h5>
         {% include "cr_chart.html" with container="chart-container" canvas="chart-canvas" code=currency.code name=currency.name exchange=currency.selected_exchange.name timeframe=timeframe %}

@@ -53,8 +53,8 @@ msgstr ""
 "информации размещенной на странице."
 
 #: finsite/templates/index.html:13
-msgid "Currencr - Cryptocurrency exchange rates, news and forecasts"
-msgstr "Currencr - Курс криптовалют, новости и прогнозы"
+msgid "Currencr · cryptocurrency exchange rates, news and forecasts"
+msgstr "Currencr · курс криптовалют, новости и прогнозы"
 
 #: finsite/templates/index.html:14 finsite/templates/index.html:16
 #: finsite/templates/index.html:18

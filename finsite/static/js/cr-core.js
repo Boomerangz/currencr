@@ -21,14 +21,12 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     stage.enableMouseOver(10);
 
     createjs.Touch.enable(stage, false, true);
-    createjs.Ticker.setFPS(60);
     createjs.Ticker.on("tick", stage.update.bind(stage));
+    createjs.Ticker.framerate = 60;
     
     var chart = new cr.ComplexChart(container.clientWidth, container.clientHeight, 1);
     stage.addChild(chart);
     handleResizing(canvas, container, chart);
-
-    loader.style.opacity = 1;
 
     var HFIDX = 0;
     var currentCount = 150;
@@ -46,14 +44,13 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             total.history = linearize(history, msStep);
             var time = total.history[total.history.length - 1].date.getTime();
             setData(total.history, null, currentCount);
-            createjs.CSSPlugin.install();
-            createjs.Tween.get(canvas).to({opacity:1}, 500);
+            canvas.style.opacity = "1";
         } else {
-            hideLoader();
+            loader.remove();
             return;
         }
         uploadForecasts(symbol, exchange, function(data) {
-            hideLoader();
+            loader.remove();
             if (!data) return;
             if (!data.forecasts.length) return;
             var prices = data.forecasts[HFIDX].prices;
@@ -100,13 +97,6 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             this.checked ? total.forecasts[0] : null,
             currentCount
         );
-    }
-
-    function hideLoader() {
-        if (loader.style.opacity != "1") return;
-        createjs.Tween.get(loader).to({opacity:0}, 100).call(function() {
-            loader.remove();
-        });
     }
 }
 
@@ -199,14 +189,19 @@ function linearize(array, step) {
  */
 function handleResizing(canvas, container, chart) {
     try {
+        resizeCanvas();
         new ResizeObserver(resizeCanvas).observe(container);
     } catch(e) {
         window.addEventListener("resize", resizeCanvas, false);
         window.onload = resizeCanvas;
     }
     function resizeCanvas() {
-        canvas.width = container.clientWidth;
-        canvas.height = container.clientHeight;
-        chart.setComplexSize(canvas.width, canvas.height);
+        canvas.width = container.clientWidth * window.devicePixelRatio;
+        canvas.height = container.clientHeight * window.devicePixelRatio;
+        canvas.style.width = container.clientWidth + "px";
+        canvas.style.height = container.clientHeight + "px";
+        chart.stage.scaleX = window.devicePixelRatio;
+        chart.stage.scaleY = window.devicePixelRatio;
+        chart.setComplexSize(container.clientWidth, container.clientHeight);
     }
 }

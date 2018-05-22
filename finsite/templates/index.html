@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Currencr · cryptocurrency exchange rates, news and forecasts" %}{% endblock %}
+{% block head %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="MobileOptimized" content="176">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="robots" content="index, follow">
+    <meta property="og:site_name" content="currencr.me">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% trans "Currencr · cryptocurrency exchange rates, news and forecasts" %}">
+    <meta property="og:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
+    <meta property="og:image" content="https://currencr.me/static/img/screen.png">
+    <meta name="twitter:card" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
+    <meta name="twitter:title" content="Currencr - {% trans "Exchange rate, news and forecasts" %}">
+    <meta name="twitter:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
+    <meta name="twitter:image" content="https://currencr.me/static/img/screen.png">
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="/static/css/index.css">
+{% endblock %}
+
+{% block js %}
+    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
+    <script src="/static/js/chart-lib.js"></script>
+    <script src="/static/js/preview-chart.js"></script>
+    <script src="/static/js/index-core.js"></script>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

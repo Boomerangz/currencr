@@ -48,7 +48,23 @@
 
 .chart-loader {
     position: absolute;
+    z-index: 2;
     left: 0;
     right: 0;
     margin: 80px auto 0 auto;
+}
+
+canvas.chart {
+    opacity: 0;
+    z-index: 1;
+    transition: 0.5s linear;
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }

@@ -50,7 +50,7 @@ msgstr ""
 "posted on the page."
 
 #: finsite/templates/index.html:13
-msgid "Currencr - Cryptocurrency exchange rates, news and forecasts"
+msgid "Currencr · cryptocurrency exchange rates, news and forecasts"
 msgstr ""
 
 #: finsite/templates/index.html:14 finsite/templates/index.html:16
