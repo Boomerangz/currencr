@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{% trans "Currencr · cryptocurrency exchange rates, news and forecasts" %}{% endblock %}
 {% block head %}
@@ -21,16 +22,26 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="/static/css/index.css">
+    <link rel="stylesheet" href="{% static "css/index.css" %}">
 {% endblock %}
 
 {% block js %}
-    <script src="https://code.createjs.com/easeljs-0.8.2.min.js"></script>
-    <script src="/static/js/chart-lib.js"></script>
-    <script src="/static/js/preview-chart.js"></script>
-    <script src="/static/js/index-core.js"></script>
+    <script src="https://code.createjs.com/1.0.0/easeljs.min.js"></script>
+{% endblock %}
+
+{% block header %}
+    <div class="logo">
+        <a href="/"><img src="{% static "img/logo-beta.png" %}" class="logo"></a>
+    </div>
 {% endblock %}
 
 {% block content %}
-
+    <div class="w-100 content">
+        <div class="layout-horizontal rem-08 mb-2">
+            <div class="mr-4">
+                <p class="cr-grey mb-0">{% trans "EXCHANGE" %}</p>
+                <a class="rem-08 cr-yellow">{{ exchange }}</a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

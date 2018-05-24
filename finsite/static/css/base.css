@@ -4,6 +4,8 @@ body {
     background: #262626;
 }
 
+/* LAYOUT */
+
 .layout-horizontal {
     display: flex;
     flex-direction: row;
@@ -29,12 +31,40 @@ div.content {
     flex-direction: column;
 }
 
+/* FONT */
+
+.fw-400 {
+    font-weight: 400;
+}
+
+.rem-08 {
+    font-size: 0.8rem;
+}
+
 img.logo {
     width: 120px;
     height: 36px
 }
 
-/* Slider */
+/* COLORS */
+
+.cr-grey {
+    color: #a8a8a8 !important;
+}
+
+.cr-red {
+    color: #e74856 !important;
+}
+
+.cr-blue {
+    color: #00b7c3 !important;
+}
+
+.cr-yellow {
+    color: #ff9c00 !important;
+}
+
+/* SLIDER */
 
 span.label {
     margin-left: 56px;
@@ -90,7 +120,7 @@ input:checked+.slider:before {
     transform: translateX(24px);
 }
 
-/* Loader */
+/* LOADER */
 
 .loader {
     border: 16px solid rgba(0, 0, 0, 0);

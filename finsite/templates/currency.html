@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load static %}
 
 {% block title %}{{ currency.url_code }}/USD · Currencr · {% trans "Exchange rate and forecast for" %} {{ currency.name }}{% endblock %}
 {% block head %}
@@ -21,7 +22,7 @@
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" href="/static/css/currency.css">
+    <link rel="stylesheet" href="{% static "css/currency.css" %}">
 {% endblock %}
 
 {% block js %}
@@ -30,13 +31,14 @@
 
 {% block header %}
     <div class="logo">
-        <a href="/"><img src="/static/img/logo-beta.png" class="logo"></a>
+        <a href="/"><img src="{% static "img/logo-beta.png" %}" class="logo"></a>
     </div>
 {% endblock %}
+
 {% block content %}
     <div class="w-100 content">
-        <a class="rem-08 cr-blue">{{ currency.selected_exchange.name }}</a>
-        <h5 class="currency text-white mb-4">{{ currency.url_code }}/USD&nbsp;&nbsp;{{ currency.current_price|floatformat:3 }}</h5>
+        <a class="rem-08 cr-yellow">{{ currency.selected_exchange.name }}</a>
+        <h5 class="fw-400 text-white mb-4">{{ currency.url_code }}/USD&nbsp;&nbsp;{{ currency.current_price|floatformat:3 }}</h5>
         {% include "cr_chart.html" with container="chart-container" canvas="chart-canvas" code=currency.code name=currency.name exchange=currency.selected_exchange.name timeframe=timeframe %}
     </div>
 {% endblock %}

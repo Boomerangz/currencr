@@ -30,22 +30,6 @@
     color: #00b7c3;
 }
 
-.cr-grey {
-    color: #a8a8a8 !important;
-}
-
-.cr-red {
-    color: #e74856 !important;
-}
-
-.cr-blue {
-    color: #00b7c3 !important;
-}
-
-.rem-08 {
-    font-size: 0.8rem;
-}
-
 .chart-loader {
     position: absolute;
     z-index: 2;

@@ -1,33 +1,30 @@
 /**
  * @author R.Akhtyamov
- * Currencr Chart
- */
- 
-window.cr = {};
-
-/**
- * 
+ * Preview Chart
  */
 (function() {
+
+    window.cr = window.cr || {};
+
+    PreviewChart.BACKGROUND = "#262626";
 
     function PreviewChart(width, height) {
         var size = {width: width, height: height};
         var point = {width: 1, height: 1};
-        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 8, bottom: 10}};
+        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 10, bottom: 0}};
         var style = {
-            background: {color: "#000000", alpha: 0},
-            grid: {thickness: 1, color: "#000000", alpha: 0, width: 0, height: 0, dash: [1, 0]},
-            axisX:  {thickness: 1, color: "#000000", alpha: 0, offset: 0},
+            background: {color: PreviewChart.BACKGROUND},
             chart: {
-                lines: {thickness: 5, color: "#002D40", alpha: 1, bounds: false},
-                points:  {thickness: 1, radius: 1, lineColor: "#002D40", fillColor: "#002D40", alpha: 0, bounds: false}
+                fill: {
+                    type: "solid", 
+                    colors: "rgb(0,183,195)",
+                }
             }
         };
         this.StreamingChart_constructor(size, point, axis, style);
     }
 
     var p = createjs.extend(PreviewChart, charts.StreamingChart);
-
     p.setPreview = function(data) {
         this.setPoint(this.getSize().width / (data.length - 1), this.getPoint().height);
         this.set(data);

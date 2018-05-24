@@ -28,6 +28,7 @@ class IndexView(TemplateView):
         context['top_news_list'] = [n for n in news_list if n.image][:3]
         context['news_list'] = [n for n in news_list if n not in context['top_news_list']]
         context['currency_list'] = currency_list
+        context['exchange'] = 'Poloniex'
         return context
 
     def get_history_for_currency(self, currency, from_time=None):

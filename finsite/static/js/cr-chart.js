@@ -2,14 +2,10 @@
  * @author R.Akhtyamov
  * Currencr Chart
  */
- 
-window.cr = {};
-
-/**
- * 
- */
 (function() {
     
+    window.cr = window.cr || {};
+
     ComplexChart.RULER_WIDTH = 70;
     ComplexChart.TIMELINE_HEIGHT = 16;
     ComplexChart.BACKGROUND = "#262626";
@@ -25,7 +21,6 @@ window.cr = {};
             grid: {thickness: 1, color: "rgba(0,255,255,0.2)", width: 0, height: 0/*dynamic*/, dash: [1, 0], offset: 0},
             axisX:  {thickness: 1, color: "rgba(0,255,255,1)", offset: 0},
             chart: {
-                points:  {thickness: 0, radius: 0, lineColor: "#000000", fillColor: "#000000", bounds: true},
                 fill: {
                     type: "linear", 
                     isSymmetric: true,

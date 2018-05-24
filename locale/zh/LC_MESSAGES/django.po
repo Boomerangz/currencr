@@ -94,3 +94,9 @@ msgstr "1h"
 
 msgid "day_short"
 msgstr "1d"
+
+msgid "TIMEFRAME"
+msgstr ""
+
+msgid "EXCHANGE"
+msgstr ""
