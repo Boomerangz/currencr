@@ -4,20 +4,18 @@
  */
 (function() {
 
-    window.cr = window.cr || {};
-
     PreviewChart.BACKGROUND = "#262626";
 
     function PreviewChart(width, height) {
         var size = {width: width, height: height};
         var point = {width: 1, height: 1};
-        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: 10, bottom: 0}};
+        var axis = {offset: 0, isDynamic: true, dynamicSpace: {top: height * 0.05, bottom: height * 0.20}};
         var style = {
             background: {color: PreviewChart.BACKGROUND},
             chart: {
                 fill: {
                     type: "solid", 
-                    colors: "rgb(0,183,195)",
+                    color: "rgb(0,183,195)",
                 }
             }
         };
@@ -30,6 +28,7 @@
         this.set(data);
     }
 
+    window.cr = window.cr || {};
     cr.PreviewChart = createjs.promote(PreviewChart, "StreamingChart");
 
 })();

@@ -1,11 +1,11 @@
 {% load i18n %}
 {% load static %}
 
-<script>utils.appendStyle("{% static "css/cr-core.css" %}")</script>
+<script>Utils.appendStyle("{% static "css/cr-core.css" %}")</script>
 <div class="layout-horizontal rem-08 mb-2">
     <div class="mr-4">
         <p class="cr-grey mb-1">{% trans "TIMEFRAME" %}</p>
-        <div>
+        <div class="timeframes">
             {% for item in timeframes %}
             <a href="./?exchange={{ exchange }}&timeframe={{ item }}" class="timeframe-lnk mr-2{% if item == timeframe %} cr-blue{% endif %}">
                 {% with item|add:"_short" as item_short %}

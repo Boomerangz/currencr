@@ -13,6 +13,8 @@ from django.http import HttpResponse
 filter_params = {
     'minute' :  {'select': {'time':"date_trunc('minute', time)"}},
     'fiveminute' :  {'select': {'time':"date_trunc('hour', time) + date_part('minute', time)::int / 5 * interval '5 min'"}},
+    'fifteenminute' :  {'select': {'time':"date_trunc('hour', time) + date_part('minute', time)::int / 15 * interval '15 min'"}},
+    'thirtyminutes' :  {'select': {'time':"date_trunc('hour', time) + date_part('minute', time)::int / 30 * interval '30 min'"}},
     'hour' :  {'select': {'time':"date_trunc('hour', time)"}},
     'day' : {'select': {'time':"date_trunc('day', time)"}},
 }

@@ -23,6 +23,7 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% static "css/index.css" %}">
+    <link rel="stylesheet" href="{% static "css/list-core.css" %}">
 {% endblock %}
 
 {% block js %}
@@ -37,11 +38,61 @@
 
 {% block content %}
     <div class="w-100 content">
-        <div class="layout-horizontal rem-08 mb-2">
-            <div class="mr-4">
-                <p class="cr-grey mb-0">{% trans "EXCHANGE" %}</p>
-                <a class="rem-08 cr-yellow">{{ exchange }}</a>
-            </div>
+        <p class="cr-grey mb-0 rem-08">{% trans "EXCHANGE" %}</p>
+        <a class="rem-08 cr-yellow">{{ exchange }}</a>
+        <div class="separator-large"></div>
+        <div>
+            <script src="/static/js/chart-lib.js"></script>
+            <script src="/static/js/preview-chart.js"></script>
+            <script src="/static/js/list-core.js"></script>
+            <ul class="list w-100 m-0 p-0">
+                {% for currency in currency_list %}
+                <li class="preview d-inline-block rem-1 align-top">
+                    <div id="preview-cont-{{ currency.name }}" class="preview w-100 mb-2">
+                        <canvas class="preview" id="preview-canvas-{{ currency.name }}">
+                            {{ currency.name }}
+                        </canvas>
+                    </div>
+                    <a href="/{{ currency.url_code }}/" class="mb-0 cr-white" data-currency="{{ currency.code }}" data-quote="USD">
+                        {{ currency.code }}/USD
+                    </a>
+                    {% for quote in quote_list %}
+                        {% ifnotequal currency.code quote.code %}
+                            <br />
+                            <a href="/{{ currency.url_code }}/" class="mb-0 cr-grey" data-currency="{{ currency.code }}" data-quote="{{ quote }}">
+                                {{ currency.code }}/{{ quote.code }}
+                            </a>
+                        {% endifnotequal %}
+                    {% endfor %}
+                </li>
+                <script>
+                    (function() {
+                        var cUSD = {{ currency.USD }};
+                        var preview = {
+                            chart: addPreviewChart(
+                                "preview-canvas-{{ currency.name }}",
+                                "preview-cont-{{ currency.name }}",
+                                "{{ currency.name }}"
+                            ),
+                            USD: cUSD
+                        }
+                        var qUSD = {};
+                        {% for quote in quote_list %}
+                            qUSD.{{ quote.code }} = {{ quote.USD }};
+                            {% ifnotequal currency.code quote.code %}
+                                preview.{{ quote.code }} = cUSD.map(function(item, index) {
+                                    return item / qUSD.{{ quote.code }}[index]
+                                })
+                            {% endifnotequal %}
+                        {% endfor %}
+
+                        window.previews.{{ currency.code }} = preview;
+
+                        preview.chart.setPreview(cUSD);
+                    })();
+                </script>
+                {% endfor %}
+            </ul>
         </div>
     </div>
 {% endblock %}

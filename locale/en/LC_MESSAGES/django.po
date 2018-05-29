@@ -101,6 +101,12 @@ msgstr "1m"
 msgid "fiveminute_short"
 msgstr "5m"
 
+msgid "fifteenminute_short"
+msgstr "15m"
+
+msgid "thirtyminutes_short"
+msgstr "30m"
+
 msgid "hour_short"
 msgstr "1h"
 

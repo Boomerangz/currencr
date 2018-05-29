@@ -2,11 +2,19 @@
     div.chart-container {
         height: 200px;
     }
+
+    div.timeframes {
+        width: 100px;
+    }
 }
 
 @media all and (min-width: 721px) {
     div.chart-container {
         height: 360px;
+    }
+
+    div.timeframes {
+        width: auto;
     }
 }
 

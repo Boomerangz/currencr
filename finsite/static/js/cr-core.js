@@ -6,7 +6,6 @@
  * @param {string} containerID
  */
 function createChart(symbol, exchange, timeframe, canvasID, containerID) {
-    var TIMEFRAMES = {minute: 60, fiveminute: 300, hour: 3600, day: 86400};
     var loader = document.getElementById(canvasID + "_loader");
     var container = document.getElementById(containerID);
     var canvas = document.getElementById(canvasID);
@@ -25,6 +24,7 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     createjs.Ticker.framerate = 60;
     
     var chart = new cr.ComplexChart(container.clientWidth, container.clientHeight, 1);
+    chart.alpha = 0;
     stage.addChild(chart);
     handleResizing(canvas, container, chart);
 
@@ -37,7 +37,7 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     }
     var MS_LAG = 120000;
     var HISTORY_COUNT = 600;
-    var msStep = TIMEFRAMES[timeframe] * 1000;
+    var msStep = Utils.TIMEFRAMES[timeframe] * 1000;
     var from = now.getTime() - HISTORY_COUNT * msStep - MS_LAG;
     uploadHistory(symbol, exchange, from, timeframe, function(history) {
         if (history) {
@@ -45,6 +45,7 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             var time = total.history[total.history.length - 1].date.getTime();
             setData(total.history, null, currentCount);
             canvas.style.opacity = "1";
+            chart.alpha = 1;
         } else {
             loader.remove();
             return;

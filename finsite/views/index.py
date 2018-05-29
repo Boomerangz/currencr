@@ -19,15 +19,18 @@ class IndexView(TemplateView):
         if search:
             currency_list = currency_list \
                 .filter(Q(name__icontains=search)|Q(code__icontains=search))
-
         currency_list = list(currency_list)
         day_ago = datetime.now() - timedelta(hours=24)
         for c in currency_list:
-            c.day_history = self.get_history_for_currency(c, from_time=day_ago)
+            c.USD = self.get_history_for_currency(c, from_time=day_ago)
+        quote_list = Currency.objects.filter(code__in = ["BTC", "ETH"])
+        for q in quote_list:
+            q.USD = self.get_history_for_currency(q, from_time=day_ago)
         news_list = list(get_news(limit=25, language=translation.get_language()))
         context['top_news_list'] = [n for n in news_list if n.image][:3]
         context['news_list'] = [n for n in news_list if n not in context['top_news_list']]
         context['currency_list'] = currency_list
+        context['quote_list'] = quote_list
         context['exchange'] = 'Poloniex'
         return context
 

@@ -3,8 +3,6 @@
  * Currencr Chart
  */
 (function() {
-    
-    window.cr = window.cr || {};
 
     ComplexChart.RULER_WIDTH = 70;
     ComplexChart.TIMELINE_HEIGHT = 16;
@@ -258,6 +256,7 @@
         graphics.lineTo(0, height);
     }
     
+    window.cr = window.cr || {};
     cr.ComplexChart = createjs.promote(ComplexChart, "StreamingChart");
     
 })();

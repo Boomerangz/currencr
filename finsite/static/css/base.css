@@ -41,12 +41,20 @@ div.content {
     font-size: 0.8rem;
 }
 
+.rem-1 {
+    font-size: 1rem;
+}
+
 img.logo {
     width: 120px;
     height: 36px
 }
 
 /* COLORS */
+
+.cr-white {
+    color: #ffffff !important;
+}
 
 .cr-grey {
     color: #a8a8a8 !important;
