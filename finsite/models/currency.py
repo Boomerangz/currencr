@@ -5,7 +5,6 @@ import requests
 from django.db import models
 from .exchange import Exchange
 
-
 PREDICTION_STATUS = (
     (0, 'Off'),
     (1, 'On'),

@@ -1,7 +1,9 @@
 /**
  * 
  */
-window.previews = {};
+(function() {
+    window.previews = {};
+})();
 
 /**
  * 
@@ -46,4 +48,52 @@ function handleResizing(canvas, container, chart) {
         chart.stage.scaleY = window.devicePixelRatio;
         chart.setComplexSize(container.clientWidth, container.clientHeight);
     }
+}
+
+/**
+ * 
+ * 
+ */
+function handleCQMouse(id) {
+    var node = document.getElementById(id);
+    var timeoutID = undefined;
+    node.addEventListener("click", function(e) {
+        var currency = e.target.dataset.currency;
+        var quote = e.target.dataset.quote;
+        var chart = window.previews[currency].chart;
+        if (timeoutID || chart.getQuote() != quote) {
+            changePreview(e);
+            e.preventDefault();
+        }
+    });
+    node.addEventListener("mouseover", function(e) {
+        changePreview(e);
+        if (timeoutID) return;
+        timeoutID = setTimeout(function() {
+            timeoutID = undefined;
+        }, 250)
+    });
+}
+
+/**
+ * 
+ *  
+ */
+function changePreview(e) {
+    var currency = e.target.dataset.currency;
+    var quote = e.target.dataset.quote;
+    if (!currency || !quote) return;
+    var item = window.previews[currency].item;
+    item.classList.remove("cr-white");
+    item.classList.add("cr-grey");
+    item.parentElement.firstElementChild.classList.remove("cr-op-1");
+    item.parentElement.firstElementChild.classList.add("cr-op-0");
+    item = e.target;
+    item.classList.remove("cr-grey");
+    item.classList.add("cr-white");
+    item.parentElement.firstElementChild.classList.remove("cr-op-0");
+    item.parentElement.firstElementChild.classList.add("cr-op-1");
+    window.previews[currency].item = item;
+    var chart = window.previews[currency].chart;
+    chart.setPreview(window.previews[currency][quote], quote);
 }

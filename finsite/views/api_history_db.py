@@ -10,7 +10,7 @@ from django.http import HttpResponse
 
 
 
-filter_params = {
+timeframe_filter_params = {
     'minute' :  {'select': {'time':"date_trunc('minute', time)"}},
     'fiveminute' :  {'select': {'time':"date_trunc('hour', time) + date_part('minute', time)::int / 5 * interval '5 min'"}},
     'fifteenminute' :  {'select': {'time':"date_trunc('hour', time) + date_part('minute', time)::int / 15 * interval '15 min'"}},
@@ -18,8 +18,6 @@ filter_params = {
     'hour' :  {'select': {'time':"date_trunc('hour', time)"}},
     'day' : {'select': {'time':"date_trunc('day', time)"}},
 }
-
-
 
 def jsonify_generator(iterator):
     yield '['
@@ -69,8 +67,8 @@ def get_stock_history_from_db(request, code):
         except Exception as e:
             print(e)
 
-        if period in filter_params.keys():
-            currency_history_items = currency_history_items.extra(**filter_params[period]).values("time").annotate(price=Avg('price'), volume=Sum('volume')) #   filter(check_func[period], currency_history_items)
+        if period in timeframe_filter_params.keys():
+            currency_history_items = currency_history_items.extra(**timeframe_filter_params[period]).values("time").annotate(price=Avg('price'), volume=Sum('volume')) #   filter(check_func[period], currency_history_items)
         response = HttpResponse(jsonify_generator(
                                         ({  'price' :h['price'],
                                             'volume':h['volume'],

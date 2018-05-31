@@ -1,0 +1,74 @@
+{% load i18n %}
+{% load static %}
+
+<script src="{% static "js/chart-lib.js" %}"></script>
+<script src="{% static "js/preview-chart.js" %}"></script>
+<script src="{% static "js/list-core.js" %}"></script>
+<ul class="list w-100 m-0 p-0">
+    {% for currency in currency_list %}
+    <li class="preview d-inline-block rem-1 align-top">
+        <div id="preview-cont-{{ currency.name }}" class="preview w-100 mb-2">
+            <a href="#">
+                <canvas class="preview" id="preview-canvas-{{ currency.name }}">
+                    {{ currency.name }}
+                </canvas>
+            </a>
+        </div>
+        <div class="align-middle">
+            <div class="d-inline-block circle cr-op-1"></div>
+            <a
+                id="a-{{ currency.code }}-USD"
+                href="/{{ currency.url_code }}/"
+                class="d-inline-block mb-0 cr-white"
+                data-currency="{{ currency.code }}"
+                data-quote="USD">
+                {{ currency.code }}/USD
+            </a>
+        </div>
+        {% for quote in quote_list %}
+            {% ifnotequal currency.code quote.code %}
+                <div class="align-middle">
+                    <div class="d-inline-block circle cr-op-0"></div>
+                    <a
+                        id="a-{{ currency.code }}-{{ quote.code }}"
+                        href="/{{ currency.url_code }}/"
+                        class="d-inline-block mb-0 cr-grey"
+                        data-currency="{{ currency.code }}"
+                        data-quote="{{ quote.code }}">
+                        {{ currency.code }}/{{ quote.code }}
+                    </a>
+                </div>
+            {% endifnotequal %}
+        {% endfor %}
+    </li>
+    <script>
+        (function() {
+            var cUSD = {{ currency.USD }};
+            var preview = {
+                item: document.getElementById("a-{{ currency.code }}-USD"),
+                chart: addPreviewChart(
+                    "preview-canvas-{{ currency.name }}",
+                    "preview-cont-{{ currency.name }}",
+                    "{{ currency.name }}"
+                ),
+                USD: cUSD
+            } 
+            var qUSD = {};
+            handleCQMouse("a-{{ currency.code }}-USD");
+            {% for quote in quote_list %}
+                qUSD.{{ quote.code }} = {{ quote.USD }};
+                {% ifnotequal currency.code quote.code %}
+                    handleCQMouse("a-{{ currency.code }}-{{ quote.code }}");
+                    preview.{{ quote.code }} = cUSD.map(function(item, index) {
+                        var a = Math.max(item, Number.MIN_VALUE);
+                        var b = Math.max(qUSD.{{ quote.code }}[index], Number.MIN_VALUE);
+                        return a / b;
+                    })
+                {% endifnotequal %}
+            {% endfor %}
+            window.previews.{{ currency.code }} = preview;
+            preview.chart.setPreview(cUSD);
+        })();
+    </script>
+    {% endfor %}
+</ul>

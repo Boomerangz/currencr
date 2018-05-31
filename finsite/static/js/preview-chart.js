@@ -23,9 +23,14 @@
     }
 
     var p = createjs.extend(PreviewChart, charts.StreamingChart);
-    p.setPreview = function(data) {
+    p.setPreview = function(data, quote) {
+        this._quote = quote;
         this.setPoint(this.getSize().width / (data.length - 1), this.getPoint().height);
         this.set(data);
+    }
+
+    p.getQuote = function() {
+        return this._quote;
     }
 
     window.cr = window.cr || {};

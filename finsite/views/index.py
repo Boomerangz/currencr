@@ -8,6 +8,13 @@ from finsite.models import Currency, CurrencyHistoryRecord
 from finsite.views.news import get_news
 from django.utils import translation
 
+
+period_param = {
+    '1d' :  24,
+    '1w' : 168,
+    '1m' : 720
+}
+
 class IndexView(TemplateView):
     template_name = 'index.html'
 
@@ -20,7 +27,11 @@ class IndexView(TemplateView):
             currency_list = currency_list \
                 .filter(Q(name__icontains=search)|Q(code__icontains=search))
         currency_list = list(currency_list)
-        day_ago = datetime.now() - timedelta(hours=24)
+        period = self.request.GET.get('period', '1w')
+        limit = period_param['1w']
+        if period in period_param.keys():
+            limit = period_param[period]
+        day_ago = datetime.now() - timedelta(hours=limit)
         for c in currency_list:
             c.USD = self.get_history_for_currency(c, from_time=day_ago)
         quote_list = Currency.objects.filter(code__in = ["BTC", "ETH"])

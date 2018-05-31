@@ -4,7 +4,7 @@ from django.views.generic import TemplateView
 
 from finsite.models import Currency, Exchange, CurrencyHistoryRecord
 from finsite.views.news import get_news
-from finsite.views.api_history_db import filter_params
+from finsite.views.api_history_db import timeframe_filter_params
 
 
 class CurrencyView(TemplateView):
@@ -25,6 +25,6 @@ class CurrencyView(TemplateView):
         currency.current_price = CurrencyHistoryRecord.objects.filter(currency=currency, exchange=exchange).order_by('-time')[0].price
         context['currency'] = currency
         context['timeframe'] = self.request.GET.get('timeframe', 'fiveminute')
-        context['timeframes'] = filter_params.keys()
+        context['timeframes'] = timeframe_filter_params.keys()
         context['news_list'] = get_news(search=context['currency'].name, language=translation.get_language())
         return context

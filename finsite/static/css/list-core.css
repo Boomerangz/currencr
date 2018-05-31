@@ -1,6 +1,6 @@
 @media all and (max-width: 720px) {
     ul.list {
-        font-size: 9rem;
+        font-size: 10rem;
     }
 
     li.preview {
@@ -26,4 +26,14 @@
     div.preview {
         height: 100px;
     }
+}
+
+div.circle {
+    opacity: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 0.5rem;
+    margin-bottom: 0.1rem;
+    margin-left: -0.7rem;
+    background-color: #ff9c00;
 }
