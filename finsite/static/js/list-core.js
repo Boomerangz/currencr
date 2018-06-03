@@ -58,8 +58,8 @@ function handleCQMouse(id) {
     var node = document.getElementById(id);
     var timeoutID = undefined;
     node.addEventListener("click", function(e) {
-        var currency = e.target.dataset.currency;
-        var quote = e.target.dataset.quote;
+        var currency = e.currentTarget.dataset.currency;
+        var quote = e.currentTarget.dataset.quote;
         var chart = window.previews[currency].chart;
         if (timeoutID || chart.getQuote() != quote) {
             changePreview(e);
@@ -80,15 +80,15 @@ function handleCQMouse(id) {
  *  
  */
 function changePreview(e) {
-    var currency = e.target.dataset.currency;
-    var quote = e.target.dataset.quote;
+    var currency = e.currentTarget.dataset.currency;
+    var quote = e.currentTarget.dataset.quote;
     if (!currency || !quote) return;
     var item = window.previews[currency].item;
     item.classList.remove("cr-white");
     item.classList.add("cr-grey");
     item.parentElement.firstElementChild.classList.remove("cr-op-1");
     item.parentElement.firstElementChild.classList.add("cr-op-0");
-    item = e.target;
+    item = e.currentTarget;
     item.classList.remove("cr-grey");
     item.classList.add("cr-white");
     item.parentElement.firstElementChild.classList.remove("cr-op-0");

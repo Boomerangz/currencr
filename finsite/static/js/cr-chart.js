@@ -228,7 +228,7 @@
         var item = this._complexData[timelineIndex];
         var rulerValue = this.getInterpolatedValueByLocalX(mouseX) || 0;
         var levelY = this.getLocalYByValue(rulerValue);
-        this._timeline.setCurrent(mouseX, this._formatDate(item.date));
+        this._timeline.setCurrent(mouseX, this._formatDate(item.date, true));
         this._ruler.setCurrent(levelY, rulerValue.toFixed(this._fLength));
         this._guide.guideX.x = Math.round(mouseX);
         this._guide.guideY.y = levelY;

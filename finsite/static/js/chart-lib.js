@@ -64,7 +64,7 @@ var charts = {};
         this.redraw();
     }
     
-    var LIMIT = 1000;
+    var LIMIT = 100000000;
     var p = createjs.extend(StreamingChart, createjs.Container);
     
     //

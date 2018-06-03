@@ -32,11 +32,13 @@ class IndexView(TemplateView):
         if period in period_param.keys():
             limit = period_param[period]
         day_ago = datetime.now() - timedelta(hours=limit)
+        cache = {}
         for c in currency_list:
             c.USD = self.get_history_for_currency(c, from_time=day_ago)
+            cache[c.code] = c.USD
         quote_list = Currency.objects.filter(code__in = ["BTC", "ETH"])
         for q in quote_list:
-            q.USD = self.get_history_for_currency(q, from_time=day_ago)
+            q.USD = cache[q.code]
         news_list = list(get_news(limit=25, language=translation.get_language()))
         context['top_news_list'] = [n for n in news_list if n.image][:3]
         context['news_list'] = [n for n in news_list if n not in context['top_news_list']]

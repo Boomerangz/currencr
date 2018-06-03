@@ -1,5 +1,6 @@
 {% load i18n %}
 {% load static %}
+{% load cr_tags %}
 
 <script src="{% static "js/chart-lib.js" %}"></script>
 <script src="{% static "js/preview-chart.js" %}"></script>
@@ -8,7 +9,7 @@
     {% for currency in currency_list %}
     <li class="preview d-inline-block rem-1 align-top">
         <div id="preview-cont-{{ currency.name }}" class="preview w-100 mb-2">
-            <a href="#">
+            <a id="a-{{ currency.code }}" href="/{{ currency.url_code }}/">
                 <canvas class="preview" id="preview-canvas-{{ currency.name }}">
                     {{ currency.name }}
                 </canvas>
@@ -22,7 +23,7 @@
                 class="d-inline-block mb-0 cr-white"
                 data-currency="{{ currency.code }}"
                 data-quote="USD">
-                {{ currency.code }}/USD
+                <span>{{ currency.code }}/USD</span>&nbsp;&nbsp;<span>{% cr_format currency.current_price 8 %}</span>
             </a>
         </div>
         {% for quote in quote_list %}
@@ -35,7 +36,7 @@
                         class="d-inline-block mb-0 cr-grey"
                         data-currency="{{ currency.code }}"
                         data-quote="{{ quote.code }}">
-                        {{ currency.code }}/{{ quote.code }}
+                        <span>{{ currency.code }}/{{ quote.code }}</span>&nbsp;&nbsp;<span>{% cr_divide_and_format currency.current_price quote.current_price 8 %}</span>
                     </a>
                 </div>
             {% endifnotequal %}
@@ -56,8 +57,8 @@
             var qUSD = {};
             handleCQMouse("a-{{ currency.code }}-USD");
             {% for quote in quote_list %}
-                qUSD.{{ quote.code }} = {{ quote.USD }};
                 {% ifnotequal currency.code quote.code %}
+                    qUSD.{{ quote.code }} = {{ quote.USD }};
                     handleCQMouse("a-{{ currency.code }}-{{ quote.code }}");
                     preview.{{ quote.code }} = cUSD.map(function(item, index) {
                         var a = Math.max(item, Number.MIN_VALUE);
