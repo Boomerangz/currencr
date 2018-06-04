@@ -18,26 +18,6 @@
     }
 }
 
-.timeframe-lnk {
-    margin-right: 12px !important;
-}
-
-.timeframe-lnk:link {
-    color: #ffffff;
-}
-
-.timeframe-lnk:visited {
-    color: #ffffff;
-}
-
-.timeframe-lnk:hover {
-    color: #ffffff;
-}
-
-.timeframe-lnk:active {
-    color: #00b7c3;
-}
-
 .chart-loader {
     position: absolute;
     z-index: 2;
@@ -49,6 +29,11 @@
 canvas.chart {
     opacity: 0;
     z-index: 1;
+    transition: 0.5s linear;
+}
+
+.switch-anm {
+    opacity: 0;
     transition: 0.5s linear;
 }
 

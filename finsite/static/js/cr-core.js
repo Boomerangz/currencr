@@ -37,7 +37,8 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     }
     var MS_LAG = 120000;
     var HISTORY_COUNT = 600;
-    var msStep = Utils.TIMEFRAMES[timeframe] * 1000;
+    var sStep = Utils.TIMEFRAMES[timeframe];
+    var msStep = sStep * 1000;
     var from = now.getTime() - HISTORY_COUNT * msStep - MS_LAG;
     uploadHistory(symbol, exchange, from, timeframe, function(history) {
         if (history) {
@@ -48,6 +49,11 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             chart.alpha = 1;
         } else {
             loader.remove();
+            return;
+        }
+        if (sStep >= Utils.TIMEFRAMES.hour) {
+            loader.remove();
+            checkbox.remove();
             return;
         }
         uploadForecasts(symbol, exchange, function(data) {
@@ -65,6 +71,9 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
                 });
             }
             setData(total.history, total.forecasts[0], currentCount);
+            var switchNode = document.getElementById(canvasID + "_switch");
+            switchNode.classList.remove("d-none");
+            switchNode.style.opacity = "1";
         });
     });
 

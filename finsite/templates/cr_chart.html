@@ -7,7 +7,7 @@
         <p class="cr-grey mb-1">{% trans "TIMEFRAME" %}</p>
         <div class="timeframes">
             {% for item in timeframes %}
-            <a href="./?exchange={{ exchange }}&timeframe={{ item }}" class="timeframe-lnk mr-2{% if item == timeframe %} cr-blue{% endif %}">
+            <a href="./?exchange={{ currency.selected_exchange.name }}&timeframe={{ item }}" class="cr-list-lnk mr-2{% if item == timeframe %} cr-blue{% endif %}">
                 {% with item|add:"_short" as item_short %}
                 {% trans item_short %}
                 {% endwith %}
@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="mr-4 mt-2">
-        <label class="switch">
+        <label id="{{ canvas }}_switch" class="switch switch-anm d-none">
             <input id="{{ canvas }}_checkbox" type="checkbox" checked>
             <span class="slider round"></span>
             <span class="label">Forecast</span>
@@ -25,15 +25,15 @@
 </div>
 <div id="{{ container }}" class="chart-container">
     <div id="{{ canvas }}_loader" class="loader chart-loader"></div>
-    <canvas id="{{ canvas }}" class="chart">{{ name }}</canvas>
+    <canvas id="{{ canvas }}" class="chart">{{ currency.name }}</canvas>
 </div>
 <script src="{% static "js/chart-lib.js" %}"></script>
 <script src="{% static "js/cr-chart.js" %}"></script>
 <script src="{% static "js/cr-core.js" %}"></script>
 <script>
     createChart(
-        "{{ code }}",
-        "{{ exchange }}",
+        "{{ currency.code }}",
+        "{{ currency.selected_exchange.name }}",
         "{{ timeframe }}",
         "{{ canvas }}",
         "{{ container }}"

@@ -123,10 +123,22 @@ msgstr "1h"
 msgid "day_short"
 msgstr "1d"
 
+msgid "1d_short"
+msgstr "1d"
+
+msgid "1w_short"
+msgstr "1w"
+
+msgid "1m_short"
+msgstr "1m"
+
 msgid "TIMEFRAME"
 msgstr ""
 
 msgid "EXCHANGE"
+msgstr ""
+
+msgid "PERIOD"
 msgstr ""
 
 #~ msgid "Курс, новости и прогнозирование цены нейронной сетью"

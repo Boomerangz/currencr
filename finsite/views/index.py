@@ -4,10 +4,11 @@ import feedparser
 from django.db.models import Q, Avg, Sum
 from django.views.generic import TemplateView
 
-from finsite.models import Currency, CurrencyHistoryRecord
+from finsite.models import Exchange, Currency, CurrencyHistoryRecord
 from finsite.views.news import get_news
 from django.utils import translation
 
+default_quotes = ["BTC", "ETH"]
 
 period_param = {
     '1d' :  24,
@@ -27,24 +28,28 @@ class IndexView(TemplateView):
             currency_list = currency_list \
                 .filter(Q(name__icontains=search)|Q(code__icontains=search))
         currency_list = list(currency_list)
+        exchange = Exchange.objects.get(name__iexact=self.request.GET.get('exchange', currency_list[0].selected_exchange.name))
         period = self.request.GET.get('period', '1w')
-        limit = period_param['1w']
-        if period in period_param.keys():
-            limit = period_param[period]
+        if not period in period_param.keys():
+            period = "1w"
+        limit = period_param[period]
         day_ago = datetime.now() - timedelta(hours=limit)
         cache = {}
         for c in currency_list:
+            c.selected_exchange = exchange
             c.USD = self.get_history_for_currency(c, from_time=day_ago)
             cache[c.code] = c.USD
-        quote_list = Currency.objects.filter(code__in = ["BTC", "ETH"])
+        quote_list = Currency.objects.filter(code__in = default_quotes)
         for q in quote_list:
             q.USD = cache[q.code]
         news_list = list(get_news(limit=25, language=translation.get_language()))
         context['top_news_list'] = [n for n in news_list if n.image][:3]
         context['news_list'] = [n for n in news_list if n not in context['top_news_list']]
+        context['period'] = period
+        context['periods'] = period_param.keys()
         context['currency_list'] = currency_list
         context['quote_list'] = quote_list
-        context['exchange'] = 'Poloniex'
+        context['exchange'] = exchange
         return context
 
     def get_history_for_currency(self, currency, from_time=None):

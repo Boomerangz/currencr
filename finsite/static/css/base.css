@@ -82,6 +82,28 @@ img.logo {
     opacity: 1 !important;
 }
 
+/* LNK */
+
+.cr-list-lnk {
+    margin-right: 12px !important;
+}
+
+.cr-list-lnk:link {
+    color: #ffffff;
+}
+
+.cr-list-lnk:visited {
+    color: #ffffff;
+}
+
+.cr-list-lnk:hover {
+    color: #ffffff;
+}
+
+.cr-list-lnk:active {
+    color: #00b7c3;
+}
+
 /* SLIDER */
 
 span.label {

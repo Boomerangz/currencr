@@ -39,6 +39,6 @@
     <div class="w-100 content">
         <a class="rem-08 cr-yellow">{{ currency.selected_exchange.name }}</a>
         <h5 class="fw-400 text-white mb-4">{{ currency.url_code }}/USD&nbsp;&nbsp;{{ currency.current_price|floatformat:3 }}</h5>
-        {% include "cr_chart.html" with container="chart-container" canvas="chart-canvas" code=currency.code name=currency.name exchange=currency.selected_exchange.name timeframe=timeframe %}
+        {% include "cr_chart.html" with container="chart-container" canvas="chart-canvas" currency=currency timeframe=timeframe %}
     </div>
 {% endblock %}

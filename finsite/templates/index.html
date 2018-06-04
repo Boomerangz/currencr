@@ -38,8 +38,25 @@
 
 {% block content %}
     <div class="w-100 content">
-        <p class="cr-grey mb-0 rem-08">{% trans "EXCHANGE" %}</p>
-        <a class="rem-08 cr-yellow">{{ exchange }}</a>
+        <div class="layout-horizontal rem-08 mb-2">
+            <div class="mr-4">
+                <p class="cr-grey mb-1">{% trans "EXCHANGE" %}</p>
+                <a class="cr-yellow">{{ exchange.name }}</a>
+            </div>
+            <div>&nbsp;&nbsp;&nbsp;</div>
+            <div class="mr-4">
+                <p class="cr-grey mb-1">{% trans "PERIOD" %}</p>
+                <div>
+                    {% for item in periods %}
+                    <a href="./?exchange={{ exchange.name }}&period={{ item }}" class="cr-list-lnk mr-2{% if item == period %} cr-blue{% endif %} rem-08">
+                        {% with item|add:"_short" as item_short %}
+                        {% trans item_short %}
+                        {% endwith %}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
         <div class="separator-large"></div>
         {% include "list_core.html" with currency_list=currency_list quote_list=quote_list %}
     </div>
