@@ -2,7 +2,7 @@
 {% load i18n %}
 {% load static %}
 
-{% block title %}{% trans "Currencr · cryptocurrency exchange rates, news and forecasts" %}{% endblock %}
+{% block title %}{% trans "Currencr · Cryptocurrency exchange rates, news and forecasts" %}{% endblock %}
 {% block head %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
@@ -12,7 +12,7 @@
     <meta name="robots" content="index, follow">
     <meta property="og:site_name" content="currencr.me">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="{% trans "Currencr · cryptocurrency exchange rates, news and forecasts" %}">
+    <meta property="og:title" content="{% trans "Currencr · Cryptocurrency exchange rates, news and forecasts" %}">
     <meta property="og:description" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
     <meta property="og:image" content="https://currencr.me/static/img/screen.png">
     <meta name="twitter:card" content="{% trans "Graphs with detailed minute forecasts, based on the work of neural networks and algorithms of statistical analysis." %}">
@@ -32,7 +32,7 @@
 
 {% block header %}
     <div class="logo">
-        <a href="/"><img src="{% static "img/logo-beta.png" %}" class="logo"></a>
+        <a href="/?exchange={{ exchange.name }}&period={{ period }}"><img src="{% static "img/logo-beta.png" %}" class="logo"></a>
     </div>
 {% endblock %}
 
@@ -58,6 +58,6 @@
             </div>
         </div>
         <div class="separator-large"></div>
-        {% include "list_core.html" with currency_list=currency_list quote_list=quote_list %}
+        {% include "list_core.html" with currency_list=currency_list quote_list=quote_list exchange=exchange %}
     </div>
 {% endblock %}

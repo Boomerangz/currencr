@@ -16,14 +16,14 @@ function addPreviewChart(canvasID, containerID, currency) {
     var stage = new createjs.Stage(canvasID);
     stage.mouseMoveOutside = true;
     stage.preventSelection = false;
-    stage.enableMouseOver(10);
+    stage.enableMouseOver(1);
     
     createjs.Touch.enable(stage, false, true);
     createjs.Ticker.on("tick", stage.update.bind(stage));
-    createjs.Ticker.framerate = 60;
+    createjs.Ticker.framerate = 12;
 
     var chart = stage.addChild(new cr.PreviewChart(container.clientWidth, container.clientHeight));
-    handleResizing(canvas, container, chart);
+    handleResizing(canvas, container, stage, chart);
     return chart;
 }
 
@@ -31,7 +31,7 @@ function addPreviewChart(canvasID, containerID, currency) {
  * 
  * 
  */
-function handleResizing(canvas, container, chart) {
+function handleResizing(canvas, container, stage, chart) {
     try {
         resizeCanvas();
         new ResizeObserver(resizeCanvas).observe(container);
@@ -47,6 +47,7 @@ function handleResizing(canvas, container, chart) {
         chart.stage.scaleX = window.devicePixelRatio;
         chart.stage.scaleY = window.devicePixelRatio;
         chart.setComplexSize(container.clientWidth, container.clientHeight);
+        stage.update();
     }
 }
 

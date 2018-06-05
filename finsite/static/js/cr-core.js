@@ -35,6 +35,7 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
         history: null,
         forecasts: []
     }
+    total.forecasts[HFIDX] = [];
     var MS_LAG = 120000;
     var HISTORY_COUNT = 600;
     var sStep = Utils.TIMEFRAMES[timeframe];
@@ -62,7 +63,6 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             if (!data.forecasts.length) return;
             var prices = data.forecasts[HFIDX].prices;
             var mStep = Math.round(msStep / 60000);
-            total.forecasts[HFIDX] = [];
             for (var i = 0; i < prices.length; i += mStep) {
                 time += msStep
                 total.forecasts[HFIDX].push({
@@ -87,9 +87,9 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
     }
 
     var MIN_CAPACITY = 80;
-    canvas.addEventListener('mousewheel', function (event) {
+    canvas.addEventListener('wheel', function (event) {
         var maxCapacity = total.history.length + total.forecasts[HFIDX].length
-        currentCount += event.deltaY / 20;
+        currentCount += event.deltaY / Math.abs(event.deltaY) * 2;
         currentCount = Math.min(currentCount, maxCapacity);
         currentCount = Math.max(currentCount, MIN_CAPACITY);
         setData(

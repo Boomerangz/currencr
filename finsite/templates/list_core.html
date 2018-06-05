@@ -19,11 +19,11 @@
             <div class="d-inline-block circle cr-op-1"></div>
             <a
                 id="a-{{ currency.code }}-USD"
-                href="/{{ currency.url_code }}/"
+                href="/{{ currency.url_code }}/?exchange={{ exchange.name }}&quote=USD"
                 class="d-inline-block mb-0 cr-white"
                 data-currency="{{ currency.code }}"
                 data-quote="USD">
-                <span>{{ currency.code }}/USD</span>&nbsp;&nbsp;<span>{% cr_format currency.current_price 8 %}</span>
+                <span>{{ currency.code }}/USD</span>&nbsp;&nbsp;<span>{% cr_float_format currency.current_price 8 %}</span>
             </a>
         </div>
         {% for quote in quote_list %}
@@ -32,11 +32,11 @@
                     <div class="d-inline-block circle cr-op-0"></div>
                     <a
                         id="a-{{ currency.code }}-{{ quote.code }}"
-                        href="/{{ currency.url_code }}/"
+                        href="/{{ currency.url_code }}/?exchange={{ exchange.name }}&quote={{ quote.code }}"
                         class="d-inline-block mb-0 cr-grey"
                         data-currency="{{ currency.code }}"
                         data-quote="{{ quote.code }}">
-                        <span>{{ currency.code }}/{{ quote.code }}</span>&nbsp;&nbsp;<span>{% cr_divide_and_format currency.current_price quote.current_price 8 %}</span>
+                        <span>{{ currency.code }}/{{ quote.code }}</span>&nbsp;&nbsp;<span>{% cr_divide_and_float_format currency.current_price quote.current_price 8 %}</span>
                     </a>
                 </div>
             {% endifnotequal %}

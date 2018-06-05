@@ -47,7 +47,7 @@ msgid "Denial of responsibility"
 msgstr "提交人的系统是不负责的采取的贸易和投资决定并对任何损害，与使用相关信息张贴在网页上"
 
 #: finsite/templates/index.html:13
-msgid "Currencr · cryptocurrency exchange rates, news and forecasts"
+msgid "Currencr · Cryptocurrency exchange rates, news and forecasts"
 msgstr "Currencr · 加密貨幣 当然，新闻和预测"
 
 #: finsite/templates/index.html:14 finsite/templates/index.html:16
