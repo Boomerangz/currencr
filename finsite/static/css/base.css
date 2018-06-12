@@ -6,9 +6,27 @@ body {
 
 /* LAYOUT */
 
+div.footer {
+    background: #191919;
+    padding: .8rem 0rem .8rem 0rem;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    margin-bottom: 1.2rem;
+}
+
 .layout-horizontal {
     display: flex;
     flex-direction: row;
+}
+
+.layout-vertical {
+    display: flex;
+    flex-direction: column;
+}
+
+.vh-100 {
+    min-height:100vh;
 }
 
 /* SEPARATOR */

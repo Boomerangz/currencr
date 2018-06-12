@@ -1,11 +1,13 @@
 /**
  * 
  * @param {string} symbol
+ * @param {string} quote
  * @param {string} exchange
+ * @param {string} timeframe
  * @param {string} canvasID
  * @param {string} containerID
  */
-function createChart(symbol, exchange, timeframe, canvasID, containerID) {
+function createChart(symbol, quote, exchange, timeframe, canvasID, containerID) {
     var loader = document.getElementById(canvasID + "_loader");
     var container = document.getElementById(containerID);
     var canvas = document.getElementById(canvasID);
@@ -48,34 +50,36 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
             setData(total.history, null, currentCount);
             canvas.style.opacity = "1";
             chart.alpha = 1;
+            if (sStep < Utils.TIMEFRAMES.hour) {
+                uploadForecasts(symbol, exchange, function(data) {
+                    loader.remove();
+                    if (!data) return;
+                    if (!data.forecasts.length) return;
+                    var prices = data.forecasts[HFIDX].prices;
+                    var mStep = Math.round(msStep / 60000);
+                    for (var i = 0; i < prices.length; i += mStep) {
+                        time += msStep
+                        total.forecasts[HFIDX].push({
+                            date: new Date(time),
+                            price: prices[i]
+                        });
+                    }
+                    setData(total.history, total.forecasts[0], currentCount);
+                    showCheckbox();
+                });
+            } else {
+                loader.remove();
+            }
         } else {
             loader.remove();
-            return;
         }
-        if (sStep >= Utils.TIMEFRAMES.hour) {
-            loader.remove();
-            checkbox.remove();
-            return;
-        }
-        uploadForecasts(symbol, exchange, function(data) {
-            loader.remove();
-            if (!data) return;
-            if (!data.forecasts.length) return;
-            var prices = data.forecasts[HFIDX].prices;
-            var mStep = Math.round(msStep / 60000);
-            for (var i = 0; i < prices.length; i += mStep) {
-                time += msStep
-                total.forecasts[HFIDX].push({
-                    date: new Date(time),
-                    price: prices[i]
-                });
-            }
-            setData(total.history, total.forecasts[0], currentCount);
-            var switchNode = document.getElementById(canvasID + "_switch");
-            switchNode.classList.remove("d-none");
-            switchNode.style.opacity = "1";
-        });
     });
+
+    function showCheckbox() {
+        var switchNode = document.getElementById(canvasID + "_switch");
+        switchNode.classList.remove("d-none");
+        switchNode.style.opacity = "1";
+    }
 
     function setData(history, forecast, count) {
         var data = history.concat(forecast || []).slice(-count);
@@ -86,6 +90,7 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
         chart.setForecastPosition(idx);
     }
 
+    var checkbox = document.getElementById(canvasID + "_checkbox");
     var MIN_CAPACITY = 80;
     canvas.addEventListener('wheel', function (event) {
         var maxCapacity = total.history.length + total.forecasts[HFIDX].length
@@ -99,8 +104,7 @@ function createChart(symbol, exchange, timeframe, canvasID, containerID) {
         );
         return false; 
     }, false);
-
-    var checkbox = document.getElementById(canvasID + "_checkbox");
+    
     checkbox.onclick = function() {
         setData(
             total.history,
@@ -121,19 +125,9 @@ function uploadHistory(symbol, exchange, from, timeframe, callback) {
     var req = new XMLHttpRequest();
     req.open("GET", "./history_db/?from=" + from + "&period=" + timeframe + "&format=json&exchange=" + exchange, true);
     req.addEventListener("load", function() {
-        if (!callback) return;
-        try {
-            var data = JSON.parse(req.responseText);
-        } catch(e) {
-            alert("History error.\nTry again later...");
-            return;
-        }
-        callback.call(this, data);
+        callback(JSON.parse(req.responseText));
     }, false);
-    req.addEventListener("error", function() {
-        alert("History upload error.\nTry again later...");
-        if (callback) callback.call(this, null);
-    }, false);
+    req.addEventListener("error", function() {callback(null)}, false);
     req.send();
 }
 
@@ -148,23 +142,11 @@ function uploadForecasts(symbol, exchange, callback) {
     var req = new XMLHttpRequest();
     req.open("GET", "https://prdc.currencr.me/" + symbol + "/" + exchange + "?nocache=" + now, true);
     req.addEventListener("load", function() {
-        if (!callback) return;
-        try {
-            var data = JSON.parse(req.responseText);
-            if (data.status != 0) {
-                alert("Forecast error (" + data.error + ").\nTry again later...");
-                return;
-            }
-        } catch(e) {
-            alert("Forecast error.\nTry again later...");
-            return;
-        }
-        callback.call(this, data);
+        var data = JSON.parse(req.responseText);
+        if (data.status != 0) callback(null);
+        callback(data);
     }, false);
-    req.addEventListener("error", function() {
-        alert("Forecast upload error.\nTry again later...");
-        if (callback) callback.call(this, null);
-    }, false);
+    req.addEventListener("error", function() {callback(null)}, false);
     req.send();
 }
 

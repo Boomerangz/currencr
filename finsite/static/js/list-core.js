@@ -9,10 +9,9 @@
  * 
  * 
  */
-function addPreviewChart(canvasID, containerID, currency) {
+function addPreviewChart(canvasID, containerID) {
     var container = document.getElementById(containerID);
     var canvas = document.getElementById(canvasID);
-
     var stage = new createjs.Stage(canvasID);
     stage.mouseMoveOutside = true;
     stage.preventSelection = false;
@@ -96,5 +95,7 @@ function changePreview(e) {
     item.parentElement.firstElementChild.classList.add("cr-op-1");
     window.previews[currency].item = item;
     var chart = window.previews[currency].chart;
+    var a = window.previews[currency].a;
+    a.href = a.dataset.href + e.currentTarget.dataset.url;
     chart.setPreview(window.previews[currency][quote], quote);
 }

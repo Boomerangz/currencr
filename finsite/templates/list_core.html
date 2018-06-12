@@ -9,7 +9,9 @@
     {% for currency in currency_list %}
     <li class="preview d-inline-block rem-1 align-top">
         <div id="preview-cont-{{ currency.name }}" class="preview w-100 mb-2">
-            <a id="a-{{ currency.code }}" href="/{{ currency.url_code }}/">
+            <a id="a-{{ currency.code }}"
+                href="/{{ currency.url_code }}/?exchange={{ exchange.name }}&quote=USD"
+                data-href="/{{ currency.url_code }}/?exchange={{ exchange.name }}&quote=" >
                 <canvas class="preview" id="preview-canvas-{{ currency.name }}">
                     {{ currency.name }}
                 </canvas>
@@ -22,7 +24,8 @@
                 href="/{{ currency.url_code }}/?exchange={{ exchange.name }}&quote=USD"
                 class="d-inline-block mb-0 cr-white"
                 data-currency="{{ currency.code }}"
-                data-quote="USD">
+                data-quote="USD"
+                data-url="USD">
                 <span>{{ currency.code }}/USD</span>&nbsp;&nbsp;<span>{% cr_float_format currency.current_price 8 %}</span>
             </a>
         </div>
@@ -35,7 +38,8 @@
                         href="/{{ currency.url_code }}/?exchange={{ exchange.name }}&quote={{ quote.code }}"
                         class="d-inline-block mb-0 cr-grey"
                         data-currency="{{ currency.code }}"
-                        data-quote="{{ quote.code }}">
+                        data-quote="{{ quote.code }}"
+                        data-url="{{ quote.url_code }}">
                         <span>{{ currency.code }}/{{ quote.code }}</span>&nbsp;&nbsp;<span>{% cr_divide_and_float_format currency.current_price quote.current_price 8 %}</span>
                     </a>
                 </div>
@@ -49,9 +53,9 @@
                 item: document.getElementById("a-{{ currency.code }}-USD"),
                 chart: addPreviewChart(
                     "preview-canvas-{{ currency.name }}",
-                    "preview-cont-{{ currency.name }}",
-                    "{{ currency.name }}"
+                    "preview-cont-{{ currency.name }}"
                 ),
+                a: document.getElementById("a-{{ currency.code }}"),
                 USD: cUSD
             } 
             var qUSD = {};

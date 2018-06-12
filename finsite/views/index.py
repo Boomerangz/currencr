@@ -5,7 +5,6 @@ from django.db.models import Q, Avg, Sum
 from django.views.generic import TemplateView
 
 from finsite.models import Exchange, Currency, CurrencyHistoryRecord
-from finsite.views.news import get_news
 from django.utils import translation
 
 default_quotes = ["BTC", "ETH"]
@@ -42,9 +41,6 @@ class IndexView(TemplateView):
         quote_list = Currency.objects.filter(code__in = default_quotes)
         for q in quote_list:
             q.USD = cache[q.code]
-        news_list = list(get_news(limit=25, language=translation.get_language()))
-        context['top_news_list'] = [n for n in news_list if n.image][:3]
-        context['news_list'] = [n for n in news_list if n not in context['top_news_list']]
         context['period'] = period
         context['periods'] = period_param.keys()
         context['currency_list'] = currency_list
