@@ -6,13 +6,17 @@ body {
 
 /* LAYOUT */
 
+div.cr-container {
+	height: calc(100vh - 83px);
+}
+
 div.footer {
     background: #191919;
     padding: .8rem 0rem .8rem 0rem;
-    position: absolute;
+    position: relative;
     width: 100%;
     bottom: 0px;
-    margin-bottom: 1.2rem;
+	height: 83px;
 }
 
 .layout-horizontal {
