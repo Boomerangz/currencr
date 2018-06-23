@@ -131,6 +131,9 @@ msgstr ""
 msgid "PERIOD"
 msgstr ""
 
+msgid "LANGUAGE"
+msgstr ""
+
 #~ msgid "Warning!"
 #~ msgstr "Warning!"
 

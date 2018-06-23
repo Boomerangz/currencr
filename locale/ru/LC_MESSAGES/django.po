@@ -106,40 +106,43 @@ msgid "Source"
 msgstr "Источник"
 
 msgid "minute_short"
-msgstr "1m"
+msgstr "1м"
 
 msgid "fiveminute_short"
-msgstr "5m"
+msgstr "5м"
 
 msgid "fifteenminute_short"
-msgstr "15m"
+msgstr "15м"
 
 msgid "thirtyminutes_short"
-msgstr "30m"
+msgstr "30м"
 
 msgid "hour_short"
-msgstr "1h"
+msgstr "1ч"
 
 msgid "day_short"
-msgstr "1d"
+msgstr "1д"
 
 msgid "1d_short"
-msgstr "1d"
+msgstr "1д"
 
 msgid "1w_short"
-msgstr "1w"
+msgstr "1н"
 
 msgid "1m_short"
-msgstr "1m"
+msgstr "1м"
 
 msgid "TIMEFRAME"
-msgstr ""
+msgstr "ИНТЕРВАЛ"
 
 msgid "EXCHANGE"
-msgstr ""
+msgstr "БИРЖА"
 
 msgid "PERIOD"
-msgstr ""
+msgstr "ПЕРИОД"
+
+msgid "LANGUAGE"
+msgstr "ЯЗЫК"
 
 #~ msgid "Курс, новости и прогнозирование цены нейронной сетью"
 #~ msgstr "Курс, новости и прогнозирование цены нейронной сетью"

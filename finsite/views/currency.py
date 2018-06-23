@@ -1,11 +1,12 @@
 import feedparser
 from django.utils import translation
 from django.views.generic import TemplateView
-
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 from finsite.models import Currency, Exchange, CurrencyHistoryRecord
 from finsite.views.api_history_db import timeframe_filter_params
 
-
+@method_decorator(cache_page(60), name='dispatch')
 class CurrencyView(TemplateView):
     template_name = 'currency.html'
 

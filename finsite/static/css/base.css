@@ -7,17 +7,17 @@ body {
 /* LAYOUT */
 
 div.cr-container {
-	height: calc(100vh - 83px);
+	min-height: calc(100vh - 83px);
 }
 
 div.footer {
     background: #191919;
     padding: .8rem 0rem .8rem 0rem;
-    position: relative;
     width: 100%;
     bottom: 0px;
-	height: 83px;
+    height: 83px;
 }
+
 
 .layout-horizontal {
     display: flex;

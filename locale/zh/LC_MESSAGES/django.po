@@ -111,10 +111,13 @@ msgid "1m_short"
 msgstr "1m"
 
 msgid "TIMEFRAME"
-msgstr ""
+msgstr "間隔"
 
 msgid "EXCHANGE"
-msgstr ""
+msgstr "證券交易所"
 
 msgid "PERIOD"
-msgstr ""
+msgstr "期間"
+
+msgid "LANGUAGE"
+msgstr "語言"
