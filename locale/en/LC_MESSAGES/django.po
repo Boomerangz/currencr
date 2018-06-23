@@ -134,6 +134,9 @@ msgstr ""
 msgid "LANGUAGE"
 msgstr ""
 
+msgid "Forecast"
+msgstr ""
+
 #~ msgid "Warning!"
 #~ msgstr "Warning!"
 

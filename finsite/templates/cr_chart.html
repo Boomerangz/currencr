@@ -19,7 +19,7 @@
         <label id="{{ canvas }}_switch" class="switch switch-anm d-none">
             <input id="{{ canvas }}_checkbox" type="checkbox" checked>
             <span class="slider round"></span>
-            <span class="label">Forecast</span>
+            <span class="label">{% trans "Forecast" %}</span>
         </label>
     </div>
 </div>
@@ -40,3 +40,12 @@
         "{{ container }}"
     );
 </script>
+<div class="separator-small"></div>
+<div id="{{ canvas }}_disclaimer" class="disclaimer layout-horizontal d-none">
+    <p class="mb-0 rem-1">{% trans "Denial of responsibility" %}</p>
+    <button type="submit" class="btn-link text-white p-2 ml-1">
+        <svg height="16" class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path>
+        </svg>
+    </button>
+</div>

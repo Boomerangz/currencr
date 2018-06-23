@@ -54,6 +54,7 @@ function createChart(symbol, quote, exchange, timeframe, canvasID, containerID) 
                 uploadForecasts(symbol, exchange, function(data) {
                     loader.remove();
                     if (!data) return;
+                    if (!data.forecasts) return;
                     if (!data.forecasts.length) return;
                     var prices = data.forecasts[HFIDX].prices;
                     var mStep = Math.round(msStep / 60000);
@@ -65,7 +66,7 @@ function createChart(symbol, quote, exchange, timeframe, canvasID, containerID) 
                         });
                     }
                     setData(total.history, total.forecasts[0], currentCount);
-                    showCheckbox();
+                    showForecastUI();
                 });
             } else {
                 loader.remove();
@@ -75,10 +76,16 @@ function createChart(symbol, quote, exchange, timeframe, canvasID, containerID) 
         }
     });
 
-    function showCheckbox() {
-        var switchNode = document.getElementById(canvasID + "_switch");
-        switchNode.classList.remove("d-none");
-        switchNode.style.opacity = "1";
+    function showForecastUI() {
+        var node = document.getElementById(canvasID + "_switch");
+        node.classList.remove("d-none");
+        node.style.opacity = "1";
+        node = document.getElementById(canvasID + "_disclaimer");
+        node.classList.remove("d-none");
+        node.style.opacity = "1";
+        node.onclick = function() {
+            node.classList.add("d-none");
+        }
     }
 
     function setData(history, forecast, count) {

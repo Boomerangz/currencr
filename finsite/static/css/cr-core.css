@@ -37,6 +37,13 @@ canvas.chart {
     transition: 0.5s linear;
 }
 
+.disclaimer {
+    background-color: #ff9c00;
+    padding: .8rem 1.2rem .8rem 1.2rem;
+    opacity: 0;
+    transition: 0.5s linear;
+}
+
 @keyframes show {
     from {
         opacity: 0;

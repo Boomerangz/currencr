@@ -121,3 +121,6 @@ msgstr "期間"
 
 msgid "LANGUAGE"
 msgstr "語言"
+
+msgid "Forecast"
+msgstr "預測"
