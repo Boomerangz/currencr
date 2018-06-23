@@ -30,7 +30,7 @@ class IndexView(TemplateView):
         if not period in period_param.keys():
             period = "1w"
         
-        exchange = Exchange.objects.filter()[:1].get()
+        exchange = Exchange.objects.filter()[:1].get().name
         exchange = Exchange.objects.get(name__iexact=self.request.GET.get('exchange', exchange))
 
         list_data = self.get_currency_list_data(exchange, period)
