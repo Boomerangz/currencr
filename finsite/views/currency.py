@@ -6,7 +6,7 @@ from django.views.decorators.cache import cache_page
 from finsite.models import Currency, Exchange, CurrencyHistoryRecord
 from finsite.views.api_history_db import timeframe_filter_params
 
-@method_decorator(cache_page(60), name='dispatch')
+@method_decorator(cache_page(30), name='dispatch')
 class CurrencyView(TemplateView):
     template_name = 'currency.html'
 
@@ -21,7 +21,6 @@ class CurrencyView(TemplateView):
                 pass
         exchange = exchange or currency.selected_exchange
         currency.selected_exchange = exchange
-        currency.current_price = CurrencyHistoryRecord.objects.filter(currency=currency, exchange=exchange).order_by('-time')[0].price
         context['currency'] = currency
         context['quote'] = self.request.GET.get('quote', 'USD')
         context['timeframe'] = self.request.GET.get('timeframe', 'fiveminute')
