@@ -52,6 +52,7 @@ class IndexView(TemplateView):
             c.selected_exchange = exchange
             key = c.code + c.selected_exchange.name + period
             c.USD = cache.get(key)
+            c.current_price = CurrencyHistoryRecord.objects.filter(currency=c, exchange=exchange).order_by('-time')[0].price
             if not c.USD:
                 c.USD = self.get_history_for_currency(c, from_time=from_time)
                 cache.set(key, c.USD, cache_param[period])
