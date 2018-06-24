@@ -9,13 +9,13 @@ from timeit import default_timer as timer
 default_quotes = ["BTC", "ETH"]
 
 period_param = {
-    '1d' :  24,
+    '1d' : 24,
     '1w' : 168,
     '1m' : 720
 }
 
 cache_param = {
-    '1d' :  60 * 5,
+    '1d' : 60 * 5,
     '1w' : 60 * 60 * 6,
     '1m' : 60 * 60 * 24
 }
@@ -54,6 +54,7 @@ class IndexView(TemplateView):
             c.USD = cache.get(key)
             if not c.USD:
                 c.USD = self.get_history_for_currency(c, from_time=from_time)
+                c.current_price = CurrencyHistoryRecord.objects.filter(currency=c, exchange=exchange).order_by('-time').first().price
                 cache.set(key, c.USD, cache_param[period])
             currency[c.code] = c.USD
 
