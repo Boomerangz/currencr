@@ -6,7 +6,7 @@ djangorestframework
 psycopg2
 GitPython
 django-celery
-celery==4.0.2
+celery
 celery[redis]
 feedparser
 newspaper3k
@@ -17,3 +17,4 @@ django-cacheops
 mercury-parser
 uWSGI
 gunicorn
+kombu==4.2.2
