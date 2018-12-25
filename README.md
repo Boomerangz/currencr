@@ -1,1 +1,2 @@
-# currencr
+Cryptocurrency charts
+https://currencr.me/
