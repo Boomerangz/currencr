@@ -105,7 +105,7 @@ DATABASES = {
         'NAME': 'currencr',
         'USER': 'currencr',
         'PASSWORD': '7FA59miHCuHtqdAq',
-        'HOST': '95.213.236.30',
+        'HOST': '188.68.210.232',
         'PORT': '5432',
     }
 }
