@@ -70,8 +70,8 @@ def get_stock_history_from_db(request, code):
         if period in timeframe_filter_params.keys():
             currency_history_items = currency_history_items.extra(**timeframe_filter_params[period]).values("time").annotate(price=Avg('price'), volume=Sum('volume')) #   filter(check_func[period], currency_history_items)
         response = HttpResponse(jsonify_generator(
-                                        ({  'price' :h['price'],
-                                            'volume':h['volume'],
+                                        ({  'price' :float(h['price']),
+                                            'volume':float(h['volume']),
                                             'date'  :h['time'].strftime('%Y-%m-%dT%H:%M:%SZ')
                                          }
                                             for h in currency_history_items.iterator()

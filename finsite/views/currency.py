@@ -1,4 +1,3 @@
-import feedparser
 from django.utils import translation
 from django.views.generic import TemplateView
 from django.utils.decorators import method_decorator

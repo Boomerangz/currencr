@@ -30,7 +30,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'px5w1!&4xkm)ua5_+qxuf686=e1#a-8(3ww!(3a*qyqh^jnh)h'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -105,7 +105,7 @@ DATABASES = {
         'NAME': 'currencr',
         'USER': 'currencr',
         'PASSWORD': '7FA59miHCuHtqdAq',
-        'HOST': '188.68.210.232',
+        'HOST': 'ssh.currencr.me',
         'PORT': '5432',
     }
 }
@@ -164,7 +164,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = "/root/currencr_static/"
+STATIC_ROOT = "/var/www/html/currencr_static/"
 
 BROKER_URL = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
