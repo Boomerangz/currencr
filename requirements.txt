@@ -7,10 +7,6 @@ celery==3.1.26.post2
 celery[redis]
 coinmarketcap
 django-cacheops
-mercury-parser
 uWSGI
 gunicorn
-yahoo_finance
-forex_python
-feedparser
 redis==2.10.6
